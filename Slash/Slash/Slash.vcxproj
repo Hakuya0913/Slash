@@ -140,6 +140,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="C++Program\App.cpp" />
+    <ClCompile Include="C++Program\Component\ModelComponent.cpp" />
+    <ClCompile Include="C++Program\Component\RenderComponent.cpp" />
+    <ClCompile Include="C++Program\Component\TransformComponent.cpp" />
     <ClCompile Include="C++Program\Core\GraphicsDevice.cpp" />
     <ClCompile Include="C++Program\Core\Window.cpp" />
     <ClCompile Include="C++Program\Input\InputManager.cpp" />
@@ -150,6 +153,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C++Program\App.h" />
+    <ClInclude Include="C++Program\Component\ModelComponent.h" />
+    <ClInclude Include="C++Program\Component\ModelStructure.h" />
+    <ClInclude Include="C++Program\Component\RenderComponent.h" />
+    <ClInclude Include="C++Program\Component\TransformComponent.h" />
     <ClInclude Include="C++Program\Core\ConstantCore.h" />
     <ClInclude Include="C++Program\Core\GraphicsDevice.h" />
     <ClInclude Include="C++Program\Core\Window.h" />

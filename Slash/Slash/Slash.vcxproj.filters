@@ -40,6 +40,18 @@
     <Filter Include="C++Program\Math">
       <UniqueIdentifier>{b8a22d52-2160-4205-ba84-4ba0f3f150a1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="C++Program\Component">
+      <UniqueIdentifier>{b251468b-57c9-4364-a75a-6e5ac6c60872}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="C++Program\Component\Model">
+      <UniqueIdentifier>{12fa7c21-9900-48ba-8e1a-a3416e2d1936}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="C++Program\Component\Render">
+      <UniqueIdentifier>{4fa82cda-e147-4524-96ea-a454b79844e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="C++Program\Component\Transform">
+      <UniqueIdentifier>{6ff6da78-1eac-473b-bd20-db9fc6c7bf3e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C++Program\main.cpp">
@@ -65,6 +77,15 @@
     </ClCompile>
     <ClCompile Include="C++Program\Math\Vector.cpp">
       <Filter>C++Program\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="C++Program\Component\ModelComponent.cpp">
+      <Filter>C++Program\Component\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="C++Program\Component\RenderComponent.cpp">
+      <Filter>C++Program\Component\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="C++Program\Component\TransformComponent.cpp">
+      <Filter>C++Program\Component\Transform</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -100,6 +121,18 @@
     </ClInclude>
     <ClInclude Include="C++Program\Math\Vector.h">
       <Filter>C++Program\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="C++Program\Component\ModelComponent.h">
+      <Filter>C++Program\Component\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="C++Program\Component\ModelStructure.h">
+      <Filter>C++Program\Component\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="C++Program\Component\RenderComponent.h">
+      <Filter>C++Program\Component\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="C++Program\Component\TransformComponent.h">
+      <Filter>C++Program\Component\Transform</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
