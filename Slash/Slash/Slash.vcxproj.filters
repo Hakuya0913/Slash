@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="C++Program">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ShaderProgram">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="C++Program\Core">
+      <UniqueIdentifier>{25a3afca-5f6c-4a40-84d0-2e159f2910a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="C++Program\Core\Window">
+      <UniqueIdentifier>{47c8aa8c-4540-45e3-80a9-ff8b8742967f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="C++Program\Core\D3D">
+      <UniqueIdentifier>{cbdb4b45-04f4-43d1-baba-7b560228409d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="C++Program\Utility">
+      <UniqueIdentifier>{26a87b87-ba3b-4108-b732-5deff1b98f9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="C++Program\Input">
+      <UniqueIdentifier>{f1efe047-8885-4927-9f47-f52fe5ae26ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="C++Program\Input\Manager">
+      <UniqueIdentifier>{833e35c5-1018-46bc-b412-1e50af3e6982}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="C++Program\Input\KeyMouse">
+      <UniqueIdentifier>{6798e146-04bf-4bb9-8ae1-fca7e77bb4b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="C++Program\Input\XInput">
+      <UniqueIdentifier>{8717ec69-8d78-4fa0-9d09-28f56d311bf1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="C++Program\Math">
+      <UniqueIdentifier>{b8a22d52-2160-4205-ba84-4ba0f3f150a1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="C++Program\main.cpp">
+      <Filter>C++Program</Filter>
+    </ClCompile>
+    <ClCompile Include="C++Program\App.cpp">
+      <Filter>C++Program</Filter>
+    </ClCompile>
+    <ClCompile Include="C++Program\Core\Window.cpp">
+      <Filter>C++Program\Core\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="C++Program\Core\GraphicsDevice.cpp">
+      <Filter>C++Program\Core\D3D</Filter>
+    </ClCompile>
+    <ClCompile Include="C++Program\Input\InputManager.cpp">
+      <Filter>C++Program\Input\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="C++Program\Input\KeyMouseInput.cpp">
+      <Filter>C++Program\Input\KeyMouse</Filter>
+    </ClCompile>
+    <ClCompile Include="C++Program\Input\XInput.cpp">
+      <Filter>C++Program\Input\XInput</Filter>
+    </ClCompile>
+    <ClCompile Include="C++Program\Math\Vector.cpp">
+      <Filter>C++Program\Math</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C++Program\App.h">
+      <Filter>C++Program</Filter>
+    </ClInclude>
+    <ClInclude Include="C++Program\Core\Window.h">
+      <Filter>C++Program\Core\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="C++Program\Core\ConstantCore.h">
+      <Filter>C++Program\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="C++Program\Core\GraphicsDevice.h">
+      <Filter>C++Program\Core\D3D</Filter>
+    </ClInclude>
+    <ClInclude Include="C++Program\Utility\ComPtr.h">
+      <Filter>C++Program\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="C++Program\Input\ConstantInput.h">
+      <Filter>C++Program\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="C++Program\Input\InputManager.h">
+      <Filter>C++Program\Input\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="C++Program\Input\KeyMouseInput.h">
+      <Filter>C++Program\Input\KeyMouse</Filter>
+    </ClInclude>
+    <ClInclude Include="C++Program\Input\XInput.h">
+      <Filter>C++Program\Input\XInput</Filter>
+    </ClInclude>
+    <ClInclude Include="C++Program\Math\StructureMath.h">
+      <Filter>C++Program\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="C++Program\Math\Vector.h">
+      <Filter>C++Program\Math</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+</Project>

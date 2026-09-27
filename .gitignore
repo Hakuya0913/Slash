@@ -1,3 +1,7 @@
+# ========================================
+# C / C++ general
+# ========================================
+
 # Prerequisites
 *.d
 
@@ -30,3 +34,74 @@
 *.exe
 *.out
 *.app
+
+
+# ========================================
+# Visual Studio
+# ========================================
+
+.vs/
+*.user
+*.suo
+*.VC.db
+*.VC.opendb
+
+# Visual Studio build directories
+Debug/
+Release/
+x64/Debug/
+x64/Release/
+x86/Debug/
+x86/Release/
+
+# Other common build directories
+build/
+out/
+
+
+# ========================================
+# CMake
+# ========================================
+
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+
+
+# ========================================
+# vcpkg
+# ========================================
+
+# vcpkg installed packages
+vcpkg_installed/
+
+# vcpkg build artifacts
+vcpkg/buildtrees/
+vcpkg/packages/
+vcpkg/downloads/
+vcpkg/logs/
+vcpkg/installed/
+
+# vcpkg binary cache
+vcpkg/archives/
+
+
+# ========================================
+# Windows
+# ========================================
+
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+
+# ========================================
+# IDE / Editor
+# ========================================
+
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
