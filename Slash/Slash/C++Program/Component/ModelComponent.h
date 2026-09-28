@@ -6,14 +6,11 @@
 
 */
 
-#include<d3d12.h>
 #include<DirectXMath.h>
 #include<vector>
-#include<array>
 #include<cstdint>
 #include<string>
 #include<assimp/scene.h>
-#include"../Utility/ComPtr.h"
 #include"ModelStructure.h"
 
 class ModelComponent

@@ -46,11 +46,20 @@
     <Filter Include="C++Program\Component\Model">
       <UniqueIdentifier>{12fa7c21-9900-48ba-8e1a-a3416e2d1936}</UniqueIdentifier>
     </Filter>
-    <Filter Include="C++Program\Component\Render">
-      <UniqueIdentifier>{4fa82cda-e147-4524-96ea-a454b79844e6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="C++Program\Component\Transform">
       <UniqueIdentifier>{6ff6da78-1eac-473b-bd20-db9fc6c7bf3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="C++Program\Renderer">
+      <UniqueIdentifier>{17217c3a-cf2f-45fe-b712-ca2c0c456f61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="C++Program\Renderer\Model">
+      <UniqueIdentifier>{1c4aa09d-92e3-43f9-9f51-4f3cb864bed2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="C++Program\Object">
+      <UniqueIdentifier>{c17cc817-d486-47d0-829e-965fda60cf72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="C++Program\Object\Camera">
+      <UniqueIdentifier>{eb887392-ae18-4c32-ab0f-d3e49f1694c8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -81,11 +90,14 @@
     <ClCompile Include="C++Program\Component\ModelComponent.cpp">
       <Filter>C++Program\Component\Model</Filter>
     </ClCompile>
-    <ClCompile Include="C++Program\Component\RenderComponent.cpp">
-      <Filter>C++Program\Component\Render</Filter>
-    </ClCompile>
     <ClCompile Include="C++Program\Component\TransformComponent.cpp">
       <Filter>C++Program\Component\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="C++Program\Renderer\ModelRenderer.cpp">
+      <Filter>C++Program\Renderer\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="C++Program\Camera\Camera.cpp">
+      <Filter>C++Program\Object\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -128,11 +140,17 @@
     <ClInclude Include="C++Program\Component\ModelStructure.h">
       <Filter>C++Program\Component\Model</Filter>
     </ClInclude>
-    <ClInclude Include="C++Program\Component\RenderComponent.h">
-      <Filter>C++Program\Component\Render</Filter>
-    </ClInclude>
     <ClInclude Include="C++Program\Component\TransformComponent.h">
       <Filter>C++Program\Component\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="C++Program\Renderer\RendererStructure.h">
+      <Filter>C++Program\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="C++Program\Renderer\ModelRenderer.h">
+      <Filter>C++Program\Renderer\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="C++Program\Camera\Camera.h">
+      <Filter>C++Program\Object\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

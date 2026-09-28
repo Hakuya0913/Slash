@@ -1,8 +1,10 @@
+#define NOMINMAX
+
 #include"ModelComponent.h"
+#include<Windows.h>
 #include<assimp/Importer.hpp>
 #include<assimp/postprocess.h>
 #include<algorithm>
-#include<stdexcept>
 #include<cstring>
 
 bool ModelComponent::Load(const std::string& filePath)

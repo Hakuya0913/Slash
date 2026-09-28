@@ -31,8 +31,6 @@ public:
 
 private:
 
-	std::vector<TransformComponent*> children_X;
-
 	DirectX::SimpleMath::Vector3 position	= DirectX::SimpleMath::Vector3::Zero;
 	DirectX::SimpleMath::Vector3 rotation	= DirectX::SimpleMath::Vector3::Zero;
 	DirectX::SimpleMath::Vector3 scale		= DirectX::SimpleMath::Vector3::One;
