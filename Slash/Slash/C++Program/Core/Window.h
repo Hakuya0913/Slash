@@ -2,9 +2,9 @@
 
 /*
 
-ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ç”Ÿæˆãƒ»ç®¡ç†ã‚’è¡Œã†ã‚¯ãƒ©ã‚¹
+ƒEƒBƒ“ƒhƒE‚Ì¶¬EŠÇ—‚ðs‚¤ƒNƒ‰ƒX
 
-ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«ç­‰ã®æä¾›ã‚‚è¡Œã†
+ƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹“™‚Ì’ñ‹Ÿ‚às‚¤
 
 */
 
@@ -27,3 +27,5 @@ private:
 	static LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wp, LPARAM lp);
 
 };
+
+

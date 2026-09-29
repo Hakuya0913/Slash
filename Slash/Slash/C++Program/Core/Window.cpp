@@ -33,7 +33,7 @@ void Window::Init() {
 
 	}
 
-	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦è¨­å®š
+	//ƒEƒBƒ“ƒhƒEİ’è
 	WNDCLASSEX wc{};
 	wc.cbSize = sizeof(WNDCLASSEX);
 	wc.style = CS_HREDRAW | CS_VREDRAW;
@@ -45,19 +45,19 @@ void Window::Init() {
 	wc.lpszClassName = ConstWindow::ClassName;
 	wc.hIconSm = LoadIcon(hInstance, IDI_APPLICATION);
 
-	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¯ãƒ©ã‚¹ç™»éŒ²
+	//ƒEƒBƒ“ƒhƒEƒNƒ‰ƒX“o˜^
 	RegisterClassEx(&wc);
 
-	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚µã‚¤ã‚ºè¨­å®š
+	//ƒEƒBƒ“ƒhƒEƒTƒCƒYİ’è
 	RECT rect{};
 	rect.right = static_cast<LONG>(ConstWindow::ScreenW);
 	rect.bottom = static_cast<LONG>(ConstWindow::ScreenH);
 
-	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚µã‚¤ã‚ºã‚’èª¿æ•´
+	//ƒEƒBƒ“ƒhƒEƒTƒCƒY‚ğ’²®
 	auto style = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU;
 	AdjustWindowRect(&rect, style, FALSE);
 
-	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’ç”Ÿæˆ
+	//ƒEƒBƒ“ƒhƒE‚ğ¶¬
 	hwnd = CreateWindowEx(
 		0,
 		ConstWindow::ClassName,
@@ -73,10 +73,10 @@ void Window::Init() {
 		nullptr
 	);
 
-	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’è¡¨ç¤º
+	//ƒEƒBƒ“ƒhƒE‚ğ•\¦
 	ShowWindow(hwnd, SW_SHOWNORMAL);
 
-	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã«ãƒ•ã‚©ãƒ¼ã‚«ã‚¹
+	//ƒEƒBƒ“ƒhƒE‚ÉƒtƒH[ƒJƒX
 	SetFocus(hwnd);
 
 }
