@@ -1,5 +1,5 @@
 {
-    "name": "slash",
+    "name": "Slash",
     "version-string": "1.0.0",
     "dependencies": [
         "assimp"
