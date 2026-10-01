@@ -52,6 +52,9 @@ private:
 	);
 	bool CreateConstantBuffers();
 
+	//Shader“Ç‚İ‚İ
+	bool ReadShaderFile(const wchar_t* filePath, std::vector<uint8_t>& data);
+
 	//XVˆ—
 	void UpdateTransformBuffer(const TransformComponent& transform);
 	void UpdateMaterialBuffer(const Material& material);

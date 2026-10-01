@@ -154,10 +154,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
     <None Include="ShaderProgram\CBufferList.hlsli">
       <Filter>ShaderProgram</Filter>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="ShaderProgram\ModelVS.hlsl">
