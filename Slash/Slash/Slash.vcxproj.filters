@@ -155,5 +155,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="ShaderProgram\CBufferList.hlsli">
+      <Filter>ShaderProgram</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="ShaderProgram\ModelVS.hlsl">
+      <Filter>ShaderProgram</Filter>
+    </FxCompile>
+    <FxCompile Include="ShaderProgram\ModelPS.hlsl">
+      <Filter>ShaderProgram</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

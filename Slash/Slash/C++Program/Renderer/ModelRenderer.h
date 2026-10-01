@@ -2,7 +2,7 @@
 
 /*
 
-FBXãƒ¢ãƒ‡ãƒ«ã‚’è¡¨ç¤ºã™ã‚‹
+FBXƒ‚ƒfƒ‹‚ð•\Ž¦‚·‚é
 
 */
 
@@ -39,7 +39,7 @@ public:
 
 private:
 
-	//å„åˆæœŸåŒ–é–¢æ•°
+	//Še‰Šú‰»ŠÖ”
 	bool CreateMeshResource(const Mesh& mesh, MeshResource& resource);
 	bool CreateVertexBuffer(const Mesh& mesh, MeshResource& resource);
 	bool CreateIndexBuffer(const Mesh& mesh, MeshResource& resource);
@@ -52,7 +52,7 @@ private:
 	);
 	bool CreateConstantBuffers();
 
-	//æ›´æ–°å‡¦ç†
+	//XVˆ—
 	void UpdateTransformBuffer(const TransformComponent& transform);
 	void UpdateMaterialBuffer(const Material& material);
 
@@ -60,20 +60,27 @@ private:
 	ComPtr<ID3D11Device> device;
 	ComPtr<ID3D11DeviceContext> context;
 
-	//ã‚«ãƒ¡ãƒ©ã¸ã®å‚ç…§
+	//ƒJƒƒ‰‚Ö‚ÌŽQÆ
 	Camera* camera = nullptr;
 
-	//ãƒ¢ãƒ‡ãƒ«ãƒªã‚½ãƒ¼ã‚¹
+	//ƒ‚ƒfƒ‹ƒŠƒ\[ƒX
 	std::vector<MeshResource> meshResource;
 
-	//å®šæ•°ãƒãƒƒãƒ•ã‚¡
+	//’è”ƒoƒbƒtƒ@
 	ComPtr<ID3D11Buffer> transformBuffer;
 	ComPtr<ID3D11Buffer> materialBUffer;
 
 	TransformData transfromData{};
 	MaterialData materialData{};
 
-	//ãƒ†ã‚¯ã‚¹ãƒãƒ£
+	//ƒeƒNƒXƒ`ƒƒ
 	std::vector<TextureResource> textureResources;
+
+	//Shader
+	ComPtr<ID3D11VertexShader> vertexShader;
+	ComPtr<ID3D11PixelShader> pixelShader;
+
+	ComPtr<ID3D11InputLayout> inputLayout;
+	ComPtr<ID3D11SamplerState> samplerState;
 
 };

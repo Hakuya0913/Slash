@@ -72,7 +72,10 @@ bool ModelComponent::LoadNodes(const aiNode* node, int32_t parentIndex)
 
 {
 
-	if (!node) return false;
+	if (!node)
+	{
+		return false;
+	}
 
 	Node currentNode;
 	currentNode.name			= node->mName.C_Str();
@@ -83,7 +86,7 @@ bool ModelComponent::LoadNodes(const aiNode* node, int32_t parentIndex)
 	
 	nodes.emplace_back(currentNode);
 
-	//¬Node‚ğ“Ç‚İ‚Ş
+	//qNode‚ğ“Ç‚İ‚Ş
 	for (UINT i = 0; i < node->mNumChildren; ++i)
 	{
 
@@ -91,7 +94,10 @@ bool ModelComponent::LoadNodes(const aiNode* node, int32_t parentIndex)
 
 		int32_t childIndex = static_cast<int32_t>(nodes.size());
 
-		if (!LoadNodes(child, currentIndex)) return false;
+		if (!LoadNodes(child, currentIndex))
+		{
+			return false;
+		}
 
 		nodes[currentIndex].children.emplace_back(childIndex);
 
@@ -105,7 +111,10 @@ bool ModelComponent::LoadNodes(const aiNode* node, int32_t parentIndex)
 bool ModelComponent::LoadMeshes(const aiScene* scene)
 {
 
-	if (!scene) return false;
+	if (!scene)
+	{
+		return false;
+	}
 
 	meshes.reserve(scene->mNumMeshes);
 
