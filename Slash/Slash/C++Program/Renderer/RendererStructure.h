@@ -2,7 +2,7 @@
 
 /*
 
-Renderer繧ｯ繝ｩ繧ｹ縺ｧ菴ｿ逕ｨ縺励∝�ｱ騾壼喧縺ｧ縺阪ｋ讒矩菴薙ｒ縺ｾ縺ｨ繧√ｋ繝輔ぃ繧､繝ｫ
+Rendererクラスで使用し、共通化できる構造体をまとめるファイル
 
 */
 
@@ -46,9 +46,9 @@ struct TextureResource
 struct MaterialData
 {
 
-	DirectX::XMFLOAT4 baseColor{};
+	DirectX::XMFLOAT4 baseColor{ 1.0f,1.0f,1.0f,1.0f };
 
-	float meallic = 0.0f;
+	float metallic = 0.0f;
 	float roughness = 1.0f;
 	float ambientOcclusion = 1.0f;
 

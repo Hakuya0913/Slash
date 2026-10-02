@@ -9,9 +9,6 @@ FBXモデルを表示する
 #include<d3d11.h>
 #include<vector>
 #include<cstdint>
-#include<array>
-#include<unordered_map>
-#include<wincodec.h>
 #include<DirectXMath.h>
 
 #include"RendererStructure.h"
@@ -32,7 +29,6 @@ public:
 	bool CreateModelResource(const ModelComponent& model);
 
 	void Render(
-		ID3D11DeviceContext* context,
 		const ModelComponent& model,
 		const TransformComponent& transform
 	);
@@ -44,7 +40,7 @@ private:
 	bool CreateVertexBuffer(const Mesh& mesh, MeshResource& resource);
 	bool CreateIndexBuffer(const Mesh& mesh, MeshResource& resource);
 	bool CreateTextureResources(const ModelComponent& model);
-	bool CreateTextureResource(const EmbeddedTexture& embeddedTxture, uint32_t embeddedTextureIndex);
+	bool CreateTextureResource(const EmbeddedTexture& embeddedTexture, uint32_t embeddedTextureIndex);
 	bool DecodeEmbeddedTexture(
 		const EmbeddedTexture& embeddedTexture,
 		std::vector<uint8_t>& pixelData,
@@ -67,13 +63,13 @@ private:
 	Camera* camera = nullptr;
 
 	//モデルリソース
-	std::vector<MeshResource> meshResource;
+	std::vector<MeshResource> meshResources;
 
 	//定数バッファ
 	ComPtr<ID3D11Buffer> transformBuffer;
-	ComPtr<ID3D11Buffer> materialBUffer;
+	ComPtr<ID3D11Buffer> materialBuffer;
 
-	TransformData transfromData{};
+	TransformData transformData{};
 	MaterialData materialData{};
 
 	//テクスチャ
