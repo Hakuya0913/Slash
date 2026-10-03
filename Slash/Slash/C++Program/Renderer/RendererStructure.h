@@ -51,6 +51,7 @@ struct MaterialData
 	float metallic = 0.0f;
 	float roughness = 1.0f;
 	float ambientOcclusion = 1.0f;
+	float padding0 = 0.0f;	//16byte§ŒÀ‘Îô
 
 	DirectX::XMFLOAT3 emissiveColor{};
 	float emissiveStrength = 1.0f;

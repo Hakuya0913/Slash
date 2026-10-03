@@ -172,7 +172,7 @@ bool ModelRenderer::CreateMeshResource(const Mesh& mesh, MeshResource& resource)
 		return false;
 	}
 
-	return false;
+	return true;
 
 }
 

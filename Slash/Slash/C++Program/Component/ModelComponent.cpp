@@ -20,11 +20,20 @@ bool ModelComponent::Load(const std::string& filePath)
 		aiProcess_ConvertToLeftHanded
 	);
 
-	if (!scene) return false;
+	if (scene == nullptr)
+	{
+		return false;
+	}
 
-	if ((scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE) != 0) return false;
+	if ((scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE) != 0)
+	{
+		return false;
+	}
 
-	if (!scene->mRootNode) return false;
+	if (!scene->mRootNode)
+	{
+		return false;
+	}
 
 	return LoadScene(scene);
 

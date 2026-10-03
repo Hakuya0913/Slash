@@ -41,7 +41,7 @@ void App::Init() {
 		);
 
 		//モデルの読み込み
-		isCorrect = model.Load("Model/effole/effole/effole.fbx");
+		isCorrect = model.Load("Model/effole/effole.fbx");
 
 		if (isCorrect == false) {
 			return;
