@@ -19,6 +19,9 @@ float4 main(PSInput input) : SV_TARGET
         input.texCoord
        );
     
+    //試験用
+    return float4(baseColor.r, 0.0f, 0.0f, 1.0f);
+    
     return textureColor * baseColor;
     
 }

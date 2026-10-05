@@ -676,6 +676,8 @@ void ModelRenderer::Render(
 	context->IASetInputLayout(inputLayout.Get());
 	context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
+	//Shaderのセット
+
 	ID3D11Buffer* vsConstantBuffers[] = { transformBuffer.Get() };
 	context->VSSetConstantBuffers(0, 1, vsConstantBuffers);
 
@@ -706,7 +708,14 @@ void ModelRenderer::Render(
 		UpdateMaterialBuffer(material);
 
 		ID3D11Buffer* psConstantBuffers[] = { materialBuffer.Get() };
-		context->PSSetConstantBuffers(0, 1, psConstantBuffers);
+
+		//MaterialBufferを強制変更し、試験
+		MaterialData testMaterialData{};
+		testMaterialData.baseColor = DirectX::XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f); // 赤色に変更
+		context->UpdateSubresource(materialBuffer.Get(), 0, nullptr, &testMaterialData, 0, 0);
+		//試験コード終了
+
+		context->PSSetConstantBuffers(1, 1, psConstantBuffers);
 
 		//VertexBufferセット
 		UINT stride = sizeof(Vertex);

@@ -31,8 +31,8 @@ void App::Init() {
 		}
 
 		//カメラの設定
-		Vector3 cameraPos = Vector3(0.0f, 0.0f, 0.0f);
-		Vector3 cameraLookAt = Vector3(0.0f, cameraPos.y + 0.0f, 0.0f);
+		Vector3 cameraPos = Vector3(0.0f, 50.0f, -300.0f);
+		Vector3 cameraLookAt = Vector3(0.0f, cameraPos.y  - 10.0f, 0.0f);
 		camera.SetPosition(cameraPos);
 		camera.SetLookAt(cameraLookAt);
 		camera.SetPerspective(
@@ -51,7 +51,7 @@ void App::Init() {
 
 		//モデルは原点に表示するので、TransformComponentの位置は変更しない
 		transform.SetRotation(Vector3(0.0f, 0.0f, 0.0f));
-		transform.SetScale(Vector3(0.1f, 0.1f, 0.1f));
+		//transform.SetScale(Vector3(0.1f, 0.1f, 0.1f));
 
 		//モデルリソースの作成
 		isCorrect = modelRenderer.CreateModelResource(model);
