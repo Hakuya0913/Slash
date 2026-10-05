@@ -324,7 +324,7 @@ bool ModelRenderer::CreateTextureResource(const EmbeddedTexture& embeddedTexture
 	}
 
 	//ShaderResourceView作成
-	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
+	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc{};
 	srvDesc.Format = textureDesc.Format;
 	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MostDetailedMip = 0;
@@ -709,11 +709,13 @@ void ModelRenderer::Render(
 
 		ID3D11Buffer* psConstantBuffers[] = { materialBuffer.Get() };
 
+		/*
 		//MaterialBufferを強制変更し、試験
 		MaterialData testMaterialData{};
 		testMaterialData.baseColor = DirectX::XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f); // 赤色に変更
 		context->UpdateSubresource(materialBuffer.Get(), 0, nullptr, &testMaterialData, 0, 0);
 		//試験コード終了
+		*/
 
 		context->PSSetConstantBuffers(1, 1, psConstantBuffers);
 

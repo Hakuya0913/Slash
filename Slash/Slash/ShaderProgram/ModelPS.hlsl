@@ -19,8 +19,8 @@ float4 main(PSInput input) : SV_TARGET
         input.texCoord
        );
     
-    //è©¦é¨“ç”¨
-    return float4(baseColor.r, 0.0f, 0.0f, 1.0f);
+    //ŽŽŒ±—p
+    return float4(baseColor.rgb, 1.0f);
     
     return textureColor * baseColor;
     
