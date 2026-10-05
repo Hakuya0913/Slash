@@ -49,14 +49,14 @@ private:
 	bool LoadMesh(	const aiMesh* mesh);
 	bool LoadBones(	const aiMesh*  mesh, Mesh& result);
 	bool LoadMaterials(const aiScene* scene);
-	bool LoadMaterial(const aiMaterial* material);
+	bool LoadMaterial(const aiScene* scene, const aiMaterial* material);
 	bool LoadEmbeddedTextures(const aiScene* scene);
 
-	TextureReference GetTextureReference(const aiMaterial* material ,aiTextureType type);
+	TextureReference GetTextureReference(const aiScene* scene, const aiMaterial* material, aiTextureType type);
 
 	//Utility
 	DirectX::XMFLOAT4X4 ConvertMatrix(const aiMatrix4x4& matrix) const;
-	uint32_t			FindNodeIndex(const std::string& matrix) const;
+	uint32_t			FindNodeIndex(const std::string& name) const;
 
 	std::vector<Mesh> meshes;
 	std::vector<Node> nodes;

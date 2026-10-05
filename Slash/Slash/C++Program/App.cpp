@@ -31,13 +31,15 @@ void App::Init() {
 		}
 
 		//カメラの設定
-		camera.SetPosition(Vector3(0.0f, 25.0f, -20.0f));
-		camera.SetLookAt(Vector3(0.0f, 10.0f, 0.0f));
+		Vector3 cameraPos = Vector3(0.0f, 0.0f, 0.0f);
+		Vector3 cameraLookAt = Vector3(0.0f, cameraPos.y + 0.0f, 0.0f);
+		camera.SetPosition(cameraPos);
+		camera.SetLookAt(cameraLookAt);
 		camera.SetPerspective(
 			DirectX::XMConvertToRadians(60.0f),
-			static_cast<float>(gfxDevice.GetResolutionW()) / static_cast<float>(gfxDevice.GetResolutionH()),
+			static_cast<float>(ConstWindow::ScreenW) / static_cast<float>(ConstWindow::ScreenH),
 			0.1f, 
-			1000.0f
+			10000.0f
 		);
 
 		//モデルの読み込み
@@ -48,6 +50,8 @@ void App::Init() {
 		}
 
 		//モデルは原点に表示するので、TransformComponentの位置は変更しない
+		transform.SetRotation(Vector3(0.0f, 0.0f, 0.0f));
+		transform.SetScale(Vector3(0.1f, 0.1f, 0.1f));
 
 		//モデルリソースの作成
 		isCorrect = modelRenderer.CreateModelResource(model);
@@ -84,6 +88,8 @@ void App::Update() {
 			auto& input = InputManager::GetInstance();
 			input.Update();
 
+			//camera.Update();
+			camera.Update();
 			modelRenderer.Render(model, transform);
 
 			gfxDevice.EndFrame();

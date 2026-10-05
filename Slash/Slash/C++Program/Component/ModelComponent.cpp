@@ -7,6 +7,13 @@
 #include<algorithm>
 #include<cstring>
 
+#ifdef _DEBUG
+
+#include<sstream>
+#include<iostream>
+
+#endif
+
 bool ModelComponent::Load(const std::string& filePath)
 {
 
@@ -410,6 +417,12 @@ uint32_t ModelComponent::FindNodeIndex(const std::string& name) const
 bool ModelComponent::LoadEmbeddedTextures(const aiScene* scene)
 {
 
+#ifdef _DEBUG
+
+	std::ostringstream debugMessage;
+
+#endif
+
 	if (scene == nullptr)
 	{
 		return false;
@@ -424,8 +437,41 @@ bool ModelComponent::LoadEmbeddedTextures(const aiScene* scene)
 
 		if (aiTexture == nullptr)
 		{
+
+#ifdef _DEBUG
+
+			debugMessage.str("");
+			debugMessage
+				<< "EmbeddedTexture index "
+				<< i
+				<< " is null.\n";
+			OutputDebugStringA(debugMessage.str().c_str());
+
+#endif
 			continue;
 		}
+
+#ifdef _DEBUG
+
+		debugMessage.str("");
+
+		debugMessage
+			<< "[LoadEmbeddedTextures] "
+			<< "scene index = " << i
+			<< ", name = "
+			<< aiTexture->mFilename.C_Str()
+			<< ", width = "
+			<< aiTexture->mWidth
+			<< ", height = "
+			<< aiTexture->mHeight
+			<< ", format = "
+			<< aiTexture->achFormatHint
+			<< "\n";
+
+		OutputDebugStringA(debugMessage.str().c_str());
+
+#endif
+
 
 		EmbeddedTexture texture;
 
@@ -499,7 +545,7 @@ bool ModelComponent::LoadMaterials(const aiScene* scene)
 	{
 
 		//個々のマテリアル読み込み
-		if (LoadMaterial(scene->mMaterials[i]) == false)
+		if (LoadMaterial(scene, scene->mMaterials[i]) == false)
 		{
 			return false;
 		}
@@ -510,7 +556,7 @@ bool ModelComponent::LoadMaterials(const aiScene* scene)
 
 }
 
-bool ModelComponent::LoadMaterial(const aiMaterial* material)
+bool ModelComponent::LoadMaterial(const aiScene* scene, const aiMaterial* material)
 {
 
 	if (material == nullptr)
@@ -633,19 +679,83 @@ bool ModelComponent::LoadMaterial(const aiMaterial* material)
 	//各テクスチャリファレンス構造体の取得
 
 	//BaseColorが取得出来ない場合DiffuseColorを使用する
-	result.baseColorTexture = GetTextureReference(material, aiTextureType_BASE_COLOR);
+
+#ifdef _DEBUG
+
+	std::ostringstream debugMessage;
+
+	debugMessage
+		<< "Material: "
+		<< result.name
+		<< " / BASE_COLOR count = "
+		<< material->GetTextureCount(aiTextureType_BASE_COLOR)
+		<< "\n";
+
+	OutputDebugStringA(debugMessage.str().c_str());
+
+#endif
+
+	result.baseColorTexture = GetTextureReference(scene, material, aiTextureType_BASE_COLOR);
+
+#ifdef _DEBUG
+
+	debugMessage.str("");
+
+	debugMessage
+		<< "BASE_COLOR reference: "
+		<< "embeddedTextureIndex = "
+		<< result.baseColorTexture.embeddedTextureIndex
+		<< ", path = "
+		<< result.baseColorTexture.path
+		<< "\n";
+
+	OutputDebugStringA(debugMessage.str().c_str());
+
+#endif
+
 	if (result.baseColorTexture.IsValid() == false)
 	{
 
-		result.baseColorTexture = GetTextureReference(material, aiTextureType_DIFFUSE);
+#ifdef _DEBUG
+
+		debugMessage.str("");
+
+		debugMessage
+			<< "DIFFUSE count = "
+			<< material->GetTextureCount(aiTextureType_DIFFUSE)
+			<< "\n";
+
+		OutputDebugStringA(debugMessage.str().c_str());
+
+#endif
+
+		result.baseColorTexture = GetTextureReference(scene, material, aiTextureType_DIFFUSE);
+
+#ifdef _DEBUG
+
+		debugMessage.str("");
+
+		debugMessage
+			<< "DIFFUSE reference: "
+			<< "embeddedTextureIndex = "
+			<< result.baseColorTexture.embeddedTextureIndex
+			<< ", path = "
+			<< result.baseColorTexture.path
+			<< "\n";
+
+		OutputDebugStringA(debugMessage.str().c_str());
+
+#endif
 
 	}
 
-	result.normalTexture = GetTextureReference(material, aiTextureType_NORMALS);
-	result.ambientOcclusionTexture = GetTextureReference(material, aiTextureType_AMBIENT_OCCLUSION);
-	result.emissiveTexture = GetTextureReference(material, aiTextureType_EMISSIVE);
-	result.metallicTexture = GetTextureReference(material, aiTextureType_METALNESS);
-	result.roughnessTexture = GetTextureReference(material, aiTextureType_DIFFUSE_ROUGHNESS);
+
+
+	result.normalTexture = GetTextureReference(scene, material, aiTextureType_NORMALS);
+	result.ambientOcclusionTexture = GetTextureReference(scene, material, aiTextureType_AMBIENT_OCCLUSION);
+	result.emissiveTexture = GetTextureReference(scene, material, aiTextureType_EMISSIVE);
+	result.metallicTexture = GetTextureReference(scene, material, aiTextureType_METALNESS);
+	result.roughnessTexture = GetTextureReference(scene, material, aiTextureType_DIFFUSE_ROUGHNESS);
 
 	materials.emplace_back(std::move(result));
 
@@ -653,10 +763,15 @@ bool ModelComponent::LoadMaterial(const aiMaterial* material)
 
 }
 
-TextureReference ModelComponent::GetTextureReference(const aiMaterial* material, aiTextureType type)
+TextureReference ModelComponent::GetTextureReference(const aiScene* scene, const aiMaterial* material, aiTextureType type)
 {
 
 	TextureReference reference;
+
+	if (scene == nullptr || material == nullptr)
+	{
+		return reference;
+	}
 
 	if (material->GetTextureCount(type) == 0)
 	{
@@ -696,14 +811,34 @@ TextureReference ModelComponent::GetTextureReference(const aiMaterial* material,
 			return TextureReference{};
 		}
 
+		return reference;
+
 	}
-	else
+	
+	//scene->mTexturesと名前を比較
+	for (UINT i = 0; i < scene->mNumTextures; ++i)
 	{
 
-		//外部ファイルの場合
-		reference.path = texturePath;
+		const aiTexture* texture = scene->mTextures[i];
+
+		if (texture == nullptr)
+		{
+			continue;
+		}
+
+		if (texture->mFilename.C_Str() == texturePath)
+		{
+
+			reference.embeddedTextureIndex = static_cast<int32_t>(i);
+
+			return reference;
+
+		}
 
 	}
+
+	//見つからなければ外部テクスチャ
+	reference.path = texturePath;
 
 	return reference;
 
