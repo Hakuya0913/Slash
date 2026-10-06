@@ -155,6 +155,8 @@ bool ModelRenderer::CreateModelResource(const ModelComponent& model)
 		return false;
 	}
 
+	return true;
+
 }
 
 bool ModelRenderer::CreateMeshResource(const Mesh& mesh, MeshResource& resource)
@@ -453,7 +455,7 @@ bool ModelRenderer::DecodeEmbeddedTexture(
 	}
 
 	width = sorceWidth;
-	height = sorceWidth;
+	height = sourceHeight;
 	rowPitch = width * 4;
 
 	const size_t imageSize = rowPitch * height;
@@ -494,19 +496,6 @@ bool ModelRenderer::CreateConstantBuffers()
 			&bufferDesc,
 			nullptr,
 			transformBuffer.GetAddressOf()
-		);
-
-		if (FAILED(hr))
-		{
-			return false;
-		}
-
-		bufferDesc.ByteWidth = sizeof(MaterialData);
-
-		hr = device->CreateBuffer(
-			&bufferDesc,
-			nullptr,
-			materialBuffer.GetAddressOf()
 		);
 
 		if (FAILED(hr))
@@ -676,13 +665,9 @@ void ModelRenderer::Render(
 	context->IASetInputLayout(inputLayout.Get());
 	context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	//Shaderのセット
-
-	ID3D11Buffer* vsConstantBuffers[] = { transformBuffer.Get() };
-	context->VSSetConstantBuffers(0, 1, vsConstantBuffers);
-
-	ID3D11SamplerState* samplers[] = { samplerState.Get() };
-	context->PSSetSamplers(0, 1, samplers);
+	//cbufferへのセット
+	context->VSSetConstantBuffers(0, 1, transformBuffer.GetAddressOf());
+	context->PSSetSamplers(0, 1, samplerState.GetAddressOf());
 
 	const size_t meshCount = model.GetMeshCount();
 
@@ -707,8 +692,6 @@ void ModelRenderer::Render(
 
 		UpdateMaterialBuffer(material);
 
-		ID3D11Buffer* psConstantBuffers[] = { materialBuffer.Get() };
-
 		/*
 		//MaterialBufferを強制変更し、試験
 		MaterialData testMaterialData{};
@@ -717,7 +700,7 @@ void ModelRenderer::Render(
 		//試験コード終了
 		*/
 
-		context->PSSetConstantBuffers(1, 1, psConstantBuffers);
+		context->PSSetConstantBuffers(1, 1, materialBuffer.GetAddressOf());
 
 		//VertexBufferセット
 		UINT stride = sizeof(Vertex);

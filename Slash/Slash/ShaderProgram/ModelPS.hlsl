@@ -20,7 +20,7 @@ float4 main(PSInput input) : SV_TARGET
        );
     
     //ŽŽŒ±—p
-    return float4(baseColor.rgb, 1.0f);
+    //return float4(baseColor.rgb, 1.0f);
     
     return textureColor * baseColor;
     

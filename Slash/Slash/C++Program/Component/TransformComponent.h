@@ -21,6 +21,11 @@ public:
 	void SetRotation(const DirectX::SimpleMath::Vector3& rot) { rotation = rot; }
 	void SetScale(	 const DirectX::SimpleMath::Vector3& scl) { scale	 = scl; }
 
+	//Adder
+	void AddPosition(const DirectX::SimpleMath::Vector3& delta) { position	+= delta; }
+	void AddRotation(const DirectX::SimpleMath::Vector3& delta) { rotation	+= delta; }
+	void AddScale(const DirectX::SimpleMath::Vector3& delta) {	  scale		+= delta; }
+
 	//Getter
 	const DirectX::SimpleMath::Vector3& GetPosition()	const { return position; }
 	const DirectX::SimpleMath::Vector3& GetRotation()	const { return rotation; }

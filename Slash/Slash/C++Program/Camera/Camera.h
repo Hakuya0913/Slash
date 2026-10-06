@@ -18,31 +18,35 @@ public:
 
 	void Update();
 
-	//Transform
+	//Setter
+
 	void SetPosition(const DirectX::SimpleMath::Vector3& position) { transform.SetPosition(position); }
 	void SetRotation(const DirectX::SimpleMath::Vector3& rotation) { transform.SetRotation(rotation); }
-
-	const	TransformComponent& GetTransform() const	{ return transform; }
-
-	DirectX::SimpleMath::Vector3 GetPosition() const { return transform.GetPosition(); }
-	DirectX::SimpleMath::Vector3 GetRotation() const { return transform.GetRotation(); }
-
-	//LookAt
+	
 	void SetLookAt(const DirectX::SimpleMath::Vector3& target) { lookAt = target; }
-
-	DirectX::SimpleMath::Vector3 GetLookAt() const { return lookAt; }
 
 	//Projection
 	void SetPerspective(
-		float fov,
-		float aspectRatio,
+		float fov, float aspectRatio,
 		float nearClip, float farClip
 	);
-
 	void SetFov(float fov);
 	void SetAspectRatio(float aspectRatio);
 	void SetNearClip(float nearClip);
 	void SetFarClip(float farClip);
+
+	//追従
+	void SetFollowTarget(TransformComponent* target)				 { followTarget = target; }
+	void SetFollowOffset(const DirectX::SimpleMath::Vector3& offset) { followOffset = offset; }
+	void SetFollowDistance(float distance)							 { followDistance = distance; }
+	void SetFollowEnabled(bool enabled)								 { followEnabled = enabled; }
+	void ClearFollowTarget();
+	bool IsFollowEnabled() const { return followEnabled; }
+
+	//Getter
+	TransformComponent& GetTransform() { return transform; }
+
+	DirectX::SimpleMath::Vector3 GetLookAt() const { return lookAt; }
 
 	float GetFov()			const { return fov; }
 	float GetAspectRatio()	const { return aspectRatio; }
@@ -53,20 +57,12 @@ public:
 	const DirectX::SimpleMath::Matrix& GetViewMatrix()		 const { return view; }
 	const DirectX::SimpleMath::Matrix& GetProjectionMatrix() const { return proj; }
 
-	//追従
-	void SetFollowTarget(TransformComponent* target)				 { followTarget = target; }
-	void SetFollowOffset(const DirectX::SimpleMath::Vector3& offset) { followOffset = offset; }
-	void SetFollowDistance(float distance)							 { followDistance = distance; }
-	void SetFollowEnabled(bool enabled)								 { followEnabled = enabled; }
-	void ClearFollowTarget();
-
 	TransformComponent* GetFollowTarget() const { return followTarget; }
 
 	const DirectX::SimpleMath::Vector3& GetFollowOffset() const { return followOffset; }
 
 	float GetFollowDistance() const { return followDistance; }
 
-	bool IsFollowEnabled() const { return followEnabled; }
 
 
 private:

@@ -4,7 +4,7 @@
 App::App()
 {
 
-	//特に処理なし
+	
 
 }
 
@@ -31,8 +31,8 @@ void App::Init() {
 		}
 
 		//カメラの設定
-		Vector3 cameraPos = Vector3(0.0f, 50.0f, -300.0f);
-		Vector3 cameraLookAt = Vector3(0.0f, cameraPos.y  - 10.0f, 0.0f);
+		const Vector3 cameraPos = Vector3(0.0f, 50.0f, -300.0f);
+		const Vector3 cameraLookAt = Vector3(0.0f, 30.0f, 0.0f);
 		camera.SetPosition(cameraPos);
 		camera.SetLookAt(cameraLookAt);
 		camera.SetPerspective(
@@ -87,6 +87,49 @@ void App::Update() {
 
 			auto& input = InputManager::GetInstance();
 			input.Update();
+
+			if (input.GetKeyMouseInput().GetKeyState('D') == InputState::Hold)
+			{
+
+				camera.GetTransform().AddPosition(DirectX::SimpleMath::Vector3(1.0f, 0.0f, 0.0f));
+				camera.SetLookAt(camera.GetLookAt() + DirectX::SimpleMath::Vector3(1.0f, 0.0f, 0.0f));
+
+			}
+			if (input.GetKeyMouseInput().GetKeyState('A') == InputState::Hold)
+			{
+
+				camera.GetTransform().AddPosition(DirectX::SimpleMath::Vector3(-1.0f, 0.0f, 0.0f));
+				camera.SetLookAt(camera.GetLookAt() + DirectX::SimpleMath::Vector3(-1.0f, 0.0f, 0.0f));
+
+			}
+			if (input.GetKeyMouseInput().GetKeyState('W') == InputState::Hold)
+			{
+
+				camera.GetTransform().AddPosition(DirectX::SimpleMath::Vector3(0.0f, 0.0f, 1.0f));
+				camera.SetLookAt(camera.GetLookAt() + DirectX::SimpleMath::Vector3(0.0f, 0.0f, 1.0f));
+
+			}
+			if (input.GetKeyMouseInput().GetKeyState('S') == InputState::Hold)
+			{
+
+				camera.GetTransform().AddPosition(DirectX::SimpleMath::Vector3(0.0f, 0.0f, -1.0f));
+				camera.SetLookAt(camera.GetLookAt() + DirectX::SimpleMath::Vector3(0.0f, 0.0f, -1.0f));
+
+			}
+			if (input.GetKeyMouseInput().GetKeyState(VK_SPACE) == InputState::Hold)
+			{
+
+				camera.GetTransform().AddPosition({ 0.0f,1.0f,0.0f });
+				camera.SetLookAt(camera.GetLookAt() + DirectX::SimpleMath::Vector3(0.0f, 1.0f, 0.0f));
+
+			}
+			if (input.GetKeyMouseInput().GetKeyState(VK_LSHIFT) == InputState::Hold)
+			{
+
+				camera.GetTransform().AddPosition({ 0.0f,-1.0f,0.0f });
+				camera.SetLookAt(camera.GetLookAt() + DirectX::SimpleMath::Vector3(0.0f, -1.0f, 0.0f));
+
+			}
 
 			//camera.Update();
 			camera.Update();
