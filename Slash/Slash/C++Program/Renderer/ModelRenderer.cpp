@@ -8,6 +8,12 @@
 #pragma comment(lib,"d3dcompiler.lib")
 #pragma comment(lib,"windowscodecs.lib")
 
+#ifdef _DEBUG
+
+#include<sstream>
+
+#endif
+
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
 
@@ -26,6 +32,11 @@ bool ModelRenderer::Init(
 	this->device = device;
 	this->context = context;
 	this->camera = &camera;
+
+	if (CreateRasterizerState() == false)
+	{
+		return false;
+	}
 
 	HRESULT hr;
 
@@ -122,6 +133,29 @@ bool ModelRenderer::Init(
 	return true;
 }
 
+bool ModelRenderer::CreateRasterizerState()
+{
+	
+	D3D11_RASTERIZER_DESC desc{};
+	desc.FillMode = D3D11_FILL_SOLID;
+	desc.CullMode = D3D11_CULL_NONE;
+	desc.FrontCounterClockwise = FALSE;
+	desc.DepthBias = 0;
+	desc.DepthBiasClamp = 0.0f;
+	desc.SlopeScaledDepthBias = 0.0f;
+	desc.DepthClipEnable = TRUE;
+	desc.ScissorEnable = FALSE;
+	desc.MultisampleEnable = FALSE;
+	desc.AntialiasedLineEnable = FALSE;
+
+	HRESULT hr;
+
+	hr = device->CreateRasterizerState(&desc, rasterizerState.GetAddressOf());
+
+	return SUCCEEDED(hr);
+
+}
+
 bool ModelRenderer::CreateModelResource(const ModelComponent& model)
 {
 	
@@ -162,6 +196,10 @@ bool ModelRenderer::CreateModelResource(const ModelComponent& model)
 bool ModelRenderer::CreateMeshResource(const Mesh& mesh, MeshResource& resource)
 {
 
+	resource.indexCount = static_cast<uint32_t>(mesh.indices.size());
+
+	//Meshが使用するMaterialIndexをコピー
+	resource.materialIndex = mesh.materialIndex;
 	resource.indexCount = static_cast<uint32_t>(mesh.indices.size());
 
 	if (CreateVertexBuffer(mesh, resource) == false)
@@ -248,11 +286,36 @@ bool ModelRenderer::CreateIndexBuffer(const Mesh& mesh, MeshResource& resource)
 bool ModelRenderer::CreateTextureResources(const ModelComponent& model)
 {
 
+#ifdef _DEBUG
+
+	std::ostringstream outputString;
+
+	outputString << "EmbeddedTextureCount"
+		<< std::to_string(model.GetEmbeddedTextureCount())
+		<< "\n"
+		;
+
+	OutputDebugStringA(outputString.str().c_str());
+
+#endif
+
 	const size_t textureCount = model.GetEmbeddedTextureCount();
 
 	for (size_t i = 0; i < textureCount; ++i)
 	{
 
+#ifdef _DEBUG
+
+		outputString.clear();
+		outputString << "Texture index = "
+			<< std::to_string(i)
+			<< "\n"
+			;
+
+		OutputDebugStringA(outputString.str().c_str());
+
+#endif
+	
 		const EmbeddedTexture& embeddedTexture = model.GetEmbeddedTexture(i);
 
 		if (CreateTextureResource(embeddedTexture, static_cast<uint32_t>(i)) == false)
@@ -665,9 +728,10 @@ void ModelRenderer::Render(
 	context->IASetInputLayout(inputLayout.Get());
 	context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	//cbufferへのセット
+	//描画の必須要素セット
 	context->VSSetConstantBuffers(0, 1, transformBuffer.GetAddressOf());
 	context->PSSetSamplers(0, 1, samplerState.GetAddressOf());
+	context->RSSetState(rasterizerState.Get());
 
 	const size_t meshCount = model.GetMeshCount();
 

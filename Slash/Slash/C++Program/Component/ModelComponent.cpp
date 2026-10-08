@@ -417,21 +417,49 @@ uint32_t ModelComponent::FindNodeIndex(const std::string& name) const
 bool ModelComponent::LoadEmbeddedTextures(const aiScene* scene)
 {
 
-#ifdef _DEBUG
-
-	std::ostringstream debugMessage;
-
-#endif
-
 	if (scene == nullptr)
 	{
 		return false;
 	}
 
-	embeddedTextures.reserve(scene->mNumTextures);
+	embeddedTextures.clear();
+	embeddedTextures.resize(scene->mNumTextures);
+
+#ifdef _DEBUG
+
+	std::ostringstream debugMessage;
+
+	debugMessage << "mNumTextures = "
+		<< std::to_string(scene->mNumTextures)
+		<< "\n"
+		;
+
+	OutputDebugStringA(debugMessage.str().c_str());
+
+	debugMessage.clear();
+	debugMessage << "embeddedTextures.size() = "
+		<< std::to_string(embeddedTextures.size())
+		<< "\n"
+		;
+
+	OutputDebugStringA(debugMessage.str().c_str());
+
+#endif
 
 	for (UINT i = 0; i < scene->mNumTextures; ++i)
 	{
+
+#ifdef _DEBUG
+
+		debugMessage.clear();
+		debugMessage << "i = "
+			<< std::to_string(i)
+			<< "\n"
+			;
+
+		OutputDebugStringA(debugMessage.str().c_str());
+
+#endif
 
 		const aiTexture* aiTexture = scene->mTextures[i];
 
@@ -523,7 +551,8 @@ bool ModelComponent::LoadEmbeddedTextures(const aiScene* scene)
 
 		}
 
-		embeddedTextures.emplace_back(std::move(texture));
+		//テクスチャインデックスと一致させる
+		embeddedTextures[i] = std::move(texture);
 
 	}
 
@@ -804,6 +833,12 @@ TextureReference ModelComponent::GetTextureReference(const aiScene* scene, const
 		{
 
 			reference.embeddedTextureIndex = static_cast<int32_t>(std::stoul(texturePath.substr(1)));
+
+			//範囲チェック
+			if (reference.embeddedTextureIndex >= scene->mNumTextures)
+			{
+				return TextureReference{};
+			}
 
 		}
 		catch (const std::exception&)

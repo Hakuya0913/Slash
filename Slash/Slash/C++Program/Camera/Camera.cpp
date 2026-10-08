@@ -17,7 +17,7 @@ Camera::Camera()
 {
 
 	//‰ŠúƒJƒƒ‰ˆÊ’u
-	transform.SetPosition(Vector3(0.0f, 2.0f, -10.0f));
+	transform.SetPosition(Vector3(0.0f, 2.0f, 10.0f));
 
 	//‰Šú’‹“_
 	lookAt = Vector3(0.0f, 1.0f, 0.0f);
@@ -45,8 +45,8 @@ void Camera::UpdateView()
 {
 
 	const Vector3 position = transform.GetPosition();
-
-	view = Matrix::CreateLookAt(
+	
+	view = XMMatrixLookAtLH(
 		position,
 		lookAt,
 		Vector3::Up
@@ -59,7 +59,7 @@ void Camera::UpdateView()
 void Camera::UpdateProjection()
 {
 
-	proj = Matrix::CreatePerspectiveFieldOfView(
+	proj = XMMatrixPerspectiveFovLH(
 		fov,
 		aspectRatio,
 		nearClip,

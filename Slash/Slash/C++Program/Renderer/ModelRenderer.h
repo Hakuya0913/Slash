@@ -36,6 +36,7 @@ public:
 private:
 
 	//Še‰Šú‰»ŠÖ”
+	bool CreateRasterizerState();
 	bool CreateMeshResource(const Mesh& mesh, MeshResource& resource);
 	bool CreateVertexBuffer(const Mesh& mesh, MeshResource& resource);
 	bool CreateIndexBuffer(const Mesh& mesh, MeshResource& resource);
@@ -81,5 +82,8 @@ private:
 
 	ComPtr<ID3D11InputLayout> inputLayout;
 	ComPtr<ID3D11SamplerState> samplerState;
+
+	//RasterizerState
+	ComPtr<ID3D11RasterizerState> rasterizerState;
 
 };

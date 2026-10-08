@@ -1,6 +1,12 @@
 #include"App.h"
 #include"Input/InputManager.h"
 
+#ifdef _DEUG
+
+#include<sstream>
+
+#endif // _DEUG
+
 App::App()
 {
 
@@ -32,7 +38,7 @@ void App::Init() {
 
 		//カメラの設定
 		const Vector3 cameraPos = Vector3(0.0f, 50.0f, -300.0f);
-		const Vector3 cameraLookAt = Vector3(0.0f, 30.0f, 0.0f);
+		const Vector3 cameraLookAt = Vector3(0.0f, 40.0f, 0.0f);
 		camera.SetPosition(cameraPos);
 		camera.SetLookAt(cameraLookAt);
 		camera.SetPerspective(
@@ -50,7 +56,7 @@ void App::Init() {
 		}
 
 		//モデルは原点に表示するので、TransformComponentの位置は変更しない
-		transform.SetRotation(Vector3(0.0f, 0.0f, 0.0f));
+		//transform.SetRotation(Vector3(0.0f, 50.0f, 0.0f));
 		//transform.SetScale(Vector3(0.1f, 0.1f, 0.1f));
 
 		//モデルリソースの作成
@@ -88,48 +94,64 @@ void App::Update() {
 			auto& input = InputManager::GetInstance();
 			input.Update();
 
+			const float power = 1.0f;
 			if (input.GetKeyMouseInput().GetKeyState('D') == InputState::Hold)
 			{
 
-				camera.GetTransform().AddPosition(DirectX::SimpleMath::Vector3(1.0f, 0.0f, 0.0f));
-				camera.SetLookAt(camera.GetLookAt() + DirectX::SimpleMath::Vector3(1.0f, 0.0f, 0.0f));
+				//transform.AddPosition(DirectX::SimpleMath::Vector3(power, 0.0f, 0.0f));
+
+				camera.GetTransform().AddPosition(DirectX::SimpleMath::Vector3(power, 0.0f, 0.0f));
+				camera.SetLookAt(camera.GetLookAt() + DirectX::SimpleMath::Vector3(power, 0.0f, 0.0f));
 
 			}
 			if (input.GetKeyMouseInput().GetKeyState('A') == InputState::Hold)
 			{
 
-				camera.GetTransform().AddPosition(DirectX::SimpleMath::Vector3(-1.0f, 0.0f, 0.0f));
-				camera.SetLookAt(camera.GetLookAt() + DirectX::SimpleMath::Vector3(-1.0f, 0.0f, 0.0f));
+				//transform.AddPosition(DirectX::SimpleMath::Vector3(-power, 0.0f, 0.0f));
+
+				camera.GetTransform().AddPosition(DirectX::SimpleMath::Vector3(-power, 0.0f, 0.0f));
+				camera.SetLookAt(camera.GetLookAt() + DirectX::SimpleMath::Vector3(-power, 0.0f, 0.0f));
 
 			}
 			if (input.GetKeyMouseInput().GetKeyState('W') == InputState::Hold)
 			{
 
-				camera.GetTransform().AddPosition(DirectX::SimpleMath::Vector3(0.0f, 0.0f, 1.0f));
-				camera.SetLookAt(camera.GetLookAt() + DirectX::SimpleMath::Vector3(0.0f, 0.0f, 1.0f));
+				//transform.AddPosition(DirectX::SimpleMath::Vector3(0.0f, 0.0f, power));
+
+				camera.GetTransform().AddPosition(DirectX::SimpleMath::Vector3(0.0f, 0.0f, power));
+				camera.SetLookAt(camera.GetLookAt() + DirectX::SimpleMath::Vector3(0.0f, 0.0f, power));
 
 			}
 			if (input.GetKeyMouseInput().GetKeyState('S') == InputState::Hold)
 			{
 
-				camera.GetTransform().AddPosition(DirectX::SimpleMath::Vector3(0.0f, 0.0f, -1.0f));
-				camera.SetLookAt(camera.GetLookAt() + DirectX::SimpleMath::Vector3(0.0f, 0.0f, -1.0f));
+				//transform.AddPosition(DirectX::SimpleMath::Vector3(0.0f, 0.0f, -power));
+
+				camera.GetTransform().AddPosition(DirectX::SimpleMath::Vector3(0.0f, 0.0f, -power));
+				camera.SetLookAt(camera.GetLookAt() + DirectX::SimpleMath::Vector3(0.0f, 0.0f, -power));
 
 			}
 			if (input.GetKeyMouseInput().GetKeyState(VK_SPACE) == InputState::Hold)
 			{
 
-				camera.GetTransform().AddPosition({ 0.0f,1.0f,0.0f });
-				camera.SetLookAt(camera.GetLookAt() + DirectX::SimpleMath::Vector3(0.0f, 1.0f, 0.0f));
+				//transform.AddPosition(DirectX::SimpleMath::Vector3(0.0f, power, 0.0f));
+
+				camera.GetTransform().AddPosition({ 0.0f,power,0.0f });
+				camera.SetLookAt(camera.GetLookAt() + DirectX::SimpleMath::Vector3(0.0f, power, 0.0f));
 
 			}
-			if (input.GetKeyMouseInput().GetKeyState(VK_LSHIFT) == InputState::Hold)
+			if (input.GetKeyMouseInput().GetKeyState(VK_SHIFT) == InputState::Hold)
 			{
 
-				camera.GetTransform().AddPosition({ 0.0f,-1.0f,0.0f });
-				camera.SetLookAt(camera.GetLookAt() + DirectX::SimpleMath::Vector3(0.0f, -1.0f, 0.0f));
+				//transform.AddPosition(DirectX::SimpleMath::Vector3(0.0f, -power, 0.0f));
+
+				camera.GetTransform().AddPosition({ 0.0f,-power,0.0f });
+				camera.SetLookAt(camera.GetLookAt() + DirectX::SimpleMath::Vector3(0.0f, -power, 0.0f));
 
 			}
+
+			//XMMatrixIndentityを使用している際の軸確認用
+			//transform.AddPosition(DirectX::SimpleMath::Vector3(-0.1f, 0.0f, 0.0f));
 
 			//camera.Update();
 			camera.Update();
