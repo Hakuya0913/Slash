@@ -39,6 +39,11 @@ public:
 			size_t			 GetEmbeddedTextureCount()		  const { return embeddedTextures.size(); }
 	const	EmbeddedTexture& GetEmbeddedTexture(size_t index) const { return embeddedTextures.at(index); }
 	
+	const std::vector<Mesh>& GetMeshes() const { return meshes; }
+	const std::vector<Node>& GetNodes() const { return nodes; }
+	const std::vector<Bone>& GetBones() const { return bones; }
+	const std::vector<Material>& GetMaterials() const { return materials; }
+	const std::vector<EmbeddedTexture>& GetEmbeddedTextures() const { return embeddedTextures; }
 
 private:
 
@@ -66,4 +71,3 @@ private:
 	std::vector<EmbeddedTexture> embeddedTextures;
 
 };
-

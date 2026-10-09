@@ -61,6 +61,9 @@
     <Filter Include="C++Program\Object\Camera">
       <UniqueIdentifier>{eb887392-ae18-4c32-ab0f-d3e49f1694c8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="C++Program\Resource">
+      <UniqueIdentifier>{497fca2b-626a-434f-921f-3af5727268ce}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C++Program\main.cpp">
@@ -98,6 +101,9 @@
     </ClCompile>
     <ClCompile Include="C++Program\Camera\Camera.cpp">
       <Filter>C++Program\Object\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="C++Program\Resource\ModelResource.cpp">
+      <Filter>C++Program\Resource</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -151,6 +157,9 @@
     </ClInclude>
     <ClInclude Include="C++Program\Camera\Camera.h">
       <Filter>C++Program\Object\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="C++Program\Resource\ModelResource.h">
+      <Filter>C++Program\Resource</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

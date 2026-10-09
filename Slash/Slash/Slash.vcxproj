@@ -154,6 +154,7 @@
     <ClCompile Include="C++Program\main.cpp" />
     <ClCompile Include="C++Program\Math\Vector.cpp" />
     <ClCompile Include="C++Program\Renderer\ModelRenderer.cpp" />
+    <ClCompile Include="C++Program\Resource\ModelResource.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C++Program\App.h" />
@@ -172,6 +173,7 @@
     <ClInclude Include="C++Program\Math\Vector.h" />
     <ClInclude Include="C++Program\Renderer\ModelRenderer.h" />
     <ClInclude Include="C++Program\Renderer\RendererStructure.h" />
+    <ClInclude Include="C++Program\Resource\ModelResource.h" />
     <ClInclude Include="C++Program\Utility\ComPtr.h" />
   </ItemGroup>
   <ItemGroup>
