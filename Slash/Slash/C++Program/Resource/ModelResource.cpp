@@ -42,11 +42,10 @@ bool ModelResource::CreateMeshResources(
 	const ModelComponent& model
 )
 {
-	const auto& meshes = model.GetMeshes();
 
-	meshResources.reserve(meshes.size());
+	meshResources.reserve(model.GetMeshCount());
 
-	for (size_t i = 0; i < meshes.size(); ++i)
+	for (size_t i = 0; i < model.GetMeshCount(); ++i)
 	{
 		if (!CreateMeshResource(device, model, i))
 		{
@@ -63,14 +62,13 @@ bool ModelResource::CreateMeshResource(
 	size_t meshIndex
 )
 {
-	const auto& meshes = model.GetMeshes();
 
-	if (meshIndex >= meshes.size())
+	if (meshIndex >= model.GetMeshCount())
 	{
 		return false;
 	}
 
-	const auto& mesh = meshes[meshIndex];
+	const auto& mesh = model.GetMesh(meshIndex);
 
 	MeshResource resource{};
 
@@ -181,11 +179,10 @@ bool ModelResource::CreateTextureResources(
 	const ModelComponent& model
 )
 {
-	const auto& textures = model.GetEmbeddedTextures();
 
-	textureResources.reserve(textures.size());
+	textureResources.reserve(model.GetEmbeddedTextureCount());
 
-	for (size_t i = 0; i < textures.size(); ++i)
+	for (size_t i = 0; i < model.GetEmbeddedTextureCount(); ++i)
 	{
 		if (!CreateTextureResource(
 			device,

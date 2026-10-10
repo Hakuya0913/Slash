@@ -61,7 +61,7 @@
     <Filter Include="C++Program\Object\Camera">
       <UniqueIdentifier>{eb887392-ae18-4c32-ab0f-d3e49f1694c8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="C++Program\Resource">
+    <Filter Include="C++Program\GPUResource">
       <UniqueIdentifier>{497fca2b-626a-434f-921f-3af5727268ce}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -103,7 +103,7 @@
       <Filter>C++Program\Object\Camera</Filter>
     </ClCompile>
     <ClCompile Include="C++Program\Resource\ModelResource.cpp">
-      <Filter>C++Program\Resource</Filter>
+      <Filter>C++Program\GPUResource</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -159,7 +159,7 @@
       <Filter>C++Program\Object\Camera</Filter>
     </ClInclude>
     <ClInclude Include="C++Program\Resource\ModelResource.h">
-      <Filter>C++Program\Resource</Filter>
+      <Filter>C++Program\GPUResource</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
