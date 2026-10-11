@@ -14,6 +14,7 @@
 #include"Component/TransformComponent.h"
 #include"Renderer/ModelRenderer.h"
 #include"Camera/Camera.h"
+#include"Resource/ModelResource.h"
 
 class App
 {
@@ -30,9 +31,21 @@ private:
 	Window window;
 
 	//試験用インスタンス等
-	ModelComponent model;
-	TransformComponent transform;
+
+	//試験用構造体
+	struct CharaObject
+	{
+
+		TransformComponent transform;
+		ModelComponent model;
+		ModelResource resource;
+
+	};
+
+	CharaObject effole;
+	CharaObject radDoll;
 	Camera camera;
 	ModelRenderer modelRenderer;
 
 };
+

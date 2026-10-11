@@ -156,391 +156,6 @@ bool ModelRenderer::CreateRasterizerState()
 
 }
 
-bool ModelRenderer::CreateModelResource(const ModelComponent& model)
-{
-	
-	if (device == nullptr)
-	{
-		return false;
-	}
-
-	meshResources.clear();
-	textureResources.clear();
-
-	const size_t meshCount = model.GetMeshCount();
-
-	meshResources.resize(meshCount);
-
-	for (size_t i = 0; i < meshCount; ++i)
-	{
-
-		const Mesh& mesh = model.GetMesh(i);
-
-		if (CreateMeshResource(mesh, meshResources[i]) == false)
-		{
-			return false;
-		}
-
-	}
-
-	//テクスチャリソース作成
-	if (CreateTextureResources(model) == false)
-	{
-		return false;
-	}
-
-	return true;
-
-}
-
-bool ModelRenderer::CreateMeshResource(const Mesh& mesh, MeshResource& resource)
-{
-
-	resource.indexCount = static_cast<uint32_t>(mesh.indices.size());
-
-	//Meshが使用するMaterialIndexをコピー
-	resource.materialIndex = mesh.materialIndex;
-	resource.indexCount = static_cast<uint32_t>(mesh.indices.size());
-
-	if (CreateVertexBuffer(mesh, resource) == false)
-	{
-		return false;
-	}
-
-	if (CreateIndexBuffer(mesh, resource) == false)
-	{
-		return false;
-	}
-
-	return true;
-
-}
-
-bool ModelRenderer::CreateVertexBuffer(const Mesh& mesh, MeshResource& resource)
-{
-
-	if (mesh.vertices.empty() == true)
-	{
-		return false;
-	}
-
-	D3D11_BUFFER_DESC bufferDesc{};
-
-	bufferDesc.Usage = D3D11_USAGE_DEFAULT;
-	bufferDesc.ByteWidth = static_cast<UINT>(sizeof(Vertex) * mesh.vertices.size());
-	bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	
-	D3D11_SUBRESOURCE_DATA initialData{};
-	initialData.pSysMem = mesh.vertices.data();
-
-	HRESULT hr;
-
-	hr = device->CreateBuffer(
-		&bufferDesc,
-		&initialData,
-		resource.vertexBuffer.GetAddressOf()
-	);
-
-	if (FAILED(hr))
-	{
-		return false;
-	}
-
-	return true;
-
-}
-
-bool ModelRenderer::CreateIndexBuffer(const Mesh& mesh, MeshResource& resource)
-{
-
-	if (mesh.indices.empty() == true)
-	{
-		return false;
-	}
-
-	D3D11_BUFFER_DESC bufferDesc{};
-	bufferDesc.Usage = D3D11_USAGE_DEFAULT;
-	bufferDesc.ByteWidth = static_cast<UINT>(sizeof(uint32_t) * mesh.indices.size());
-	bufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-
-	D3D11_SUBRESOURCE_DATA initialData{};
-	initialData.pSysMem = mesh.indices.data();
-
-	HRESULT hr;
-
-	hr = device->CreateBuffer(
-		&bufferDesc,
-		&initialData,
-		resource.indexBuffer.GetAddressOf()
-	);
-
-	if (FAILED(hr))
-	{
-		return false;
-	}
-
-	return true;
-
-}
-
-bool ModelRenderer::CreateTextureResources(const ModelComponent& model)
-{
-
-#ifdef _DEBUG
-
-	std::ostringstream outputString;
-
-	outputString << "EmbeddedTextureCount"
-		<< std::to_string(model.GetEmbeddedTextureCount())
-		<< "\n"
-		;
-
-	OutputDebugStringA(outputString.str().c_str());
-
-#endif
-
-	const size_t textureCount = model.GetEmbeddedTextureCount();
-
-	for (size_t i = 0; i < textureCount; ++i)
-	{
-
-#ifdef _DEBUG
-
-		outputString.clear();
-		outputString << "Texture index = "
-			<< std::to_string(i)
-			<< "\n"
-			;
-
-		OutputDebugStringA(outputString.str().c_str());
-
-#endif
-	
-		const EmbeddedTexture& embeddedTexture = model.GetEmbeddedTexture(i);
-
-		if (CreateTextureResource(embeddedTexture, static_cast<uint32_t>(i)) == false)
-		{
-
-			return false;
-
-		}
-
-	}
-
-	return true;
-
-}
-
-bool ModelRenderer::CreateTextureResource(const EmbeddedTexture& embeddedTexture, uint32_t embeddedTextureIndex)
-{
-
-	std::vector<uint8_t> pixelData;
-
-	UINT width = 0;
-	UINT height = 0;
-	UINT rowPitch = 0;
-
-	bool funcResult;
-
-	funcResult = DecodeEmbeddedTexture(
-		embeddedTexture,
-		pixelData,
-		width, height, rowPitch
-	);
-
-	if (funcResult == false)
-	{
-		return false;
-	}
-
-	if (pixelData.empty() == true ||
-		width == 0 || height == 0)
-	{
-		return false;
-	}
-
-	D3D11_TEXTURE2D_DESC textureDesc{};
-	textureDesc.Width = width;
-	textureDesc.Height = height;
-	textureDesc.MipLevels = 1;
-	textureDesc.ArraySize = 1;
-	textureDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-	textureDesc.SampleDesc.Count = 1;
-	textureDesc.SampleDesc.Quality = 0;
-	textureDesc.Usage = D3D11_USAGE_DEFAULT;
-	textureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
-
-	D3D11_SUBRESOURCE_DATA textureData{};
-	textureData.pSysMem = pixelData.data();
-	textureData.SysMemPitch = rowPitch;
-
-	TextureResource resource;
-	HRESULT hr;
-
-	hr = device->CreateTexture2D(
-		&textureDesc,
-		&textureData,
-		resource.texture.GetAddressOf()
-	);
-
-	if (FAILED(hr))
-	{
-		return false;
-	}
-
-	//ShaderResourceView作成
-	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-	srvDesc.Format = textureDesc.Format;
-	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-	srvDesc.Texture2D.MostDetailedMip = 0;
-	srvDesc.Texture2D.MipLevels = 1;
-
-	hr = device->CreateShaderResourceView(
-		resource.texture.Get(),
-		&srvDesc,
-		resource.shaderResourceView.GetAddressOf()
-	);
-
-	if (FAILED(hr))
-	{
-		return false;
-	}
-
-	resource.embeddedTextureIndex = static_cast<int32_t>(embeddedTextureIndex);
-	textureResources.emplace_back(std::move(resource));
-
-	return true;
-
-}
-
-bool ModelRenderer::DecodeEmbeddedTexture(
-	const EmbeddedTexture& embeddedTexture,
-	std::vector<uint8_t>& pixelData,
-	UINT& width, UINT& height, UINT& rowPitch
-)
-{
-
-	pixelData.clear();
-
-	width = 0;
-	height = 0;
-	rowPitch = 0;
-
-	if (embeddedTexture.data.empty() == true)
-	{
-		return false;
-	}
-
-	ComPtr<IWICImagingFactory> factory;
-	HRESULT hr;
-
-	hr = CoCreateInstance(
-		CLSID_WICImagingFactory,
-		nullptr,
-		CLSCTX_INPROC_SERVER,
-		IID_PPV_ARGS(factory.GetAddressOf())
-	);
-
-	if (FAILED(hr))
-	{
-		return false;
-	}
-
-	ComPtr<IWICStream> stream;
-
-	hr = factory->CreateStream(stream.GetAddressOf());
-
-	if (FAILED(hr))
-	{
-		return false;
-	}
-
-	hr = stream->InitializeFromMemory(
-		const_cast<BYTE*>(reinterpret_cast<const BYTE*>(embeddedTexture.data.data())),
-		static_cast<DWORD>(embeddedTexture.data.size())
-	);
-
-	ComPtr<IWICBitmapDecoder> decoder;
-
-	hr = factory->CreateDecoderFromStream(
-		stream.Get(),
-		nullptr,
-		WICDecodeMetadataCacheOnLoad,
-		decoder.GetAddressOf()
-	);
-
-	if (FAILED(hr))
-	{
-		return false;
-	}
-
-	ComPtr<IWICBitmapFrameDecode> frame;
-
-	hr = decoder->GetFrame(0, frame.GetAddressOf());
-
-	if (FAILED(hr))
-	{
-		return false;
-	}
-
-	UINT sorceWidth = 0;
-	UINT sourceHeight = 0;
-
-	hr = frame->GetSize(&sorceWidth, &sourceHeight);
-
-	if (FAILED(hr))
-	{
-		return false;
-	}
-
-	//RGBAに変換
-	ComPtr<IWICFormatConverter> converter;
-
-	hr = factory->CreateFormatConverter(converter.GetAddressOf());
-
-	if (FAILED(hr))
-	{
-		return false;
-	}
-
-	hr = converter->Initialize(
-		frame.Get(),
-		GUID_WICPixelFormat32bppRGBA,
-		WICBitmapDitherTypeNone,
-		nullptr,
-		0.0,
-		WICBitmapPaletteTypeCustom
-	);
-
-	if (FAILED(hr))
-	{
-		return false;
-	}
-
-	width = sorceWidth;
-	height = sourceHeight;
-	rowPitch = width * 4;
-
-	const size_t imageSize = rowPitch * height;
-
-	pixelData.resize(imageSize);
-
-	hr = converter->CopyPixels(
-		nullptr,
-		rowPitch,
-		static_cast<UINT>(imageSize),
-		pixelData.data()
-	);
-
-	if (FAILED(hr))
-	{
-		return false;
-	}
-
-	return true;
-
-}
-
 bool ModelRenderer::CreateConstantBuffers()
 {
 
@@ -706,6 +321,7 @@ void ModelRenderer::UpdateMaterialBuffer(const Material& material)
 
 void ModelRenderer::Render(
 	const ModelComponent& model,
+	const ModelResource& resource,
 	const TransformComponent& transform
 )
 {
@@ -733,26 +349,26 @@ void ModelRenderer::Render(
 	context->PSSetSamplers(0, 1, samplerState.GetAddressOf());
 	context->RSSetState(rasterizerState.Get());
 
-	const size_t meshCount = model.GetMeshCount();
+	const size_t meshCount = resource.GetMeshCount();
 
 	for (size_t i = 0; i < meshCount; ++i)
 	{
 		
-		const MeshResource& resource = meshResources[i];
+		const MeshResource& meshResource = resource.GetMeshResource(i);
 
-		if (resource.vertexBuffer == nullptr || resource.indexBuffer == nullptr ||
-			resource.indexCount == 0)
+		if (meshResource.vertexBuffer == nullptr || meshResource.indexBuffer == nullptr ||
+			meshResource.indexCount == 0)
 		{
 			continue;
 		}
 
 		//Materialインデックスが無効か
-		if (resource.materialIndex >= model.GetMaterialCount())
+		if (meshResource.materialIndex >= model.GetMaterialCount())
 		{
 			continue;
 		}
 
-		const Material& material = model.GetMaterial(resource.materialIndex);
+		const Material& material = model.GetMaterial(meshResource.materialIndex);
 
 		UpdateMaterialBuffer(material);
 
@@ -770,12 +386,12 @@ void ModelRenderer::Render(
 		UINT stride = sizeof(Vertex);
 		UINT offset = 0;
 
-		ID3D11Buffer* vertexBuffers[] = { resource.vertexBuffer.Get() };
+		ID3D11Buffer* vertexBuffers[] = { meshResource.vertexBuffer.Get() };
 
 		context->IASetVertexBuffers(0, 1, vertexBuffers, &stride, &offset);
 
 		//IndexBufferセット
-		context->IASetIndexBuffer(resource.indexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
+		context->IASetIndexBuffer(meshResource.indexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
 
 		/*
 		
@@ -793,10 +409,10 @@ void ModelRenderer::Render(
 			const int32_t textureIndex = textureReference.embeddedTextureIndex;
 			
 			if (textureIndex >= 0 &&
-				static_cast<size_t>(textureIndex) < textureResources.size())
+				static_cast<size_t>(textureIndex) < resource.GetTextureCount())
 			{
 
-				const TextureResource& texture = textureResources[textureIndex];
+				const TextureResource& texture = resource.GetTextureResource(textureIndex);
 				shaderResourceViews[0] = texture.shaderResourceView.Get();
 
 			}
@@ -804,7 +420,7 @@ void ModelRenderer::Render(
 			context->PSSetShaderResources(0, 1, shaderResourceViews);
 
 			//DrawCall
-			context->DrawIndexed(resource.indexCount, 0, 0);
+			context->DrawIndexed(meshResource.indexCount, 0, 0);
 
 		}
 

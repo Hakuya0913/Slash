@@ -29,8 +29,6 @@ public:
 
 	bool IsValid() const { return (meshResources.empty() == false); }
 
-	const std::vector<MeshResource>& GetMeshResources() const { return meshResources; }
-	const std::vector<TextureResource>& GetTextureResource() const { return textureResources; }
 	const MeshResource& GetMeshResource(size_t index) const { return meshResources[index]; }
 	const TextureResource& GetTextureResource(size_t index) const { return textureResources[index]; }
 	size_t GetMeshCount() const { return meshResources.size(); }

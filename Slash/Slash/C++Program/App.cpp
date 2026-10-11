@@ -48,23 +48,15 @@ void App::Init() {
 			10000.0f
 		);
 
-		//モデルの読み込み
-		isCorrect = model.Load("Model/effole/effole.fbx");
+		//Effoleモデルを使用するキャラクタの設定
+		effole.model.Load("Model/effole/effole.fbx");
+		effole.resource.Create(gfxDevice.GetDevice(), effole.model);
+		effole.transform.SetPosition({ -100.0f, 0, 0 });
 
-		if (isCorrect == false) {
-			return;
-		}
-
-		//モデルは原点に表示するので、TransformComponentの位置は変更しない
-		//transform.SetRotation(Vector3(0.0f, 50.0f, 0.0f));
-		//transform.SetScale(Vector3(0.1f, 0.1f, 0.1f));
-
-		//モデルリソースの作成
-		isCorrect = modelRenderer.CreateModelResource(model);
-
-		if (isCorrect == false) {
-			return;
-		}
+		//Aliciaモデルを使用するキャラクタの設定
+		radDoll.model.Load("Model/radDollV3.fbx");
+		radDoll.resource.Create(gfxDevice.GetDevice(), radDoll.model);
+		radDoll.transform.SetPosition({ 100.0f,0,0 });
 
 	}
 
@@ -155,7 +147,9 @@ void App::Update() {
 
 			//camera.Update();
 			camera.Update();
-			modelRenderer.Render(model, transform);
+
+			modelRenderer.Render(radDoll.model, radDoll.resource, radDoll.transform);
+			modelRenderer.Render(effole.model, effole.resource, effole.transform);
 
 			gfxDevice.EndFrame();
 

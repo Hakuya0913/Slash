@@ -16,6 +16,7 @@ FBXモデルを表示する
 #include"../Camera/Camera.h"
 #include"../Component/ModelComponent.h"
 #include"../Component/TransformComponent.h"
+#include"../Resource/ModelResource.h"
 
 class ModelRenderer
 {
@@ -26,10 +27,9 @@ public:
 
 	bool Init(ID3D11Device* device, ID3D11DeviceContext* context, Camera& camera);
 
-	bool CreateModelResource(const ModelComponent& model);
-
 	void Render(
 		const ModelComponent& model,
+		const ModelResource& resource,
 		const TransformComponent& transform
 	);
 
@@ -37,16 +37,6 @@ private:
 
 	//各初期化関数
 	bool CreateRasterizerState();
-	bool CreateMeshResource(const Mesh& mesh, MeshResource& resource);
-	bool CreateVertexBuffer(const Mesh& mesh, MeshResource& resource);
-	bool CreateIndexBuffer(const Mesh& mesh, MeshResource& resource);
-	bool CreateTextureResources(const ModelComponent& model);
-	bool CreateTextureResource(const EmbeddedTexture& embeddedTexture, uint32_t embeddedTextureIndex);
-	bool DecodeEmbeddedTexture(
-		const EmbeddedTexture& embeddedTexture,
-		std::vector<uint8_t>& pixelData,
-		UINT& width, UINT& height, UINT& rowPitch
-	);
 	bool CreateConstantBuffers();
 
 	//Shader読み込み
@@ -63,18 +53,12 @@ private:
 	//カメラへの参照
 	Camera* camera = nullptr;
 
-	//モデルリソース
-	std::vector<MeshResource> meshResources;
-
 	//定数バッファ
 	ComPtr<ID3D11Buffer> transformBuffer;
 	ComPtr<ID3D11Buffer> materialBuffer;
 
 	TransformData transformData{};
 	MaterialData materialData{};
-
-	//テクスチャ
-	std::vector<TextureResource> textureResources;
 
 	//Shader
 	ComPtr<ID3D11VertexShader> vertexShader;
