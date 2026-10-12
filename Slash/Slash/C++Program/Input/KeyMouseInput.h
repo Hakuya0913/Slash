@@ -10,7 +10,7 @@ RawInputアダプタークラス
 
 #include<Windows.h>
 #include<DirectXMath.h>
-#include<SimpleMath.h>
+#include<directxtk/SimpleMath.h>
 #include<vector>
 #include"ConstantInput.h"
 #include"../Math/StructureMath.h"

@@ -7,7 +7,7 @@ Position,Rotation,Scaleを持つコンポーネント
 */
 
 #include<DirectXMath.h>
-#include<SimpleMath.h>
+#include<directxtk/SimpleMath.h>
 
 class TransformComponent
 {

@@ -7,7 +7,7 @@ Camera
 */
 
 #include<DirectXMath.h>
-#include<SimpleMath.h>
+#include<directxtk/SimpleMath.h>
 #include"../Component/TransformComponent.h"
 
 class Camera

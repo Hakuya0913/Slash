@@ -11,7 +11,7 @@ XInput“ü—Íó‘ÔŠÇ—ƒNƒ‰ƒX
 #include<Xinput.h>
 #include<array>
 #include<DirectXMath.h>
-#include<SimpleMath.h>
+#include<directxtk/SimpleMath.h>
 #include"ConstantInput.h"
 
 class XInput

@@ -7,7 +7,7 @@ Rendererクラスで使用し、共通化できる構造体をまとめるファイル
 */
 
 #include<DirectXMath.h>
-#include<SimpleMath.h>
+#include<directxtk/SimpleMath.h>
 #include<d3d11.h>
 #include<cstdint>
 
