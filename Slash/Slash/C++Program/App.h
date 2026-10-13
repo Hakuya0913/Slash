@@ -10,11 +10,11 @@
 #include"Core/GraphicsDevice.h"
 
 //試験用インスタンス等のヘッダファイル
-#include"Component/ModelComponent.h"
+#include"Model/ModelComponent.h"
 #include"Component/TransformComponent.h"
 #include"Renderer/ModelRenderer.h"
-#include"Camera/Camera.h"
-#include"Resource/ModelResource.h"
+#include"Component/Camera.h"
+#include"Model/ModelResource.h"
 
 class App
 {

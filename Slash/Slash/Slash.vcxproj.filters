@@ -43,9 +43,6 @@
     <Filter Include="C++Program\Component">
       <UniqueIdentifier>{b251468b-57c9-4364-a75a-6e5ac6c60872}</UniqueIdentifier>
     </Filter>
-    <Filter Include="C++Program\Component\Model">
-      <UniqueIdentifier>{12fa7c21-9900-48ba-8e1a-a3416e2d1936}</UniqueIdentifier>
-    </Filter>
     <Filter Include="C++Program\Component\Transform">
       <UniqueIdentifier>{6ff6da78-1eac-473b-bd20-db9fc6c7bf3e}</UniqueIdentifier>
     </Filter>
@@ -55,14 +52,17 @@
     <Filter Include="C++Program\Renderer\Model">
       <UniqueIdentifier>{1c4aa09d-92e3-43f9-9f51-4f3cb864bed2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="C++Program\Object">
-      <UniqueIdentifier>{c17cc817-d486-47d0-829e-965fda60cf72}</UniqueIdentifier>
+    <Filter Include="C++Program\Model">
+      <UniqueIdentifier>{6ca27ed4-0027-491f-b9c8-4b4da390b7f9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="C++Program\Object\Camera">
-      <UniqueIdentifier>{eb887392-ae18-4c32-ab0f-d3e49f1694c8}</UniqueIdentifier>
+    <Filter Include="C++Program\Model\Component">
+      <UniqueIdentifier>{19bf595d-f450-463e-9b01-53197ee9bda5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="C++Program\GPUResource">
-      <UniqueIdentifier>{497fca2b-626a-434f-921f-3af5727268ce}</UniqueIdentifier>
+    <Filter Include="C++Program\Model\Resource">
+      <UniqueIdentifier>{e39e8f31-cb8b-4547-9869-53ce1b169d3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="C++Program\Component\Camera">
+      <UniqueIdentifier>{0e097200-13c9-4c03-88eb-843c2e936cdc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -90,20 +90,20 @@
     <ClCompile Include="C++Program\Math\Vector.cpp">
       <Filter>C++Program\Math</Filter>
     </ClCompile>
-    <ClCompile Include="C++Program\Component\ModelComponent.cpp">
-      <Filter>C++Program\Component\Model</Filter>
-    </ClCompile>
     <ClCompile Include="C++Program\Component\TransformComponent.cpp">
       <Filter>C++Program\Component\Transform</Filter>
     </ClCompile>
     <ClCompile Include="C++Program\Renderer\ModelRenderer.cpp">
       <Filter>C++Program\Renderer\Model</Filter>
     </ClCompile>
-    <ClCompile Include="C++Program\Camera\Camera.cpp">
-      <Filter>C++Program\Object\Camera</Filter>
+    <ClCompile Include="C++Program\Model\ModelComponent.cpp">
+      <Filter>C++Program\Model\Component</Filter>
     </ClCompile>
-    <ClCompile Include="C++Program\Resource\ModelResource.cpp">
-      <Filter>C++Program\GPUResource</Filter>
+    <ClCompile Include="C++Program\Model\ModelResource.cpp">
+      <Filter>C++Program\Model\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="C++Program\Component\Camera.cpp">
+      <Filter>C++Program\Component\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -140,12 +140,6 @@
     <ClInclude Include="C++Program\Math\Vector.h">
       <Filter>C++Program\Math</Filter>
     </ClInclude>
-    <ClInclude Include="C++Program\Component\ModelComponent.h">
-      <Filter>C++Program\Component\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="C++Program\Component\ModelStructure.h">
-      <Filter>C++Program\Component\Model</Filter>
-    </ClInclude>
     <ClInclude Include="C++Program\Component\TransformComponent.h">
       <Filter>C++Program\Component\Transform</Filter>
     </ClInclude>
@@ -155,11 +149,17 @@
     <ClInclude Include="C++Program\Renderer\ModelRenderer.h">
       <Filter>C++Program\Renderer\Model</Filter>
     </ClInclude>
-    <ClInclude Include="C++Program\Camera\Camera.h">
-      <Filter>C++Program\Object\Camera</Filter>
+    <ClInclude Include="C++Program\Model\ModelStructure.h">
+      <Filter>C++Program\Model</Filter>
     </ClInclude>
-    <ClInclude Include="C++Program\Resource\ModelResource.h">
-      <Filter>C++Program\GPUResource</Filter>
+    <ClInclude Include="C++Program\Model\ModelComponent.h">
+      <Filter>C++Program\Model\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="C++Program\Model\ModelResource.h">
+      <Filter>C++Program\Model\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="C++Program\Component\Camera.h">
+      <Filter>C++Program\Component\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

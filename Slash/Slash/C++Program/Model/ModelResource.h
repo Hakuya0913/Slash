@@ -11,7 +11,7 @@
 #include<vector>
 #include<cstdint>
 #include"../Utility/ComPtr.h"
-#include"../Component/ModelComponent.h"
+#include"ModelComponent.h"
 #include"../Renderer/RendererStructure.h"
 
 class ModelResource

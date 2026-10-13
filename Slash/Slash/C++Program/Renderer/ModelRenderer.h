@@ -13,10 +13,10 @@ FBXƒ‚ƒfƒ‹‚ð•\Ž¦‚·‚é
 
 #include"RendererStructure.h"
 #include"../Utility/ComPtr.h"
-#include"../Camera/Camera.h"
-#include"../Component/ModelComponent.h"
+#include"../Component/Camera.h"
+#include"../Model/ModelComponent.h"
 #include"../Component/TransformComponent.h"
-#include"../Resource/ModelResource.h"
+#include"../Model/ModelResource.h"
 
 class ModelRenderer
 {
