@@ -2,8 +2,8 @@
 
 /*
 
-Animationç³»ã®ã‚¯ãƒ©ã‚¹ãŒä½¿ç”¨ã™ã‚‹
-æ§‹é€ ä½“ã‚’ã¾ã¨ã‚ã¦é…ç½®ã™ã‚‹
+AnimationŒn‚ÌƒNƒ‰ƒX‚ªŽg—p‚·‚é
+\‘¢‘Ì‚ð‚Ü‚Æ‚ß‚Ä”z’u‚·‚é
 
 */
 
@@ -18,10 +18,10 @@ struct BoneInfo
 
 	std::string name;
 
-	//Modelç©ºé–“ã‹ã‚‰è¦‹ãŸãƒœãƒ¼ãƒ³ã®é€†ãƒã‚¤ãƒ³ãƒ‰è¡Œåˆ—
+	//Model‹óŠÔ‚©‚çŒ©‚½ƒ{[ƒ“‚Ì‹tƒoƒCƒ“ƒhs—ñ
 	DirectX::XMFLOAT4X4 offsetMatrix;
 	
-	//è¦ªãƒœãƒ¼ãƒ³ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
+	//eƒ{[ƒ“ƒCƒ“ƒfƒbƒNƒX
 	int32_t parentIndex = -1;
 
 };
@@ -54,5 +54,66 @@ struct ScaleKey
 
 	float time = 0.0f;
 	DirectX::XMFLOAT3 value = DirectX::SimpleMath::Vector3::One;
+
+};
+
+//1ƒ{[ƒ“•ª‚ÌƒAƒjƒ[ƒVƒ‡ƒ“
+struct BoneAnimation
+{
+
+	std::string boneName;
+
+	std::vector<PositionKey> positionKeys;
+	std::vector<RotationKey> rotationKeys;
+	std::vector<ScaleKey> scaleKeys;
+
+};
+
+struct AnimationClip
+{
+
+	std::string name;
+
+	//ƒAƒjƒ[ƒVƒ‡ƒ“‘S’·
+	float duration = 0.0f;
+
+	//•bŠÔƒeƒBƒbƒN”
+	float ticksPerScond = 1.0f;
+
+	std::vector<BoneAnimation> boneAnimations;
+
+};
+
+//ƒAƒjƒ[ƒVƒ‡ƒ“‚ÌÄ¶ó‘Ô
+struct AnimationState
+{
+
+	int32_t currentAnimationIndex = -1;	//ƒAƒjƒ[ƒVƒ‡ƒ“ƒnƒ“ƒhƒ‹
+
+	float currentTime = 0.0f;	//Ä¶‰ÓŠ
+	float playbackSpeed = 1.0f;	//Ä¶‘¬“x
+
+	bool isPlaying = false;	//Ä¶’†‚©
+	bool isLooping = false;	//ƒ‹[ƒv‚·‚é‚©
+
+};
+
+struct AnimationBlendState
+{
+
+	int32_t previousAnimationIndex = -1;
+	int32_t currentAnimationIndex = -1;
+
+	float blendTime = 0.0f;
+	float blendDuration = 0.0f;
+
+	bool isBlending = false;
+
+};
+
+struct BoneTransform
+{
+
+	DirectX::XMFLOAT4X4 transfrom;
 
 };

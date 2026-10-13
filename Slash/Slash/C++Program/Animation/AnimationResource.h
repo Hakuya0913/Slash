@@ -2,6 +2,18 @@
 
 /*
 
-AnimationClip(繝｢繝ｼ繧ｷ繝ｧ繝ｳ繝�繝ｼ繧ｿ)繧堤ｮ｡逅�縺吶ｋ
+AnimationClip(モーションデータ)を管理する
 
 */
+
+class AnimationResource
+{
+public:
+
+
+
+private:
+
+
+
+};
