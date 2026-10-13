@@ -64,6 +64,18 @@
     <Filter Include="C++Program\Component\Camera">
       <UniqueIdentifier>{0e097200-13c9-4c03-88eb-843c2e936cdc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="C++Program\Animation">
+      <UniqueIdentifier>{e18a5c5d-b02d-42d4-844e-a92df3aa55aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="C++Program\Animation\Component">
+      <UniqueIdentifier>{302ec9e0-e729-4169-bae9-23c52585473c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="C++Program\Animation\Resource">
+      <UniqueIdentifier>{9da2da54-dee9-4b05-85ab-d06862a00c29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="C++Program\Animation\Clip">
+      <UniqueIdentifier>{83b04f6f-4fbd-4c48-9dd8-bee1967f62ab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C++Program\main.cpp">
@@ -104,6 +116,15 @@
     </ClCompile>
     <ClCompile Include="C++Program\Component\Camera.cpp">
       <Filter>C++Program\Component\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="C++Program\Animation\AnimationComponent.cpp">
+      <Filter>C++Program\Animation\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="C++Program\Animation\AnimationResource.cpp">
+      <Filter>C++Program\Animation\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="C++Program\Animation\AnimationClip.cpp">
+      <Filter>C++Program\Animation\Clip</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -160,6 +181,18 @@
     </ClInclude>
     <ClInclude Include="C++Program\Component\Camera.h">
       <Filter>C++Program\Component\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="C++Program\Animation\AnimationComponent.h">
+      <Filter>C++Program\Animation\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="C++Program\Animation\AnimationResource.h">
+      <Filter>C++Program\Animation\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="C++Program\Animation\AnimationClip.h">
+      <Filter>C++Program\Animation\Clip</Filter>
+    </ClInclude>
+    <ClInclude Include="C++Program\Animation\AnimationStructure.h">
+      <Filter>C++Program\Animation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
