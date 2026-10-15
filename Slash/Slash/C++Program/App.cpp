@@ -19,7 +19,7 @@ void App::Init() {
 	window.Init();
 	GraphicsDevice::GetInstance().Init(window.GetHWND());
 
-	//è©¦é¨“ç”¨ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ç­‰ã®åˆæœŸåŒ–
+	//Œ±—pƒCƒ“ƒXƒ^ƒ“ƒX“™‚Ì‰Šú‰»
 	{
 
 		bool isCorrect;
@@ -36,7 +36,7 @@ void App::Init() {
 
 		}
 
-		//ã‚«ãƒ¡ãƒ©ã®è¨­å®š
+		//ƒJƒƒ‰‚Ìİ’è
 		const Vector3 cameraPos = Vector3(0.0f, 50.0f, -300.0f);
 		const Vector3 cameraLookAt = Vector3(0.0f, 40.0f, 0.0f);
 		camera.SetPosition(cameraPos);
@@ -48,12 +48,12 @@ void App::Init() {
 			10000.0f
 		);
 
-		//Effoleãƒ¢ãƒ‡ãƒ«ã‚’ä½¿ç”¨ã™ã‚‹ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ã®è¨­å®š
-		effole.model.Load("Model/effole/effole.fbx");
-		effole.resource.Create(gfxDevice.GetDevice(), effole.model);
-		effole.transform.SetPosition({ -100.0f, 0, 0 });
+		////Effoleƒ‚ƒfƒ‹‚ğg—p‚·‚éƒLƒƒƒ‰ƒNƒ^‚Ìİ’è
+		//effole.model.Load("Model/effole/effole.fbx");
+		//effole.resource.Create(gfxDevice.GetDevice(), effole.model);
+		//effole.transform.SetPosition({ -100.0f, 0, 0 });
 
-		//Aliciaãƒ¢ãƒ‡ãƒ«ã‚’ä½¿ç”¨ã™ã‚‹ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ã®è¨­å®š
+		//Aliciaƒ‚ƒfƒ‹‚ğg—p‚·‚éƒLƒƒƒ‰ƒNƒ^‚Ìİ’è
 		radDoll.model.Load("Model/radDollV3.fbx");
 		radDoll.resource.Create(gfxDevice.GetDevice(), radDoll.model);
 		radDoll.transform.SetPosition({ 100.0f,0,0 });
@@ -79,7 +79,7 @@ void App::Update() {
 
 			auto gfxDevice = GraphicsDevice::GetInstance();
 
-			//å„ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ›´æ–°å‡¦ç†ãªã©
+			//ŠeƒIƒuƒWƒFƒNƒg‚ÌXVˆ—‚È‚Ç
 			gfxDevice.BeginFrame();
 
 
@@ -142,7 +142,7 @@ void App::Update() {
 
 			}
 
-			//XMMatrixIndentityã‚’ä½¿ç”¨ã—ã¦ã„ã‚‹éš›ã®è»¸ç¢ºèªç”¨
+			//XMMatrixIndentity‚ğg—p‚µ‚Ä‚¢‚éÛ‚Ì²Šm”F—p
 			//transform.AddPosition(DirectX::SimpleMath::Vector3(-0.1f, 0.0f, 0.0f));
 
 			//camera.Update();

@@ -78,7 +78,7 @@ struct AnimationClip
 	float duration = 0.0f;
 
 	//秒間ティック数
-	float ticksPerScond = 1.0f;
+	float ticksPerSecond = 1.0f;
 
 	std::vector<BoneAnimation> boneAnimations;
 
