@@ -150,7 +150,7 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="C++Program\Animation\AnimationClip.cpp" />
+    <ClCompile Include="C++Program\Animation\AnimationPlayer.cpp" />
     <ClCompile Include="C++Program\Animation\AnimationComponent.cpp" />
     <ClCompile Include="C++Program\Animation\AnimationResource.cpp" />
     <ClCompile Include="C++Program\App.cpp" />
@@ -168,7 +168,7 @@
     <ClCompile Include="C++Program\Renderer\ModelRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="C++Program\Animation\AnimationClip.h" />
+    <ClInclude Include="C++Program\Animation\AnimationPlayer.h" />
     <ClInclude Include="C++Program\Animation\AnimationComponent.h" />
     <ClInclude Include="C++Program\Animation\AnimationResource.h" />
     <ClInclude Include="C++Program\Animation\AnimationStructure.h" />

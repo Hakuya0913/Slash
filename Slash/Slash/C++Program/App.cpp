@@ -48,10 +48,10 @@ void App::Init() {
 			10000.0f
 		);
 
-		////Effoleモデルを使用するキャラクタの設定
-		//effole.model.Load("Model/effole/effole.fbx");
-		//effole.resource.Create(gfxDevice.GetDevice(), effole.model);
-		//effole.transform.SetPosition({ -100.0f, 0, 0 });
+		//Effoleモデルを使用するキャラクタの設定
+		effole.model.Load("Model/effole/effole.fbx");
+		effole.resource.Create(gfxDevice.GetDevice(), effole.model);
+		effole.transform.SetPosition({ -100.0f, 0, 0 });
 
 		//Aliciaモデルを使用するキャラクタの設定
 		radDoll.model.Load("Model/radDollV3.fbx");

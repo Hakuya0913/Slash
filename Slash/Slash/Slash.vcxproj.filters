@@ -73,7 +73,7 @@
     <Filter Include="C++Program\Animation\Resource">
       <UniqueIdentifier>{9da2da54-dee9-4b05-85ab-d06862a00c29}</UniqueIdentifier>
     </Filter>
-    <Filter Include="C++Program\Animation\Clip">
+    <Filter Include="C++Program\Animation\Player">
       <UniqueIdentifier>{83b04f6f-4fbd-4c48-9dd8-bee1967f62ab}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -123,8 +123,8 @@
     <ClCompile Include="C++Program\Animation\AnimationResource.cpp">
       <Filter>C++Program\Animation\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="C++Program\Animation\AnimationClip.cpp">
-      <Filter>C++Program\Animation\Clip</Filter>
+    <ClCompile Include="C++Program\Animation\AnimationPlayer.cpp">
+      <Filter>C++Program\Animation\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -188,8 +188,8 @@
     <ClInclude Include="C++Program\Animation\AnimationResource.h">
       <Filter>C++Program\Animation\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="C++Program\Animation\AnimationClip.h">
-      <Filter>C++Program\Animation\Clip</Filter>
+    <ClInclude Include="C++Program\Animation\AnimationPlayer.h">
+      <Filter>C++Program\Animation\Player</Filter>
     </ClInclude>
     <ClInclude Include="C++Program\Animation\AnimationStructure.h">
       <Filter>C++Program\Animation</Filter>
