@@ -44,10 +44,10 @@ void AnimationPlayer::Update(float deltaTime)
 		return;
 	}
 
-	//蜀咲函譎る俣譖ｴ譁ｰ
+	//再生時間更新
 	state.currentTime += deltaTime * clip->ticksPerSecond * state.playbackSpeed;
 
-	//繧｢繝九Γ繝ｼ繧ｷ繝ｧ繝ｳ邨ゆｺ�
+	//アニメーション終了
 	if (state.currentTime >= clip->duration)
 	{
 
@@ -331,5 +331,123 @@ Vector3 AnimationPlayer::EvaluateScale(const BoneAnimation& animation, float tim
 		nextValue,
 		factor
 	);
+
+}
+
+void AnimationPlayer::UpdateBoneTransforms()
+{
+
+	if (resource == nullptr)
+	{
+		return;
+	}
+
+	const AnimationClip* clip = GetCurrentAnimationClip();
+
+	if (clip == nullptr)
+	{
+		return;
+	}
+
+	const Skeleton& skeleton = resource->GetSkeleton();
+
+	if (boneTransforms.size() != skeleton.bones.size())
+	{
+
+		boneTransforms.resize(skeleton.bones.size());
+
+	}
+
+	for (size_t i = 0; i < skeleton.bones.size(); ++i)
+	{
+
+		const BoneInfo& bone = skeleton.bones[i];
+		const BoneAnimation* boneAnimation = nullptr;
+
+		for (const BoneAnimation& animation : clip->boneAnimations)
+		{
+
+			if (animation.boneName == bone.name)
+			{
+
+				boneAnimation = &animation;
+				break;
+
+			}
+
+		}
+
+		Matrix localTransform = Matrix::Identity;
+
+		if (boneAnimation != nullptr)
+		{
+
+			const Vector3 position = EvaluatePosition(*boneAnimation, state.currentTime);
+			const Quaternion rotation = EvaluateRotation(*boneAnimation, state.currentTime);
+			const Vector3 scale = EvaluateScale(*boneAnimation, state.currentTime);
+
+			localTransform = 
+				Matrix::CreateScale(scale) * 
+				Matrix::CreateFromQuaternion(rotation) * 
+				Matrix::CreateTranslation(position);
+
+		}
+
+		Matrix parentTransform = Matrix::Identity;
+
+		if (bone.parentIndex >= 0 &&
+			bone.parentIndex < static_cast<int32_t>(skeleton.bones.size()))
+		{
+
+			parentTransform = XMLoadFloat4x4(&boneTransforms[bone.parentIndex].transfrom);
+
+		}
+
+		const Matrix globalTransform = localTransform * parentTransform;
+
+		XMStoreFloat4x4(&boneTransforms[i].transfrom, globalTransform);
+
+	}
+
+}
+
+void AnimationPlayer::CalculateBoneTransform(int32_t boneIndex, const Matrix& parentTransform)
+{
+
+	if (resource == nullptr)
+	{
+		return;
+	}
+
+	const Skeleton& skeleton = resource->GetSkeleton();
+	const AnimationClip* clip = GetCurrentAnimationClip();
+
+	if (clip == nullptr)
+	{
+		return;
+	}
+
+	if (boneIndex < 0 ||
+		boneIndex >= static_cast<int32_t>(skeleton.bones.size()))
+	{
+		return;
+	}
+
+	const BoneInfo& bone = skeleton.bones[boneIndex];
+	Matrix localTransform = Matrix::Identity;
+
+	for (const BoneAnimation& animation : clip->boneAnimations)
+	{
+
+		if (animation.boneName != bone.name)
+		{
+			continue;
+		}
+
+		const Vector3 position = EvaluatePosition(animation, state.currentTime);
+		const Quaternion rotation = EvaluateRotation(animation, state.currentTime);
+		const Vector3 scale = EvaluatePosition(animation, state.currentTime);
+
+	}
 
 }
