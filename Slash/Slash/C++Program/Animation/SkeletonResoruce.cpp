@@ -23,3 +23,17 @@ void SkeletonResource::Release()
 	boneIndexMap.clear();
 
 }
+
+int32_t SkeletonResource::GetBoneIndex(const std::string& name) const
+{
+
+	const auto it = boneIndexMap.find(name);
+
+	if (it == boneIndexMap.end())
+	{
+		return -1;
+	}
+
+	return it->second;
+
+}

@@ -2,7 +2,7 @@
 
 /*
 
-Skeletonå›ºå®šã®ãƒªã‚½ãƒ¼ã‚¹ã‚’ä¿æŒã™ã‚‹
+SkeletonŒÅ’è‚ÌƒŠƒ\[ƒX‚ğ•Û‚·‚é
 
 */
 
@@ -18,7 +18,7 @@ public:
 	SkeletonResource() = default;
 	~SkeletonResource() = default;
 
-	//ä½œæˆãƒ»ç ´æ£„
+	//ì¬E”jŠü
 	void Create(const Skeleton& skeleton);
 	void Release();
 
@@ -31,7 +31,7 @@ public:
 
 private:
 
-	//Skeletonæœ¬ä½“
+	//Skeleton–{‘Ì
 	Skeleton skeleton;
 
 	std::unordered_map<std::string, int32_t> boneIndexMap;

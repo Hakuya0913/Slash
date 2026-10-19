@@ -153,6 +153,7 @@
     <ClCompile Include="C++Program\Animation\AnimationPlayer.cpp" />
     <ClCompile Include="C++Program\Animation\AnimationComponent.cpp" />
     <ClCompile Include="C++Program\Animation\AnimationResource.cpp" />
+    <ClCompile Include="C++Program\Animation\SkeletonComponent.cpp" />
     <ClCompile Include="C++Program\Animation\SkeletonResoruce.cpp" />
     <ClCompile Include="C++Program\App.cpp" />
     <ClCompile Include="C++Program\Component\Camera.cpp" />
@@ -173,6 +174,7 @@
     <ClInclude Include="C++Program\Animation\AnimationComponent.h" />
     <ClInclude Include="C++Program\Animation\AnimationResource.h" />
     <ClInclude Include="C++Program\Animation\AnimationStructure.h" />
+    <ClInclude Include="C++Program\Animation\SkeletonComponent.h" />
     <ClInclude Include="C++Program\Animation\SkeletonResource.h" />
     <ClInclude Include="C++Program\App.h" />
     <ClInclude Include="C++Program\Component\Camera.h" />
