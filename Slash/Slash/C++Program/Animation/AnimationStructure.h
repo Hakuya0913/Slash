@@ -114,6 +114,15 @@ struct AnimationBlendState
 struct BoneTransform
 {
 
-	DirectX::XMFLOAT4X4 transfrom;
+	DirectX::XMFLOAT4X4 transform;
+
+};
+
+//Skeleton‚ÌŒ»İ‚Ìp¨
+struct SkeletonPose
+{
+
+	//Šeƒ{[ƒ“‚ÌŒ»İ‚Ì•ÏŠ·
+	std::vector<BoneTransform> boneTransforms;
 
 };

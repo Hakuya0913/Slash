@@ -76,6 +76,9 @@
     <Filter Include="C++Program\Animation\Player">
       <UniqueIdentifier>{83b04f6f-4fbd-4c48-9dd8-bee1967f62ab}</UniqueIdentifier>
     </Filter>
+    <Filter Include="C++Program\Animation\Skeleton">
+      <UniqueIdentifier>{65ccacf4-854b-4545-8739-6bc500226a58}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C++Program\main.cpp">
@@ -125,6 +128,9 @@
     </ClCompile>
     <ClCompile Include="C++Program\Animation\AnimationPlayer.cpp">
       <Filter>C++Program\Animation\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="C++Program\Animation\SkeletonResoruce.cpp">
+      <Filter>C++Program\Animation\Skeleton</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -193,6 +199,9 @@
     </ClInclude>
     <ClInclude Include="C++Program\Animation\AnimationStructure.h">
       <Filter>C++Program\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="C++Program\Animation\SkeletonResource.h">
+      <Filter>C++Program\Animation\Skeleton</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
