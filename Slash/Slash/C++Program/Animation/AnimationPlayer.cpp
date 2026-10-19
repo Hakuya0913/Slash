@@ -334,6 +334,75 @@ Vector3 AnimationPlayer::EvaluateScale(const BoneAnimation& animation, float tim
 
 }
 
+size_t AnimationPlayer::FindPositionKeyIndex(const BoneAnimation& animation, float time) const
+{
+
+	if (animation.positionKeys.size() < 2)
+	{
+		return 0;
+	}
+
+	for (size_t i = 0; i < animation.positionKeys.size() - 1; ++i)
+	{
+
+		if (time < animation.positionKeys[i + 1].time)
+		{
+			return i;
+		}
+
+
+	}
+
+	return animation.positionKeys.size() - 1;
+
+}
+
+size_t AnimationPlayer::FindRotationKeyIndex(const BoneAnimation& animation, float time) const
+{
+
+	if (animation.rotationKeys.size() < 2)
+	{
+		return 0;
+	}
+
+	for (size_t i = 0; i < animation.rotationKeys.size() - 1; ++i)
+	{
+
+		if (time < animation.rotationKeys[i + 1].time)
+		{
+			return i;
+		}
+
+
+	}
+
+	return animation.rotationKeys.size() - 1;
+
+}
+
+size_t AnimationPlayer::FindScaleKeyIndex(const BoneAnimation& animation, float time) const
+{
+
+	if (animation.scaleKeys.size() < 2)
+	{
+		return 0;
+	}
+
+	for (size_t i = 0; i < animation.scaleKeys.size() - 1; ++i)
+	{
+
+		if (time < animation.scaleKeys[i + 1].time)
+		{
+			return i;
+		}
+
+
+	}
+
+	return animation.scaleKeys.size() - 1;
+
+}
+
 void AnimationPlayer::UpdateBoneTransforms()
 {
 
@@ -361,51 +430,12 @@ void AnimationPlayer::UpdateBoneTransforms()
 	for (size_t i = 0; i < skeleton.bones.size(); ++i)
 	{
 
-		const BoneInfo& bone = skeleton.bones[i];
-		const BoneAnimation* boneAnimation = nullptr;
-
-		for (const BoneAnimation& animation : clip->boneAnimations)
+		if (skeleton.bones[i].parentIndex == -1)
 		{
 
-			if (animation.boneName == bone.name)
-			{
-
-				boneAnimation = &animation;
-				break;
-
-			}
+			CalculateBoneTransform(static_cast<int32_t>(i), Matrix::Identity);
 
 		}
-
-		Matrix localTransform = Matrix::Identity;
-
-		if (boneAnimation != nullptr)
-		{
-
-			const Vector3 position = EvaluatePosition(*boneAnimation, state.currentTime);
-			const Quaternion rotation = EvaluateRotation(*boneAnimation, state.currentTime);
-			const Vector3 scale = EvaluateScale(*boneAnimation, state.currentTime);
-
-			localTransform = 
-				Matrix::CreateScale(scale) * 
-				Matrix::CreateFromQuaternion(rotation) * 
-				Matrix::CreateTranslation(position);
-
-		}
-
-		Matrix parentTransform = Matrix::Identity;
-
-		if (bone.parentIndex >= 0 &&
-			bone.parentIndex < static_cast<int32_t>(skeleton.bones.size()))
-		{
-
-			parentTransform = XMLoadFloat4x4(&boneTransforms[bone.parentIndex].transfrom);
-
-		}
-
-		const Matrix globalTransform = localTransform * parentTransform;
-
-		XMStoreFloat4x4(&boneTransforms[i].transfrom, globalTransform);
 
 	}
 
@@ -447,6 +477,32 @@ void AnimationPlayer::CalculateBoneTransform(int32_t boneIndex, const Matrix& pa
 		const Vector3 position = EvaluatePosition(animation, state.currentTime);
 		const Quaternion rotation = EvaluateRotation(animation, state.currentTime);
 		const Vector3 scale = EvaluatePosition(animation, state.currentTime);
+
+		localTransform =
+			Matrix::CreateScale(scale) *
+			Matrix::CreateFromQuaternion(rotation) *
+			Matrix::CreateTranslation(position);
+
+		break;
+
+	}
+
+	const Matrix globalTransform = localTransform * parentTransform;
+
+	XMStoreFloat4x4(
+		&boneTransforms[boneIndex].transfrom,
+		globalTransform
+	);
+
+	for (size_t i = 0; i < skeleton.bones.size(); ++i)
+	{
+
+		if (skeleton.bones[i].parentIndex == boneIndex)
+		{
+
+			CalculateBoneTransform(static_cast<int32_t>(i), globalTransform);
+
+		}
 
 	}
 
