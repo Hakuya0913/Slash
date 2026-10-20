@@ -23,7 +23,7 @@ void AnimationPlayer::Init(const AnimationResource* resource)
 	{
 
 		XMStoreFloat4x4(
-			&transform.transfrom,
+			&transform.transform,
 			XMMatrixIdentity()
 		);
 
@@ -97,14 +97,49 @@ void AnimationPlayer::Play(int32_t animationIndex, bool isLooping, float playbac
 void AnimationPlayer::Reset()
 {
 
-	state.currentTime = 0.0f;
+	state = AnimationState{};
 
-	if (state.currentAnimationIndex >= 0)
+	boneTransforms.clear();
+
+	if (resource == nullptr)
+	{
+		return;
+	}
+
+	const Skeleton& skeleton = resource->GetSkeleton();
+
+	boneTransforms.resize(skeleton.bones.size());
+
+
+	for (BoneTransform& transform : boneTransforms)
 	{
 
-		UpdateBoneTransforms();
+		XMStoreFloat4x4(
+			&transform.transform,
+			XMMatrixIdentity()
+		);
 
 	}
+
+}
+
+void AnimationPlayer::ReStart()
+{
+
+	if (resource == nullptr)
+	{
+		return;
+	}
+
+	if (state.currentAnimationIndex < 0)
+	{
+		return;
+	}
+
+	state.currentTime = 0.0f;
+	state.isPlaying = true;
+
+	UpdateBoneTransforms();
 
 }
 
@@ -270,7 +305,7 @@ Vector3 AnimationPlayer::EvaluateScale(const BoneAnimation& animation, float tim
 
 	if (animation.scaleKeys.empty() == true)
 	{
-		return Vector3::Zero;
+		return Vector3::One;
 	}
 
 	if (animation.scaleKeys.size() == 1)
@@ -476,7 +511,7 @@ void AnimationPlayer::CalculateBoneTransform(int32_t boneIndex, const Matrix& pa
 
 		const Vector3 position = EvaluatePosition(animation, state.currentTime);
 		const Quaternion rotation = EvaluateRotation(animation, state.currentTime);
-		const Vector3 scale = EvaluatePosition(animation, state.currentTime);
+		const Vector3 scale = EvaluateScale(animation, state.currentTime);
 
 		localTransform =
 			Matrix::CreateScale(scale) *
@@ -490,7 +525,7 @@ void AnimationPlayer::CalculateBoneTransform(int32_t boneIndex, const Matrix& pa
 	const Matrix globalTransform = localTransform * parentTransform;
 
 	XMStoreFloat4x4(
-		&boneTransforms[boneIndex].transfrom,
+		&boneTransforms[boneIndex].transform,
 		globalTransform
 	);
 

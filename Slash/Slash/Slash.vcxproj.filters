@@ -85,6 +85,9 @@
     <Filter Include="C++Program\Animation\Skeleton\Component">
       <UniqueIdentifier>{b4c29463-2a28-4ece-afb1-07950c0ba366}</UniqueIdentifier>
     </Filter>
+    <Filter Include="C++Program\Animation\Controller">
+      <UniqueIdentifier>{da3f76d7-cfac-48d9-96be-99822f3a6809}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C++Program\main.cpp">
@@ -140,6 +143,9 @@
     </ClCompile>
     <ClCompile Include="C++Program\Animation\SkeletonComponent.cpp">
       <Filter>C++Program\Animation\Skeleton\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="C++Program\Animation\AnimationController.cpp">
+      <Filter>C++Program\Animation\Controller</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -214,6 +220,9 @@
     </ClInclude>
     <ClInclude Include="C++Program\Animation\SkeletonComponent.h">
       <Filter>C++Program\Animation\Skeleton\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="C++Program\Animation\AnimationController.h">
+      <Filter>C++Program\Animation\Controller</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

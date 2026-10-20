@@ -27,7 +27,8 @@ public:
 	
 	void Play(int32_t animationIndex, bool isLooping = false, float playbackSpeed = 1.0f);
 	void Stop() { state.isPlaying = false; }
-	void Reset();
+	void Reset(); //I—¹E‰Šú‰»
+	void ReStart();	//Ä“xÄ¶
 
 	bool IsPlaying() const { return state.isPlaying; }
 	int32_t GetCurrentAnimationIndex() const { return state.currentAnimationIndex; }
