@@ -48,6 +48,18 @@ void AnimationController::Reset()
 
 }
 
+void AnimationController::ReStart()
+{
+
+	if (player == nullptr)
+	{
+		return;
+	}
+
+	player->ReStart();
+
+}
+
 bool AnimationController::IsPlaying() const
 {
 

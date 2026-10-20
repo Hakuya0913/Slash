@@ -2,7 +2,7 @@
 
 /*
 
-繧｢繝九Γ繝ｼ繧ｷ繝ｧ繝ｳ縺ｮ蜀咲函迥ｶ諷九ｒ邂｡逅�縺吶ｋ繧ｯ繝ｩ繧ｹ
+アニメーションの再生状態を管理するクラス
 
 */
 
@@ -24,13 +24,14 @@ public:
 	void Play(int32_t animationIndex, float playbackSpeed = 1.0f, bool isLoop = false);
 	void Stop();
 	void Reset();
+	void ReStart();
 
 	bool IsPlaying() const;
 	int32_t GetCurrentAnimationIndex() const;
 
 private:
 
-	//謇ｱ縺�AnimationPlayer
+	//扱うAnimationPlayer
 	AnimationPlayer* player = nullptr;
 
 };
