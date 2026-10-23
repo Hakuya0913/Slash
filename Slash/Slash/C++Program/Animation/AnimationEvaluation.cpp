@@ -5,19 +5,6 @@
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
 
-#pragma region このCPP内でのみ使用する関数プロトタイプ宣言
-
-//キーフレームの補完率計算
-float CalculateInterpolationFactor(float currentTime, float startTime, float endTime);
-
-//Transformの評価
-Vector3 EvaluatePosition(const BoneAnimation& animation, float time);
-Quaternion EvaluateRotation(const BoneAnimation& animation, float time);
-Vector3 EvaluateScale(const BoneAnimation& animation, float time);
-
-#pragma endregion
-
-
 SkeletonPose AnimationEvaluation::Evaluate(
 	const AnimationClip& clip,
 	const Skeleton& skeleton,
@@ -68,211 +55,235 @@ SkeletonPose AnimationEvaluation::Evaluate(
 		if (animation == nullptr)
 		{
 
+			//Identityを代入は暫定処理
+			//BindPoseがあればいれる
 			pose.boneTransforms[boneIndex].transform = Matrix::Identity;
 
 			continue;
 
 		}
 
-		pose.boneTransforms[boneIndex] =
+		pose.boneTransforms[boneIndex] = EvaluateSingleBone(*animation, evaluateTime);
+
+		return pose;
 
 	}
 
 }
 
-#pragma region このCPP内でのみ使用する関数定義
-
-//補完率計算
-float CalculateInterpolationFactor(float currentTime, float startTime, float endTime)
+//このCPPのみで使用する関数
+namespace
 {
 
-	float result;
-
-	const float duration = endTime - startTime;
-
-	if (duration <= 0.0f)
+	//補完率計算
+	float CalculateInterpolationFactor(float currentTime, float startTime, float endTime)
 	{
-		return 0.0f;
+
+		float result;
+
+		const float duration = endTime - startTime;
+
+		if (duration <= 0.0f)
+		{
+			return 0.0f;
+		}
+
+		result = std::clamp(
+			(currentTime - startTime) / duration,
+			0.0f, 1.0f
+		);
+
+		return result;
+
 	}
 
-	result = std::clamp(
-		(currentTime - startTime) / duration,
-		0.0f, 1.0f
-	);
-
-	return result;
-
-}
-
-//Position評価
-Vector3 EvaluatePosition(const BoneAnimation& animation, float time)
-{
-
-	const auto& keys = animation.positionKeys;
-
-	if (keys.empty() == true)
-	{
-		return Vector3::Zero;
-	}
-
-	if (keys.size() == 1)
-	{
-		return keys[0].value;
-	}
-
-	if (time <= keys.front().time)
-	{
-		return keys.front().value;
-	}
-
-	if (time >= keys.back().time)
-	{
-		return keys.back().value;
-	}
-
-	for (size_t i = 0; i < keys.size() - 1; ++i)
+	//Position評価
+	Vector3 EvaluatePosition(const BoneAnimation& animation, float time)
 	{
 
-		const auto& current = keys[i];
-		const auto& next = keys[i + 1];
+		const auto& keys = animation.positionKeys;
 
-		if (time >= current.time &&
-			time <= next.time)
+		if (keys.empty() == true)
+		{
+			return Vector3::Zero;
+		}
+
+		if (keys.size() == 1)
+		{
+			return keys[0].value;
+		}
+
+		if (time <= keys.front().time)
+		{
+			return keys.front().value;
+		}
+
+		if (time >= keys.back().time)
+		{
+			return keys.back().value;
+		}
+
+		for (size_t i = 0; i < keys.size() - 1; ++i)
 		{
 
-			const float factor = CalculateInterpolationFactor(
-				time, current.time, next.time
-			);
+			const auto& current = keys[i];
+			const auto& next = keys[i + 1];
 
-			Vector3 result;
+			if (time >= current.time &&
+				time <= next.time)
+			{
 
-			result = Vector3::Lerp(
-				current.value, next.value,
-				factor
-			);
+				const float factor = CalculateInterpolationFactor(
+					time, current.time, next.time
+				);
 
-			return result;
+				Vector3 result;
+
+				result = Vector3::Lerp(
+					current.value, next.value,
+					factor
+				);
+
+				return result;
+
+			}
 
 		}
 
-	}
-
-	return keys.back().value;
-
-}
-
-//Rotation評価
-Quaternion EvaluateRotation(const BoneAnimation& animation, float time)
-{
-
-	const auto& keys = animation.rotationKeys;
-
-	if (keys.empty() == true)
-	{
-		return Quaternion::Identity;
-	}
-
-	if (keys.size() == 1)
-	{
-		return keys[0].value;
-	}
-
-	if (time <= keys.front().time)
-	{
-		return keys.front().value;
-	}
-
-	if (time >= keys.back().time)
-	{
 		return keys.back().value;
+
 	}
 
-	for (size_t i = 0; i < keys.size() - 1; ++i)
+	//Rotation評価
+	Quaternion EvaluateRotation(const BoneAnimation& animation, float time)
 	{
 
-		const auto& current = keys[i];
-		const auto& next = keys[i + 1];
+		const auto& keys = animation.rotationKeys;
 
-		if (time >= current.time &&
-			time <= next.time)
+		if (keys.empty() == true)
+		{
+			return Quaternion::Identity;
+		}
+
+		if (keys.size() == 1)
+		{
+			return keys[0].value;
+		}
+
+		if (time <= keys.front().time)
+		{
+			return keys.front().value;
+		}
+
+		if (time >= keys.back().time)
+		{
+			return keys.back().value;
+		}
+
+		for (size_t i = 0; i < keys.size() - 1; ++i)
 		{
 
-			const float factor = CalculateInterpolationFactor(
-				time, current.time, next.time
-			);
+			const auto& current = keys[i];
+			const auto& next = keys[i + 1];
 
-			Quaternion result;
+			if (time >= current.time &&
+				time <= next.time)
+			{
 
-			Quaternion::Slerp(
-				current.value, next.value,
-				factor,
-				result
-			);
+				const float factor = CalculateInterpolationFactor(
+					time, current.time, next.time
+				);
 
-			return result;
+				Quaternion result;
+
+				Quaternion::Slerp(
+					current.value, next.value,
+					factor,
+					result
+				);
+
+				return result;
+
+			}
 
 		}
 
-	}
-
-	return keys.back().value;
-
-}
-
-Vector3 EvaluateScale(const BoneAnimation& animation, float time)
-{
-
-	const auto& keys = animation.scaleKeys;
-
-	if (keys.empty() == true)
-	{
-		return Vector3::One;
-	}
-
-	if (keys.size() == 1)
-	{
-		return keys[0].value;
-	}
-
-	if (time <= keys.front().time)
-	{
-		return keys.front().value;
-	}
-
-	if (time >= keys.back().time)
-	{
 		return keys.back().value;
+
 	}
 
-	for (size_t i = 0; i < keys.size() - 1; ++i)
+	Vector3 EvaluateScale(const BoneAnimation& animation, float time)
 	{
 
-		const auto& current = keys[i];
-		const auto& next = keys[i + 1];
+		const auto& keys = animation.scaleKeys;
 
-		if (time >= current.time &&
-			time <= next.time)
+		if (keys.empty() == true)
+		{
+			return Vector3::One;
+		}
+
+		if (keys.size() == 1)
+		{
+			return keys[0].value;
+		}
+
+		if (time <= keys.front().time)
+		{
+			return keys.front().value;
+		}
+
+		if (time >= keys.back().time)
+		{
+			return keys.back().value;
+		}
+
+		for (size_t i = 0; i < keys.size() - 1; ++i)
 		{
 
-			const float factor = CalculateInterpolationFactor(
-				time, current.time, next.time
-			);
+			const auto& current = keys[i];
+			const auto& next = keys[i + 1];
 
-			Vector3 result;
+			if (time >= current.time &&
+				time <= next.time)
+			{
 
-			result = Vector3::Lerp(
-				current.value, next.value,
-				factor
-			);
+				const float factor = CalculateInterpolationFactor(
+					time, current.time, next.time
+				);
 
-			return result;
+				Vector3 result;
+
+				result = Vector3::Lerp(
+					current.value, next.value,
+					factor
+				);
+
+				return result;
+
+			}
 
 		}
 
+		return keys.back().value;
+
 	}
 
-	return keys.back().value;
+	BoneTransform EvaluateSingleBone(const BoneAnimation& animation, float time)
+	{
+
+		const Vector3 position = EvaluatePosition(animation, time);
+		const Quaternion rotation = EvaluateRotation(animation, time);
+		const Vector3 scale = EvaluateScale(animation, time);
+
+		BoneTransform result;
+
+		result.transform =
+			Matrix::CreateScale(scale) *
+			Matrix::CreateFromQuaternion(rotation) *
+			Matrix::CreateTranslation(position);
+
+		return result;
+
+	}
 
 }
-
-#pragma endregion

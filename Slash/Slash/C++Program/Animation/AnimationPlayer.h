@@ -38,24 +38,8 @@ private:
 
 	const AnimationClip* GetCurrentAnimationClip() const;
 
-	//ボーンアニメーションからTransform取得
-	DirectX::SimpleMath::Vector3 EvaluatePosition(const BoneAnimation& animation, float time) const;
-	DirectX::SimpleMath::Quaternion EvaluateRotation(const BoneAnimation& animation, float time) const;
-	DirectX::SimpleMath::Vector3 EvaluateScale(const BoneAnimation& animation, float time) const;
-
-	//各種キーフレームの検索
-	size_t FindPositionKeyIndex(const BoneAnimation& animation, float time) const;
-	size_t FindRotationKeyIndex(const BoneAnimation& animation, float time) const;
-	size_t FindScaleKeyIndex(	const BoneAnimation& animation, float time) const;
-
 	//ローカルTransformからModel空間Transformを計算
 	void UpdateBoneTransforms();
-
-	//ボーン階層を考慮したTransform計算
-	void CalculateBoneTransform(
-		int32_t boneIndex, 
-		const DirectX::SimpleMath::Matrix& parentTransform
-	);
 
 	const AnimationResource* resource = nullptr;
 	AnimationState state;
