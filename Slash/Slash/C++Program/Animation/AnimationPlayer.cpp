@@ -1,4 +1,6 @@
 #include"AnimationPlayer.h"
+#include<cmath>
+#include"AnimationEvaluation.h"
 
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
@@ -8,7 +10,7 @@ void AnimationPlayer::Init(const AnimationResource* resource)
 
 	this->resource = resource;
 
-	boneTransforms.clear();
+	pose.boneTransforms.clear();
 
 	if (resource == nullptr)
 	{
@@ -17,9 +19,9 @@ void AnimationPlayer::Init(const AnimationResource* resource)
 
 	const Skeleton& skeleton = resource->GetSkeleton();
 
-	boneTransforms.resize(skeleton.bones.size());
+	pose.boneTransforms.resize(skeleton.bones.size());
 
-	for (BoneTransform& transform : boneTransforms)
+	for (BoneTransform& transform : pose.boneTransforms)
 	{
 
 		transform.transform = Matrix::Identity;
@@ -65,7 +67,7 @@ void AnimationPlayer::Update(float deltaTime)
 
 	}
 
-	UpdateBoneTransforms();
+	UpdatePose();
 
 }
 
@@ -90,6 +92,9 @@ void AnimationPlayer::Play(int32_t animationIndex, bool isLooping, float playbac
 	state.isPlaying = true;
 	state.isLooping = isLooping;
 
+	//ƒ‚[ƒVƒ‡ƒ“ŠJŽn’¼Œã‚ÌŽp¨‚ð‘¦À‚É”½‰f
+	UpdatePose();
+
 }
 
 void AnimationPlayer::Reset()
@@ -97,7 +102,7 @@ void AnimationPlayer::Reset()
 
 	state = AnimationState{};
 
-	boneTransforms.clear();
+	pose.boneTransforms.clear();
 
 	if (resource == nullptr)
 	{
@@ -106,16 +111,13 @@ void AnimationPlayer::Reset()
 
 	const Skeleton& skeleton = resource->GetSkeleton();
 
-	boneTransforms.resize(skeleton.bones.size());
+	pose.boneTransforms.resize(skeleton.bones.size());
 
 
-	for (BoneTransform& transform : boneTransforms)
+	for (BoneTransform& transform : pose.boneTransforms)
 	{
 
-		XMStoreFloat4x4(
-			&transform.transform,
-			XMMatrixIdentity()
-		);
+		transform.transform = Matrix::Identity;
 
 	}
 
@@ -137,7 +139,7 @@ void AnimationPlayer::ReStart()
 	state.currentTime = 0.0f;
 	state.isPlaying = true;
 
-	UpdateBoneTransforms();
+	UpdatePose();
 
 }
 
@@ -156,7 +158,7 @@ const AnimationClip* AnimationPlayer::GetCurrentAnimationClip() const
 
 }
 
-void AnimationPlayer::UpdateBoneTransforms()
+void AnimationPlayer::UpdatePose()
 {
 
 	if (resource == nullptr)
@@ -173,23 +175,6 @@ void AnimationPlayer::UpdateBoneTransforms()
 
 	const Skeleton& skeleton = resource->GetSkeleton();
 
-	if (boneTransforms.size() != skeleton.bones.size())
-	{
-
-		boneTransforms.resize(skeleton.bones.size());
-
-	}
-
-	for (size_t i = 0; i < skeleton.bones.size(); ++i)
-	{
-
-		if (skeleton.bones[i].parentIndex == -1)
-		{
-
-			CalculateBoneTransform(static_cast<int32_t>(i), Matrix::Identity);
-
-		}
-
-	}
+	pose = AnimationEvaluation::Evaluate(*clip, skeleton, state.currentTime);
 
 }

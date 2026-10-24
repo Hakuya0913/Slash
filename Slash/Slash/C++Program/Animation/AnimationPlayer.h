@@ -32,17 +32,17 @@ public:
 
 	bool IsPlaying() const { return state.isPlaying; }
 	int32_t GetCurrentAnimationIndex() const { return state.currentAnimationIndex; }
-	const std::vector<BoneTransform>& GetBoneTransforms() const { return boneTransforms; }
+	const SkeletonPose& GetPose() const { return pose; }
 
 private:
 
 	const AnimationClip* GetCurrentAnimationClip() const;
 
-	//ローカルTransformからModel空間Transformを計算
-	void UpdateBoneTransforms();
+	//現在時刻のPose計算
+	void UpdatePose();
 
 	const AnimationResource* resource = nullptr;
 	AnimationState state;
-	std::vector<BoneTransform> boneTransforms;
+	SkeletonPose pose;
 
 };

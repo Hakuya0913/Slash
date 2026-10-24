@@ -6,9 +6,8 @@
 
 */
 
-#include<string>
+#include<cstdint>
 #include"AnimationPlayer.h"
-#include"AnimationResource.h"
 
 class AnimationController
 {
@@ -21,7 +20,7 @@ public:
 
 	void Update(float deltaTime);
 
-	void Play(int32_t animationIndex, float playbackSpeed = 1.0f, bool isLoop = false);
+	void Play(int32_t animationIndex, bool isLoop = false, float playbackSpeed = 1.0f);
 	void Stop();
 	void Reset();
 	void ReStart();

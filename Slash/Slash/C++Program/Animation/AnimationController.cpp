@@ -12,7 +12,7 @@ void AnimationController::Update(float deltaTime)
 
 }
 
-void AnimationController::Play(int32_t animationIndex, float playbackSpeed, bool isLoop)
+void AnimationController::Play(int32_t animationIndex, bool isLoop, float playbackSpeed)
 {
 
 	if (player == nullptr)
