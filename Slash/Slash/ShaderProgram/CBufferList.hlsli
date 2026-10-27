@@ -21,3 +21,12 @@ cbuffer MaterialBuffer : register(b1)
     float emissiveStrength;
     
 }
+
+static const uint MaxSkinningBones = 128;
+
+cbuffer BoneBuffer : register(b2)
+{
+    
+    matrix boneMatrices[MaxSkinningBones];
+    
+}

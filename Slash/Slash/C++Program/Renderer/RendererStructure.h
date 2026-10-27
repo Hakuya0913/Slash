@@ -10,6 +10,7 @@ Rendererクラスで使用し、共通化できる構造体をまとめるファイル
 #include<directxtk/SimpleMath.h>
 #include<d3d11.h>
 #include<cstdint>
+#include<array>
 
 #include"../Utility/ComPtr.h"
 

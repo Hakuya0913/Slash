@@ -345,8 +345,6 @@ void ModelRenderer::UpdateMaterialBuffer(const Material& material)
 
 }
 
-
-
 void ModelRenderer::UpdateBoneBuffer(const ModelComponent& model, const Skeleton& skeleton, const SkeletonPose& pose)
 {
 
@@ -388,7 +386,7 @@ void ModelRenderer::UpdateBoneBuffer(const ModelComponent& model, const Skeleton
 		Matrix offsetMatrix = XMLoadFloat4x4(&modelBone.offsetMatrix);
 		Matrix finalMatrix = boneTransform * offsetMatrix;
 
-		boneData.boneMatrices[modelBoneIndex] = finalMatrix;
+		boneData.boneMatrices[modelBoneIndex] = finalMatrix.Transpose();
 
 	}
 
@@ -447,13 +445,11 @@ void ModelRenderer::Render(
 	context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	//•`‰æ‚Ì•K{—v‘fƒZƒbƒg
-	ID3D11Buffer* vertexConstantBuffers[] =
-	{
-		transformBuffer.Get(),
-		boneBuffer.Get()
-	};
+	ID3D11Buffer* transformConstantBuffer = transformBuffer.Get();
+	ID3D11Buffer* boneConstantBuffer = boneBuffer.Get();
 
-	context->VSSetConstantBuffers(0, std::size(vertexConstantBuffers), vertexConstantBuffers);
+	context->VSSetConstantBuffers(0, 1, &transformConstantBuffer);
+	context->VSSetConstantBuffers(2, 1, &boneConstantBuffer);
 	context->PSSetSamplers(0, 1, samplerState.GetAddressOf());
 	context->RSSetState(rasterizerState.Get());
 

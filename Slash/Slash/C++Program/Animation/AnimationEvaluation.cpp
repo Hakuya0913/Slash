@@ -5,89 +5,6 @@
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
 
-SkeletonPose AnimationEvaluation::Evaluate(
-	const AnimationClip& clip,
-	const Skeleton& skeleton,
-	float time
-)
-{
-
-	SkeletonPose pose;
-
-	pose.boneTransforms.resize(skeleton.bones.size());
-
-	//clipの時間内に収める
-	float evaluateTime = time;
-
-	if (clip.duration > 0.0f)
-	{
-
-		evaluateTime = std::clamp(
-			evaluateTime,
-			0.0f, clip.duration
-		);
-
-	}
-
-	//Skeletonにあるボーンを順に評価
-	for (size_t boneIndex = 0; boneIndex < skeleton.bones.size(); ++boneIndex)
-	{
-
-		const BoneInfo& bone = skeleton.bones[boneIndex];
-
-		const BoneAnimation* animation = nullptr;
-
-		//Bone名に対応するAnimation検索
-		for (const BoneAnimation& boneAnimation : clip.boneAnimations)
-		{
-
-			if (boneAnimation.boneName == bone.name)
-			{
-
-				animation = &boneAnimation;
-
-				break;
-
-			}
-
-		}
-
-		Matrix localTransform = Matrix::Identity;
-
-		if (animation != nullptr)
-		{
-
-			BoneTransform boneTransform;
-
-			boneTransform = EvaluateSingleBone(*animation, evaluateTime);
-
-			localTransform = boneTransform.transform;
-
-		}
-
-		//親ボーンがある場合親のTransformを適用
-		if (bone.parentIndex >= 0 &&
-			static_cast<size_t>(bone.parentIndex) < pose.boneTransforms.size())
-		{
-
-			const Matrix& parentTransform = pose.boneTransforms[bone.parentIndex].transform;
-
-			pose.boneTransforms[boneIndex].transform = parentTransform * localTransform;
-
-		}
-		else
-		{
-
-			pose.boneTransforms[boneIndex].transform = localTransform;
-
-		}
-
-	}
-
-	return pose;
-
-}
-
 //このCPPのみで使用する関数
 namespace
 {
@@ -288,9 +205,9 @@ namespace
 	BoneTransform EvaluateSingleBone(const BoneAnimation& animation, float time)
 	{
 
-		const Vector3	 position	= EvaluatePosition(animation, time);
-		const Quaternion rotation	= EvaluateRotation(animation, time);
-		const Vector3	 scale		= EvaluateScale(animation, time);
+		const Vector3	 position = EvaluatePosition(animation, time);
+		const Quaternion rotation = EvaluateRotation(animation, time);
+		const Vector3	 scale = EvaluateScale(animation, time);
 
 		BoneTransform result;
 
@@ -304,3 +221,88 @@ namespace
 	}
 
 }
+
+SkeletonPose AnimationEvaluation::Evaluate(
+	const AnimationClip& clip,
+	const Skeleton& skeleton,
+	float time
+)
+{
+
+	SkeletonPose pose;
+
+	pose.boneTransforms.resize(skeleton.bones.size());
+
+	//clipの時間内に収める
+	float evaluateTime = time;
+
+	if (clip.duration > 0.0f)
+	{
+
+		evaluateTime = std::clamp(
+			evaluateTime,
+			0.0f, clip.duration
+		);
+
+	}
+
+	//Skeletonにあるボーンを順に評価
+	for (size_t boneIndex = 0; boneIndex < skeleton.bones.size(); ++boneIndex)
+	{
+
+		const BoneInfo& bone = skeleton.bones[boneIndex];
+
+		const BoneAnimation* animation = nullptr;
+
+		//Bone名に対応するAnimation検索
+		for (const BoneAnimation& boneAnimation : clip.boneAnimations)
+		{
+
+			if (boneAnimation.boneName == bone.name)
+			{
+
+				animation = &boneAnimation;
+
+				break;
+
+			}
+
+		}
+
+		Matrix localTransform = Matrix::Identity;
+
+		if (animation != nullptr)
+		{
+
+			BoneTransform boneTransform;
+
+			boneTransform = EvaluateSingleBone(*animation, evaluateTime);
+
+			localTransform = boneTransform.transform;
+
+		}
+
+		//親ボーンがある場合親のTransformを適用
+		if (bone.parentIndex >= 0 &&
+			static_cast<size_t>(bone.parentIndex) < pose.boneTransforms.size())
+		{
+
+			const Matrix& parentTransform = pose.boneTransforms[bone.parentIndex].transform;
+
+			pose.boneTransforms[boneIndex].transform = parentTransform * localTransform;
+
+		}
+		else
+		{
+
+			pose.boneTransforms[boneIndex].transform = localTransform;
+
+		}
+
+	}
+
+	return pose;
+
+}
+
+

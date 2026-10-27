@@ -10,8 +10,6 @@
 App::App()
 {
 
-	
-
 }
 
 void App::Init() {
@@ -148,8 +146,11 @@ void App::Update() {
 			//camera.Update();
 			camera.Update();
 
-			modelRenderer.Render(radDoll.model, radDoll.resource, radDoll.transform);
-			modelRenderer.Render(effole.model, effole.resource, effole.transform);
+			Skeleton skeleton;
+			SkeletonPose skeletonPose;
+
+			modelRenderer.Render(radDoll.model, radDoll.resource, radDoll.transform, skeleton, skeletonPose);
+			modelRenderer.Render(effole.model, effole.resource, effole.transform, skeleton, skeletonPose);
 
 			gfxDevice.EndFrame();
 
