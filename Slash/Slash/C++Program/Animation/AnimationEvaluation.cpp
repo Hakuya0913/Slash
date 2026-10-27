@@ -52,22 +52,39 @@ SkeletonPose AnimationEvaluation::Evaluate(
 
 		}
 
-		if (animation == nullptr)
+		Matrix localTransform = Matrix::Identity;
+
+		if (animation != nullptr)
 		{
 
-			//Identityを代入は暫定処理
-			//BindPoseがあればいれる
-			pose.boneTransforms[boneIndex].transform = Matrix::Identity;
+			BoneTransform boneTransform;
 
-			continue;
+			boneTransform = EvaluateSingleBone(*animation, evaluateTime);
+
+			localTransform = boneTransform.transform;
 
 		}
 
-		pose.boneTransforms[boneIndex] = EvaluateSingleBone(*animation, evaluateTime);
+		//親ボーンがある場合親のTransformを適用
+		if (bone.parentIndex >= 0 &&
+			static_cast<size_t>(bone.parentIndex) < pose.boneTransforms.size())
+		{
 
-		return pose;
+			const Matrix& parentTransform = pose.boneTransforms[bone.parentIndex].transform;
+
+			pose.boneTransforms[boneIndex].transform = parentTransform * localTransform;
+
+		}
+		else
+		{
+
+			pose.boneTransforms[boneIndex].transform = localTransform;
+
+		}
 
 	}
+
+	return pose;
 
 }
 
@@ -271,9 +288,9 @@ namespace
 	BoneTransform EvaluateSingleBone(const BoneAnimation& animation, float time)
 	{
 
-		const Vector3 position = EvaluatePosition(animation, time);
-		const Quaternion rotation = EvaluateRotation(animation, time);
-		const Vector3 scale = EvaluateScale(animation, time);
+		const Vector3	 position	= EvaluatePosition(animation, time);
+		const Quaternion rotation	= EvaluateRotation(animation, time);
+		const Vector3	 scale		= EvaluateScale(animation, time);
 
 		BoneTransform result;
 

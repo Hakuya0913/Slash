@@ -84,10 +84,12 @@ bool ModelRenderer::Init(
 	D3D11_INPUT_ELEMENT_DESC inputElements[] =
 	{
 
-		{ "POSITION",	0, DXGI_FORMAT_R32G32B32_FLOAT, 0,  0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "NORMAL",		0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "TEXCOORD",	0, DXGI_FORMAT_R32G32_FLOAT,	0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "TANGENT",	0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 28, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+		{ "POSITION",	 0, DXGI_FORMAT_R32G32B32_FLOAT,	0,  offsetof(Vertex,position),		D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "NORMAL",		 0, DXGI_FORMAT_R32G32B32_FLOAT,	0,	offsetof(Vertex,normal),		D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "TEXCOORD",	 0, DXGI_FORMAT_R32G32_FLOAT,		0,	offsetof(Vertex,texCoord),		D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "TANGENT",	 0, DXGI_FORMAT_R32G32B32_FLOAT,	0,	offsetof(Vertex,tangent),		D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "BONEINDICES", 0, DXGI_FORMAT_R32G32B32A32_UINT,	0,	offsetof(Vertex,boneIndices),	D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "BONEWEIGHTS", 0, DXGI_FORMAT_R32G32B32A32_FLOAT,	0,	offsetof(Vertex,boneWeights),	D3D11_INPUT_PER_VERTEX_DATA, 0 }
 
 	};
 
@@ -198,6 +200,30 @@ bool ModelRenderer::CreateConstantBuffers()
 			&bufferDesc,
 			nullptr,
 			materialBuffer.GetAddressOf()
+		);
+
+		if (FAILED(hr))
+		{
+			return false;
+		}
+
+	}
+
+	//BoneData用の定数バッファ作成
+	{
+
+		D3D11_BUFFER_DESC bufferDesc{};
+		bufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+		bufferDesc.ByteWidth = sizeof(BoneData);
+		bufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+		bufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+
+		HRESULT hr;
+
+		hr = device->CreateBuffer(
+			&bufferDesc,
+			nullptr,
+			boneBuffer.GetAddressOf()
 		);
 
 		if (FAILED(hr))
@@ -319,10 +345,85 @@ void ModelRenderer::UpdateMaterialBuffer(const Material& material)
 
 }
 
+
+
+void ModelRenderer::UpdateBoneBuffer(const ModelComponent& model, const Skeleton& skeleton, const SkeletonPose& pose)
+{
+
+	boneData.boneMatrices.fill(Matrix::Identity);
+
+	const size_t poseBoneCount = pose.boneTransforms.size();
+
+	for (size_t modelBoneIndex = 0; modelBoneIndex < model.GetBoneCount(); ++modelBoneIndex)
+	{
+
+		if (modelBoneIndex >= BoneData::MaxSkinningBones)
+		{
+			break;
+		}
+
+		const Bone& modelBone = model.GetBone(modelBoneIndex);
+
+		size_t skeletonBoneIndex = skeleton.bones.size();
+
+		for (size_t i = 0; i < skeleton.bones.size(); ++i)
+		{
+
+			if (skeleton.bones[i].name == modelBone.name)
+			{
+
+				skeletonBoneIndex = i;
+				break;
+
+			}
+
+		}
+
+		if (skeletonBoneIndex >= skeleton.bones.size()) continue;
+		if (skeletonBoneIndex >= poseBoneCount)			continue;
+
+
+		const Matrix& boneTransform = pose.boneTransforms[skeletonBoneIndex].transform;
+
+		Matrix offsetMatrix = XMLoadFloat4x4(&modelBone.offsetMatrix);
+		Matrix finalMatrix = boneTransform * offsetMatrix;
+
+		boneData.boneMatrices[modelBoneIndex] = finalMatrix;
+
+	}
+
+	HRESULT hr;
+	D3D11_MAPPED_SUBRESOURCE mappedResource{};
+
+	hr = context->Map(
+		boneBuffer.Get(),
+		0,
+		D3D11_MAP_WRITE_DISCARD,
+		0,
+		&mappedResource
+	);
+
+	if (FAILED(hr))
+	{
+		return;
+	}
+
+	std::memcpy(
+		mappedResource.pData,
+		&boneData,
+		sizeof(BoneData)
+	);
+
+	context->Unmap(boneBuffer.Get(), 0);
+
+}
+
 void ModelRenderer::Render(
 	const ModelComponent& model,
 	const ModelResource& resource,
-	const TransformComponent& transform
+	const TransformComponent& transform,
+	const Skeleton& skeleton,
+	const SkeletonPose& pose
 )
 {
 
@@ -337,6 +438,7 @@ void ModelRenderer::Render(
 	}
 
 	UpdateTransformBuffer(transform);
+	UpdateBoneBuffer(model, skeleton, pose);
 
 	//描画の必須要素セット
 	context->VSSetShader(vertexShader.Get(), nullptr, 0);
@@ -345,7 +447,13 @@ void ModelRenderer::Render(
 	context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	//描画の必須要素セット
-	context->VSSetConstantBuffers(0, 1, transformBuffer.GetAddressOf());
+	ID3D11Buffer* vertexConstantBuffers[] =
+	{
+		transformBuffer.Get(),
+		boneBuffer.Get()
+	};
+
+	context->VSSetConstantBuffers(0, std::size(vertexConstantBuffers), vertexConstantBuffers);
 	context->PSSetSamplers(0, 1, samplerState.GetAddressOf());
 	context->RSSetState(rasterizerState.Get());
 

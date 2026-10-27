@@ -17,6 +17,7 @@ FBXモデルを表示する
 #include"../Model/ModelComponent.h"
 #include"../Component/TransformComponent.h"
 #include"../Model/ModelResource.h"
+#include"../Animation/AnimationStructure.h"
 
 class ModelRenderer
 {
@@ -30,7 +31,9 @@ public:
 	void Render(
 		const ModelComponent& model,
 		const ModelResource& resource,
-		const TransformComponent& transform
+		const TransformComponent& transform,
+		const Skeleton& skeleton,
+		const SkeletonPose& pose
 	);
 
 private:
@@ -45,6 +48,7 @@ private:
 	//更新処理
 	void UpdateTransformBuffer(const TransformComponent& transform);
 	void UpdateMaterialBuffer(const Material& material);
+	void UpdateBoneBuffer(const ModelComponent& model, const Skeleton& skeleton, const SkeletonPose& pose);
 
 	//DX11Object
 	ComPtr<ID3D11Device> device;
@@ -56,9 +60,11 @@ private:
 	//定数バッファ
 	ComPtr<ID3D11Buffer> transformBuffer;
 	ComPtr<ID3D11Buffer> materialBuffer;
+	ComPtr<ID3D11Buffer> boneBuffer;
 
 	TransformData transformData{};
 	MaterialData materialData{};
+	BoneData boneData{};
 
 	//Shader
 	ComPtr<ID3D11VertexShader> vertexShader;

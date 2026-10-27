@@ -57,3 +57,12 @@ struct MaterialData
 	float emissiveStrength = 1.0f;
 
 };
+
+struct BoneData
+{
+
+	static constexpr uint32_t MaxSkinningBones = 128;
+
+	std::array<DirectX::XMFLOAT4X4, MaxSkinningBones> boneMatrices;
+
+};

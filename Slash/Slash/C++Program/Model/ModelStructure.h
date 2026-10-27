@@ -12,6 +12,10 @@ struct Vertex
 	DirectX::XMFLOAT3 normal{};		//法線
 	DirectX::XMFLOAT2 texCoord{};	//テクスチャ座標
 	DirectX::XMFLOAT3 tangent{};	//接線(normalMap用)
+
+	uint32_t boneIndices[4]{};
+	float boneWeights[4]{};
+
 };
 
 struct BoneWeight

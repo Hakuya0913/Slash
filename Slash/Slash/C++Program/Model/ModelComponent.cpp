@@ -263,7 +263,7 @@ bool ModelComponent::LoadMesh(const aiMesh* mesh)
 bool ModelComponent::LoadBones(const aiMesh* mesh, Mesh& result)
 {
 
-	if (!mesh)
+	if (mesh == nullptr)
 	{
 		return false;
 	}
@@ -386,6 +386,22 @@ bool ModelComponent::LoadBones(const aiMesh* mesh, Mesh& result)
 				}
 
 			}
+
+		}
+
+	}
+
+	for (size_t vertexIndex = 0; vertexIndex < result.vertices.size(); ++vertexIndex)
+	{
+
+		for (size_t influenceIndex = 0; influenceIndex < Mesh::MaxBoneInfluences; ++influenceIndex)
+		{
+
+			result.vertices[vertexIndex].boneIndices[influenceIndex] =
+				result.boneWeights[vertexIndex][influenceIndex].boneIndex;
+
+			result.vertices[vertexIndex].boneWeights[influenceIndex] =
+				result.boneWeights[vertexIndex][influenceIndex].weight;
 
 		}
 
