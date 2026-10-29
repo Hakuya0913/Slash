@@ -12,6 +12,7 @@
 #include<string>
 #include<assimp/scene.h>
 #include"ModelStructure.h"
+#include"../Animation/AnimationStructure.h"
 
 class ModelComponent
 {
@@ -39,6 +40,9 @@ public:
 			size_t			 GetEmbeddedTextureCount()		  const { return embeddedTextures.size(); }
 	const	EmbeddedTexture& GetEmbeddedTexture(size_t index) const { return embeddedTextures.at(index); }
 	
+	const	Skeleton& GetSkeleton() const { return skeleton; }
+	bool	HasSkeleton() const { return skeleton.bones.empty() == false; }
+
 private:
 
 	//Assimpを使用した各ロード処理
@@ -50,6 +54,8 @@ private:
 	bool LoadMaterials(const aiScene* scene);
 	bool LoadMaterial(const aiScene* scene, const aiMaterial* material);
 	bool LoadEmbeddedTextures(const aiScene* scene);
+
+	void CreateSkeleton();
 
 	TextureReference GetTextureReference(const aiScene* scene, const aiMaterial* material, aiTextureType type);
 
@@ -63,5 +69,7 @@ private:
 
 	std::vector<Material>		 materials;
 	std::vector<EmbeddedTexture> embeddedTextures;
+
+	Skeleton skeleton;
 
 };
