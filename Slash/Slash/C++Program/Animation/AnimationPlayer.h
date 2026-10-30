@@ -21,7 +21,7 @@ public:
 	AnimationPlayer() = default;
 	~AnimationPlayer() = default;
 
-	void Init(const AnimationResource* resource);
+	void Init(const AnimationResource* resource, const Skeleton* skeleton);
 
 	void Update(float deltaTime);
 	
@@ -42,6 +42,8 @@ private:
 	void UpdatePose();
 
 	const AnimationResource* resource = nullptr;
+	const Skeleton* skeleton = nullptr;
+
 	AnimationState state;
 	SkeletonPose pose;
 

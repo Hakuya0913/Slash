@@ -80,6 +80,8 @@ bool ModelComponent::LoadScene(const aiScene* scene)
 		return false;
 	}
 
+	CreateSkeleton();
+
 	return true;
 
 }
@@ -805,6 +807,33 @@ bool ModelComponent::LoadMaterial(const aiScene* scene, const aiMaterial* materi
 	materials.emplace_back(std::move(result));
 
 	return true;
+
+}
+
+void ModelComponent::CreateSkeleton()
+{
+
+	skeleton.bones.clear();
+	skeleton.bones.reserve(bones.size());
+
+	for (const Bone& bone : bones)
+	{
+
+		BoneInfo boneInfo;
+
+		boneInfo.name = bone.name;
+		boneInfo.offsetMatrix = bone.offsetMatrix;
+
+		if (bone.nodeIndex < nodes.size())
+		{
+
+			boneInfo.parentIndex = nodes[bone.nodeIndex].parentIndex;
+
+		}
+
+		skeleton.bones.emplace_back(boneInfo);
+
+	}
 
 }
 

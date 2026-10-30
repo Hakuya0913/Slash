@@ -5,10 +5,11 @@
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
 
-void AnimationPlayer::Init(const AnimationResource* resource)
+void AnimationPlayer::Init(const AnimationResource* resource, const Skeleton* skeleton)
 {
 
 	this->resource = resource;
+	this->skeleton = skeleton;
 
 	pose.boneTransforms.clear();
 
@@ -17,9 +18,7 @@ void AnimationPlayer::Init(const AnimationResource* resource)
 		return;
 	}
 
-	const Skeleton& skeleton = resource->GetSkeleton();
-
-	pose.boneTransforms.resize(skeleton.bones.size());
+	pose.boneTransforms.resize(skeleton->bones.size());
 
 	for (BoneTransform& transform : pose.boneTransforms)
 	{

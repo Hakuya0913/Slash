@@ -3,7 +3,6 @@
 void AnimationResource::Create(const Skeleton& skeleton, const std::vector<AnimationClip>& animationClip)
 {
 
-	this->skeleton = skeleton;
 	this->animationClips = animationClip;
 
 }
@@ -11,7 +10,6 @@ void AnimationResource::Create(const Skeleton& skeleton, const std::vector<Anima
 void AnimationResource::Release()
 {
 
-	skeleton.bones.clear();
 	animationClips.clear();
 
 }
