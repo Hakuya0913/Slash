@@ -823,11 +823,30 @@ void ModelComponent::CreateSkeleton()
 
 		boneInfo.name = bone.name;
 		boneInfo.offsetMatrix = bone.offsetMatrix;
+		boneInfo.parentIndex = -1;
 
 		if (bone.nodeIndex < nodes.size())
 		{
 
-			boneInfo.parentIndex = nodes[bone.nodeIndex].parentIndex;
+			const int32_t parentNodeIndex = nodes[bone.nodeIndex].parentIndex;
+
+			if (parentNodeIndex >= 0)
+			{
+
+				for (size_t i = 0; i < bones.size(); ++i)
+				{
+
+					if (bones[i].nodeIndex == parentNodeIndex)
+					{
+
+						boneInfo.parentIndex = i;
+						break;
+
+					}
+
+				}
+
+			}
 
 		}
 
