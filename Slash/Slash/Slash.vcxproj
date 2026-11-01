@@ -152,6 +152,7 @@
   <ItemGroup>
     <ClCompile Include="C++Program\Animation\AnimationController.cpp" />
     <ClCompile Include="C++Program\Animation\AnimationEvaluation.cpp" />
+    <ClCompile Include="C++Program\Animation\AnimationLoader.cpp" />
     <ClCompile Include="C++Program\Animation\AnimationPlayer.cpp" />
     <ClCompile Include="C++Program\Animation\AnimationComponent.cpp" />
     <ClCompile Include="C++Program\Animation\AnimationResource.cpp" />
@@ -173,6 +174,7 @@
   <ItemGroup>
     <ClInclude Include="C++Program\Animation\AnimationController.h" />
     <ClInclude Include="C++Program\Animation\AnimationEvaluation.h" />
+    <ClInclude Include="C++Program\Animation\AnimationLoader.h" />
     <ClInclude Include="C++Program\Animation\AnimationPlayer.h" />
     <ClInclude Include="C++Program\Animation\AnimationComponent.h" />
     <ClInclude Include="C++Program\Animation\AnimationResource.h" />

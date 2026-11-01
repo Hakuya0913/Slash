@@ -88,6 +88,9 @@
     <Filter Include="C++Program\Animation\Evaluation">
       <UniqueIdentifier>{c24ade47-aa2c-4817-918a-85e11160e5d3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="C++Program\Animation\Loader">
+      <UniqueIdentifier>{e4e7a5f2-7b6e-4394-8a6c-b58a07f9fc58}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C++Program\main.cpp">
@@ -146,6 +149,9 @@
     </ClCompile>
     <ClCompile Include="C++Program\Animation\AnimationEvaluation.cpp">
       <Filter>C++Program\Animation\Evaluation</Filter>
+    </ClCompile>
+    <ClCompile Include="C++Program\Animation\AnimationLoader.cpp">
+      <Filter>C++Program\Animation\Loader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -223,6 +229,9 @@
     </ClInclude>
     <ClInclude Include="C++Program\Animation\AnimationEvaluation.h">
       <Filter>C++Program\Animation\Evaluation</Filter>
+    </ClInclude>
+    <ClInclude Include="C++Program\Animation\AnimationLoader.h">
+      <Filter>C++Program\Animation\Loader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

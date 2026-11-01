@@ -32,8 +32,15 @@ void AnimationPlayer::Init(const AnimationResource* resource, const Skeleton* sk
 void AnimationPlayer::Update(float deltaTime)
 {
 
-	if (resource == nullptr) return;
-	if (state.isPlaying == false) return;
+	if (resource == nullptr || skeleton == nullptr)
+	{
+		return;
+	}
+
+	if (state.isPlaying == false)
+	{
+		return;
+	}
 
 	const AnimationClip* clip = GetCurrentAnimationClip();
 
@@ -73,13 +80,13 @@ void AnimationPlayer::Update(float deltaTime)
 void AnimationPlayer::Play(int32_t animationIndex, bool isLooping, float playbackSpeed)
 {
 
-	if (resource == nullptr)
+	if (resource == nullptr || skeleton == nullptr)
 	{
 		return;
 	}
 
 	if (animationIndex < 0 || 
-		animationIndex >= static_cast<int32_t>(resource->GetAnimationClipCount())
+		animationIndex >= resource->GetAnimationClipCount()
 	)
 	{
 		return;
@@ -108,10 +115,7 @@ void AnimationPlayer::Reset()
 		return;
 	}
 
-	const Skeleton& skeleton = resource->GetSkeleton();
-
-	pose.boneTransforms.resize(skeleton.bones.size());
-
+	pose.boneTransforms.resize(skeleton->bones.size());
 
 	for (BoneTransform& transform : pose.boneTransforms)
 	{
@@ -160,7 +164,7 @@ const AnimationClip* AnimationPlayer::GetCurrentAnimationClip() const
 void AnimationPlayer::UpdatePose()
 {
 
-	if (resource == nullptr)
+	if (resource == nullptr || skeleton == nullptr)
 	{
 		return;
 	}
@@ -172,8 +176,6 @@ void AnimationPlayer::UpdatePose()
 		return;
 	}
 
-	const Skeleton& skeleton = resource->GetSkeleton();
-
-	pose = AnimationEvaluation::Evaluate(*clip, skeleton, state.currentTime);
+	pose = AnimationEvaluation::Evaluate(*clip, *skeleton, state.currentTime);
 
 }

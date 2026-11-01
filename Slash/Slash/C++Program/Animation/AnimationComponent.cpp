@@ -1,14 +1,15 @@
 #include"AnimationComponent.h"
 
-void AnimationComponent::Init(AnimationResource* resource)
+void AnimationComponent::Init(const AnimationResource* resource, const Skeleton* skeleton)
 {
 
 	this->resource = resource;
 
-	player.Init(resource);
-	skeleton.SetResource(resource);
+	player.Init(resource, skeleton);
 
 	controller.Init(&player);
+
+	this->skeleton.SetPose(player.GetPose());
 
 }
 

@@ -19,7 +19,7 @@ public:
 	AnimationComponent() = default;
 	~AnimationComponent() = default;
 
-	void Init(AnimationResource* resource);
+	void Init(const AnimationResource* resource, const Skeleton* skeleton);
 
 	void Update(float deltaTime);
 
