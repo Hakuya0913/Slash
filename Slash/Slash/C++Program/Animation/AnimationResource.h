@@ -18,7 +18,7 @@ public:
 	AnimationResource() = default;
 	~AnimationResource() = default;
 
-	void Create(const Skeleton& skeleton, const std::vector<AnimationClip>& animationClip);
+	void Create(const std::vector<AnimationClip>& animationClip);
 	void Release();
 	
 	bool IsValid() { return animationClips.empty() != false; }

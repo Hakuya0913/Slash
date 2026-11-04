@@ -136,13 +136,74 @@ namespace
 		result.rotationKeys.reserve(channel->mNumRotationKeys);
 		result.scaleKeys.reserve(channel->mNumScalingKeys);
 
+		for (size_t i = 0; i < channel->mNumPositionKeys; ++i)
+		{
+			const aiVectorKey& key = channel->mPositionKeys[i];
+			
+			PositionKey positionKey;
+			positionKey.time = key.mTime;
+			positionKey.value = ConvertFLOAT3(key.mValue);
 
+			result.positionKeys.emplace_back(positionKey);
+
+		}
+
+		for (size_t i = 0; i < channel->mNumRotationKeys; ++i)
+		{
+		
+			const aiQuatKey& key = channel->mRotationKeys[i];
+			
+			RotationKey rotationKey;
+			rotationKey.time = key.mTime;
+			rotationKey.value = ConvertQuaternion(key.mValue);
+			
+			result.rotationKeys.emplace_back(rotationKey);
+
+		}
+
+		for (size_t i = 0; i < channel->mNumScalingKeys; ++i)
+		{
+
+			const aiVectorKey& key = channel->mScalingKeys[i];
+
+			ScaleKey scaleKey;
+			scaleKey.time = key.mTime;
+			scaleKey.value = ConvertFLOAT3(key.mValue);
+
+			result.scaleKeys.emplace_back(scaleKey);
+
+		}
+
+		return true;
 
 	}
 
-	XMFLOAT3 ConvertFLOAT3(const aiVector3D& vector);
+	XMFLOAT3 ConvertFLOAT3(const aiVector3D& vector)
+	{
 
-	Quaternion ConvertQuaternion(const aiQuaternion& quaternion); 
+		XMFLOAT3 result;
+
+		result.x = vector.x;
+		result.y = vector.y;
+		result.z = vector.z;
+
+		return result;
+
+	}
+
+	Quaternion ConvertQuaternion(const aiQuaternion& quaternion)
+	{
+
+		Quaternion result;
+
+		result.x = quaternion.x;
+		result.y = quaternion.y;
+		result.z = quaternion.z;
+		result.w = quaternion.w;
+
+		return result;
+
+	}
 
 }
 

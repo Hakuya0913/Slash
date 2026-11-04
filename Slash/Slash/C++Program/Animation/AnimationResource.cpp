@@ -1,6 +1,6 @@
 #include"AnimationResource.h"
 
-void AnimationResource::Create(const Skeleton& skeleton, const std::vector<AnimationClip>& animationClip)
+void AnimationResource::Create(const std::vector<AnimationClip>& animationClip)
 {
 
 	this->animationClips = animationClip;
