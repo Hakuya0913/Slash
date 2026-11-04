@@ -9,60 +9,30 @@ using namespace DirectX::SimpleMath;
 namespace
 {
 
-	bool LoadScene(const aiScene* scene, AnimationResource& resource)
+	XMFLOAT3 ConvertFLOAT3(const aiVector3D& vector)
 	{
 
-		if (scene == nullptr)
-		{
-			return false;
-		}
+		XMFLOAT3 result;
 
-		std::vector<AnimationClip> animationClips;
+		result.x = vector.x;
+		result.y = vector.y;
+		result.z = vector.z;
 
-		if (!LoadAnimationClips(scene, animationClips) == false)
-		{
-			return false;
-		}
-
-		resource.Create(animationClips);
-
-		return resource.IsValid();
+		return result;
 
 	}
 
-	bool LoadAnimationClips(const aiScene* scene, std::vector<AnimationClip>& animationClips)
+	Quaternion ConvertQuaternion(const aiQuaternion& quaternion)
 	{
 
-		if (scene == nullptr)
-		{
-			return false;
-		}
+		Quaternion result;
 
-		animationClips.clear();
-		animationClips.reserve(scene->mNumAnimations);
+		result.x = quaternion.x;
+		result.y = quaternion.y;
+		result.z = quaternion.z;
+		result.w = quaternion.w;
 
-		for (size_t i = 0; i < scene->mNumAnimations; ++i)
-		{
-
-			const aiAnimation* animation = scene->mAnimations[i];
-
-			if (animation == nullptr)
-			{
-				continue;
-			}
-
-			AnimationClip result;
-
-			if (LoadAnimationClip(animation, result) == false)
-			{
-				return false;
-			}
-
-			animationClips.emplace_back(result);
-			
-		}
-
-		return animationClips.empty() == false;
+		return result;
 
 	}
 
@@ -118,6 +88,42 @@ namespace
 
 	}
 
+	bool LoadAnimationClips(const aiScene* scene, std::vector<AnimationClip>& animationClips)
+	{
+
+		if (scene == nullptr)
+		{
+			return false;
+		}
+
+		animationClips.clear();
+		animationClips.reserve(scene->mNumAnimations);
+
+		for (size_t i = 0; i < scene->mNumAnimations; ++i)
+		{
+
+			const aiAnimation* animation = scene->mAnimations[i];
+
+			if (animation == nullptr)
+			{
+				continue;
+			}
+
+			AnimationClip result;
+
+			if (LoadAnimationClip(animation, result) == false)
+			{
+				return false;
+			}
+
+			animationClips.emplace_back(result);
+			
+		}
+
+		return animationClips.empty() == false;
+
+	}
+
 	bool LoadBoneAnimation(const aiNodeAnim* channel, BoneAnimation& result)
 	{
 
@@ -127,7 +133,7 @@ namespace
 		}
 
 		result.boneName = channel->mNodeName.C_Str();
-		
+
 		result.positionKeys.clear();
 		result.rotationKeys.clear();
 		result.scaleKeys.clear();
@@ -139,7 +145,7 @@ namespace
 		for (size_t i = 0; i < channel->mNumPositionKeys; ++i)
 		{
 			const aiVectorKey& key = channel->mPositionKeys[i];
-			
+
 			PositionKey positionKey;
 			positionKey.time = key.mTime;
 			positionKey.value = ConvertFLOAT3(key.mValue);
@@ -150,13 +156,13 @@ namespace
 
 		for (size_t i = 0; i < channel->mNumRotationKeys; ++i)
 		{
-		
+
 			const aiQuatKey& key = channel->mRotationKeys[i];
-			
+
 			RotationKey rotationKey;
 			rotationKey.time = key.mTime;
 			rotationKey.value = ConvertQuaternion(key.mValue);
-			
+
 			result.rotationKeys.emplace_back(rotationKey);
 
 		}
@@ -178,30 +184,24 @@ namespace
 
 	}
 
-	XMFLOAT3 ConvertFLOAT3(const aiVector3D& vector)
+	bool LoadScene(const aiScene* scene, AnimationResource& resource)
 	{
 
-		XMFLOAT3 result;
+		if (scene == nullptr)
+		{
+			return false;
+		}
 
-		result.x = vector.x;
-		result.y = vector.y;
-		result.z = vector.z;
+		std::vector<AnimationClip> animationClips;
 
-		return result;
+		if (!LoadAnimationClips(scene, animationClips) == false)
+		{
+			return false;
+		}
 
-	}
+		resource.Create(animationClips);
 
-	Quaternion ConvertQuaternion(const aiQuaternion& quaternion)
-	{
-
-		Quaternion result;
-
-		result.x = quaternion.x;
-		result.y = quaternion.y;
-		result.z = quaternion.z;
-		result.w = quaternion.w;
-
-		return result;
+		return resource.IsValid();
 
 	}
 
