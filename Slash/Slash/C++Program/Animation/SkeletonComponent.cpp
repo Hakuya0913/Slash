@@ -9,7 +9,7 @@ void SkeletonComponent::Release()
 
 }
 
-void SkeletonComponent::SetResource(const AnimationResource* resource)
+void SkeletonComponent::SetResource(const AnimationResource* resource, const Skeleton& skeleton)
 {
 
 	this->resource = resource;
@@ -20,8 +20,6 @@ void SkeletonComponent::SetResource(const AnimationResource* resource)
 	{
 		return;
 	}
-
-	const Skeleton& skeleton = resource->GetSkeleton();
 
 	pose.boneTransforms.resize(skeleton.bones.size());
 

@@ -25,7 +25,7 @@ public:
 	void Release();
 
 	//Setter
-	void SetResource(const AnimationResource* resource);			//使用するAnimationResource設定
+	void SetResource(const AnimationResource* resource, const Skeleton& skeleton);	//使用するAnimationResource・Skeleton設定
 	void SetPose(const SkeletonPose& pose) { this->pose = pose; }	//Skeletonの現在の姿勢を設定
 
 	//Getter
