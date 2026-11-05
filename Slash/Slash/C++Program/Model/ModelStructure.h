@@ -8,10 +8,10 @@
 
 struct Vertex
 {
-	DirectX::XMFLOAT3 position{};	//é ‚ç‚¹
-	DirectX::XMFLOAT3 normal{};		//æ³•ç·š
-	DirectX::XMFLOAT2 texCoord{};	//ãƒ†ã‚¯ã‚¹ãƒãƒ£åº§æ¨™
-	DirectX::XMFLOAT3 tangent{};	//æ¥ç·š(normalMapç”¨)
+	DirectX::XMFLOAT3 position{};	//’¸“_
+	DirectX::XMFLOAT3 normal{};		//–@ü
+	DirectX::XMFLOAT2 texCoord{};	//ƒeƒNƒXƒ`ƒƒÀ•W
+	DirectX::XMFLOAT3 tangent{};	//Úü(normalMap—p)
 
 	uint32_t boneIndices[4]{};
 	float boneWeights[4]{};
@@ -22,7 +22,7 @@ struct BoneWeight
 {
 
 	uint32_t boneIndex = 0;
-	float weight = 0.0f;	//ãƒœãƒ¼ãƒ³ã®å½±éŸ¿åº¦
+	float weight = 0.0f;	//ƒ{[ƒ“‚Ì‰e‹¿“x
 
 };
 
@@ -31,10 +31,10 @@ struct Bone
 
 	std::string name;
 
-	//Nodeé…åˆ—ä¸Šã§ã®Boneã®ä½ç½®
+	//Node”z—ñã‚Å‚ÌBone‚ÌˆÊ’u
 	uint32_t nodeIndex = 0;
 
-	//Meshç©ºé–“ -> Boneç©ºé–“
+	//Mesh‹óŠÔ -> Bone‹óŠÔ
 	DirectX::XMFLOAT4X4 offsetMatrix =
 	{
 		1.0f, 0.0f, 0.0f, 0.0f,
@@ -55,11 +55,11 @@ struct Mesh
 	std::vector<Vertex>		vertices;
 	std::vector<uint32_t>	indices;
 
-	//å„é ‚ç‚¹ãŒå½±éŸ¿ã‚’å—ã‘ã‚‹Bone
+	//Še’¸“_‚ª‰e‹¿‚ğó‚¯‚éBone
 	std::vector<std::array<BoneWeight, MaxBoneInfluences>> boneWeights;
 
-	std::vector<uint32_t> boneIndices;	//ã“ã®Meshã§ä½¿ç”¨ã™ã‚‹Boneã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
-	uint32_t materialIndex = 0;			//ã“ã®Meshã§ä½¿ç”¨ã™ã‚‹ãƒãƒ†ãƒªã‚¢ãƒ«
+	std::vector<uint32_t> boneIndices;	//‚±‚ÌMesh‚Åg—p‚·‚éBoneƒCƒ“ƒfƒbƒNƒX
+	uint32_t materialIndex = 0;			//‚±‚ÌMesh‚Åg—p‚·‚éƒ}ƒeƒŠƒAƒ‹
 
 };
 
@@ -82,7 +82,7 @@ struct Node
 
 };
 
-//Textureã®ç¨®é¡
+//Texture‚Ìí—Ş
 enum class TextureType
 {
 
@@ -97,10 +97,10 @@ enum class TextureType
 
 /*
 
-FBXãƒ¢ãƒ‡ãƒ«ã«åŸ‹ã‚è¾¼ã¾ã‚ŒãŸãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“
+FBXƒ‚ƒfƒ‹‚É–„‚ß‚Ü‚ê‚½ƒeƒNƒXƒ`ƒƒƒf[ƒ^\‘¢‘Ì
 
-Assimpã§ã¯åœ§ç¸®ç”»åƒãƒ‡ãƒ¼ã‚¿ãƒ»ãƒ”ã‚¯ã‚»ãƒ«ãƒ‡ãƒ¼ã‚¿
-ã§æ ¼ç´ã•ã‚Œã‚‹
+Assimp‚Å‚Íˆ³k‰æ‘œƒf[ƒ^EƒsƒNƒZƒ‹ƒf[ƒ^
+‚ÅŠi”[‚³‚ê‚é
 
 */
 
@@ -109,30 +109,30 @@ struct EmbeddedTexture
 
 	std::string name;
 
-	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ‡ãƒ¼ã‚¿
+	//ƒeƒNƒXƒ`ƒƒƒf[ƒ^
 	std::vector<uint8_t> data;
 
 	uint32_t width = 0;
 	uint32_t height = 0;
 
-	//åœ§ç¸®ç”»åƒãªã‚‰ãƒ•ã‚¡ã‚¤ãƒ«æ‹¡å¼µå­ãŒã¤ã
-	//ãƒ”ã‚¯ã‚»ãƒ«ãƒ‡ãƒ¼ã‚¿ã¯ç©ºæ–‡å­—åˆ—
+	//ˆ³k‰æ‘œ‚È‚çƒtƒ@ƒCƒ‹Šg’£q‚ª‚Â‚­
+	//ƒsƒNƒZƒ‹ƒf[ƒ^‚Í‹ó•¶š—ñ
 	std::string formatHint;
 
-	//ç”»åƒãƒ»ãƒ”ã‚¯ã‚»ãƒ«ã®è­˜åˆ¥å¤‰æ•°
+	//‰æ‘œEƒsƒNƒZƒ‹‚Ì¯•Ê•Ï”
 	bool isCompressed = false;
 
 };
 
-//ãƒãƒ†ãƒªã‚¢ãƒ«ã‹ã‚‰ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’å‚ç…§ã™ã‚‹
+//ƒ}ƒeƒŠƒAƒ‹‚©‚çƒeƒNƒXƒ`ƒƒ‚ğQÆ‚·‚é
 struct TextureReference
 {
 
-	//å¤–éƒ¨ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹
+	//ŠO•”ƒeƒNƒXƒ`ƒƒ‚Ìƒtƒ@ƒCƒ‹ƒpƒX
 	std::string path;
 
-	//åŸ‹ã‚è¾¼ã¿ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
-	//0ä»¥ä¸Šãªã‚‰åŸ‹ã‚è¾¼ã¿ãƒ†ã‚¯ã‚¹ãƒãƒ£ä½¿ç”¨
+	//–„‚ß‚İƒeƒNƒXƒ`ƒƒ‚ÌƒCƒ“ƒfƒbƒNƒX
+	//0ˆÈã‚È‚ç–„‚ß‚İƒeƒNƒXƒ`ƒƒg—p
 	int32_t embeddedTextureIndex = -1;
 
 	bool IsEmbedded() const { return embeddedTextureIndex >= 0; };
@@ -146,7 +146,7 @@ struct Material
 
 	std::string name;
 
-	//PBRç”¨ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
+	//PBR—p‚Ìƒpƒ‰ƒ[ƒ^
 	DirectX::XMFLOAT4 baseColor{ 1.0f,1.0f,1.0f,1.0f };
 	float metallic	= 0.0f;
 	float roughness = 1.0f;
@@ -154,7 +154,7 @@ struct Material
 	DirectX::XMFLOAT3 emissiveColor{ 0.0f,0.0f,0.0f };
 	float emissiveStrength = 1.0f;
 
-	//Textureã®å‚ç…§
+	//Texture‚ÌQÆ
 	TextureReference baseColorTexture;
 	TextureReference metallicTexture;
 	TextureReference roughnessTexture;
