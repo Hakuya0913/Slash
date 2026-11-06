@@ -32,6 +32,9 @@ struct MeshResource
 	uint32_t indexCount = 0;
 	uint32_t materialIndex = 0;
 
+	//このメッシュが使用するボーンインデックス
+	std::vector<uint32_t> boneIndices;
+
 };
 
 struct TextureResource
@@ -40,7 +43,7 @@ struct TextureResource
 	ComPtr<ID3D11Texture2D> texture;
 	ComPtr<ID3D11ShaderResourceView> shaderResourceView;
 
-	uint32_t embeddedTextureIndex = 0;
+	int32_t embeddedTextureIndex = -1;
 
 };
 

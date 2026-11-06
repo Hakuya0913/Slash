@@ -2,7 +2,7 @@
 
 /*
 
-繝ｭ繝ｼ繝峨＠縺溘Δ繝�繝ｫ縺ｮGPU繝ｪ繧ｽ繝ｼ繧ｹ繧剃ｿ晄戟縺吶ｋ
+ロードしたモデルのGPUリソースを保持する
 
 
 */
@@ -27,7 +27,7 @@ public:
 	bool Create(ID3D11Device* device, const ModelComponent& model);
 	void Release();
 
-	bool IsValid() const { return (meshResources.empty() == false); }
+	bool IsValid() const { return meshResources.empty() == false; }
 
 	const MeshResource& GetMeshResource(size_t index) const { return meshResources[index]; }
 	const TextureResource& GetTextureResource(size_t index) const { return textureResources[index]; }
@@ -43,7 +43,21 @@ private:
 	bool CreateTextureResources(ID3D11Device* device, const ModelComponent& model);
 	bool CreateTextureResource(ID3D11Device* device, const ModelComponent& model, size_t textureIndex);
 
+	//埋め込みテクスチャのデコード
 	bool DecodeEmbeddedTexture(
+		const EmbeddedTexture& embeddedTexture,
+		std::vector<uint8_t>& pixelData,
+		UINT& width, UINT& height, UINT& rowPitch
+	);
+
+	//圧縮画像のデコード
+	bool DecodeCompressedTexture(
+		const EmbeddedTexture& embeddedTexture,
+		std::vector<uint8_t>& pixelData,
+		UINT& width, UINT height, UINT rowPitch
+	);
+	//非圧縮画像のデコード
+	bool DecodeUnCompressedTexture(
 		const EmbeddedTexture& embeddedTexture,
 		std::vector<uint8_t>& pixelData,
 		UINT& width, UINT& height, UINT& rowPitch

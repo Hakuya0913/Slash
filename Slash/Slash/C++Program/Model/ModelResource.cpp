@@ -63,6 +63,12 @@ bool ModelResource::CreateMeshResource(
 )
 {
 
+	
+	if (device == nullptr)
+	{
+		return false;
+	}
+
 	if (meshIndex >= model.GetMeshCount())
 	{
 		return false;
@@ -74,6 +80,7 @@ bool ModelResource::CreateMeshResource(
 
 	resource.indexCount = static_cast<uint32_t>(mesh.indices.size());
 	resource.materialIndex = mesh.materialIndex;
+	resource.boneIndices = mesh.boneIndices;
 
 	if (!CreateVertexBuffer(
 		device,
@@ -180,6 +187,11 @@ bool ModelResource::CreateTextureResources(
 )
 {
 
+	if (device == nullptr)
+	{
+		return false;
+	}
+
 	textureResources.reserve(model.GetEmbeddedTextureCount());
 
 	for (size_t i = 0; i < model.GetEmbeddedTextureCount(); ++i)
@@ -202,6 +214,13 @@ bool ModelResource::CreateTextureResource(
 	size_t textureIndex
 )
 {
+
+	if (device == nullptr ||
+		textureIndex >= model.GetEmbeddedTextureCount())
+	{
+		return false;
+	}
+
 	std::vector<uint8_t> pixelData;
 
 	UINT width = 0;
@@ -258,7 +277,7 @@ bool ModelResource::CreateTextureResource(
 		return false;
 	}
 
-	//ShaderResourceView菴懈��
+	//ShaderResourceView作成
 	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc{};
 	srvDesc.Format = textureDesc.Format;
 	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
@@ -298,6 +317,18 @@ bool ModelResource::DecodeEmbeddedTexture(
 	if (embeddedTexture.data.empty() == true)
 	{
 		return false;
+	}
+
+	//非圧縮画像のデコード処理
+	if (embeddedTexture.isCompressed == false)
+	{
+
+		return DecodeUnCompressedTexture(
+			embeddedTexture,
+			pixelData,
+			width, height, rowPitch
+		);
+
 	}
 
 	ComPtr<IWICImagingFactory> factory;
@@ -362,7 +393,7 @@ bool ModelResource::DecodeEmbeddedTexture(
 		return false;
 	}
 
-	//RGBA縺ｫ螟画鋤
+	//RGBAに変換
 	ComPtr<IWICFormatConverter> converter;
 
 	hr = factory->CreateFormatConverter(converter.GetAddressOf());
@@ -407,5 +438,20 @@ bool ModelResource::DecodeEmbeddedTexture(
 	}
 
 	return true;
+
+}
+
+bool ModelResource::DecodeUnCompressedTexture(
+	const EmbeddedTexture& embeddedTexture,
+	std::vector<uint8_t>& pixelData,
+	UINT& width, UINT& height, UINT& rowPitch
+)
+{
+
+	if (embeddedTexture.width == 0 ||
+		embeddedTexture.height == 0)
+	{
+		return false;
+	}
 
 }
