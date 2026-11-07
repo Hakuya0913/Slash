@@ -1,5 +1,10 @@
 #include"ModelResource.h"
+
+#define NOMINMAX
+#include<Windows.h>
+
 #include<wincodec.h>
+#include<limits>
 
 #pragma comment(lib,"windowscodecs.lib")
 
@@ -331,6 +336,11 @@ bool ModelResource::DecodeEmbeddedTexture(
 
 	}
 
+	if (embeddedTexture.data.size() > (std::numeric_limits<DWORD>::max)())
+	{
+		return false;
+	}
+
 	ComPtr<IWICImagingFactory> factory;
 	HRESULT hr;
 
@@ -360,6 +370,11 @@ bool ModelResource::DecodeEmbeddedTexture(
 		static_cast<DWORD>(embeddedTexture.data.size())
 	);
 
+	if (FAILED(hr))
+	{
+		return false;
+	}
+
 	ComPtr<IWICBitmapDecoder> decoder;
 
 	hr = factory->CreateDecoderFromStream(
@@ -383,22 +398,27 @@ bool ModelResource::DecodeEmbeddedTexture(
 		return false;
 	}
 
-	UINT sorceWidth = 0;
+	UINT sourceWidth = 0;
 	UINT sourceHeight = 0;
 
-	hr = frame->GetSize(&sorceWidth, &sourceHeight);
+	hr = frame->GetSize(&sourceWidth, &sourceHeight);
 
 	if (FAILED(hr))
 	{
 		return false;
 	}
 
+
 	//RGBAに変換
 	ComPtr<IWICFormatConverter> converter;
-
 	hr = factory->CreateFormatConverter(converter.GetAddressOf());
 
 	if (FAILED(hr))
+	{
+		return false;
+	}
+
+	if (sourceWidth == 0 || sourceHeight == 0)
 	{
 		return false;
 	}
@@ -417,24 +437,39 @@ bool ModelResource::DecodeEmbeddedTexture(
 		return false;
 	}
 
-	width = sorceWidth;
+	//画像サイズ計算
+	const uint64_t calculateRowPitch = sourceWidth * 4;
+	const uint64_t calculateImageSize = calculateRowPitch * sourceHeight;
+
+	if (calculateRowPitch > (std::numeric_limits<UINT>::max)() ||
+		calculateImageSize > (std::numeric_limits<UINT>::max)())
+	{
+		return false;
+	}
+
+	width = sourceWidth;
 	height = sourceHeight;
-	rowPitch = width * 4;
+	rowPitch = calculateRowPitch;
 
-	const size_t imageSize = rowPitch * height;
-
-	pixelData.resize(imageSize);
+	pixelData.resize(calculateImageSize);
 
 	hr = converter->CopyPixels(
 		nullptr,
 		rowPitch,
-		static_cast<UINT>(imageSize),
+		calculateImageSize,
 		pixelData.data()
 	);
 
 	if (FAILED(hr))
 	{
+
+		pixelData.clear();
+		width = 0;
+		height = 0;
+		rowPitch = 0;
+
 		return false;
+
 	}
 
 	return true;
@@ -448,10 +483,55 @@ bool ModelResource::DecodeUnCompressedTexture(
 )
 {
 
+	pixelData.clear();
+
+	width = 0;
+	height = 0;
+	rowPitch = 0;
+
 	if (embeddedTexture.width == 0 ||
 		embeddedTexture.height == 0)
 	{
 		return false;
 	}
+
+	if (embeddedTexture.width > UINT_MAX / 4)
+	{
+		return false;
+	}
+
+	width = embeddedTexture.width;
+	height = embeddedTexture.height;
+	rowPitch = width * 4;
+
+	const uint64_t imageSize = static_cast<uint64_t>(rowPitch) * height;
+
+	if (imageSize > (std::numeric_limits<size_t>::max)())
+	{
+		return false;
+	}
+
+	if (embeddedTexture.data.size() < imageSize)
+	{
+		return false;
+	}
+
+	pixelData.resize(imageSize);
+
+	const size_t pixelCount = width * height;
+
+	for (size_t i = 0; i < pixelCount; ++i)
+	{
+
+		const size_t offset = i * 4;
+
+		pixelData[offset + 0] = embeddedTexture.data[offset + 2];
+		pixelData[offset + 1] = embeddedTexture.data[offset + 1];
+		pixelData[offset + 2] = embeddedTexture.data[offset	+ 0];
+		pixelData[offset + 3] = embeddedTexture.data[offset + 3];
+
+	}
+
+	return true;
 
 }
