@@ -54,7 +54,7 @@ private:
 	bool DecodeCompressedTexture(
 		const EmbeddedTexture& embeddedTexture,
 		std::vector<uint8_t>& pixelData,
-		UINT& width, UINT height, UINT rowPitch
+		UINT& width, UINT& height, UINT& rowPitch
 	);
 	//非圧縮画像のデコード
 	bool DecodeUnCompressedTexture(

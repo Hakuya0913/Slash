@@ -336,14 +336,42 @@ bool ModelResource::DecodeEmbeddedTexture(
 
 	}
 
+	//圧縮画像のデコード処理
+	return DecodeCompressedTexture(
+		embeddedTexture,
+		pixelData,
+		width, height, rowPitch
+	);
+
+}
+
+bool ModelResource::DecodeCompressedTexture(
+	const EmbeddedTexture& embeddedTexture,
+	std::vector<uint8_t>& pixelData,
+	UINT& width, UINT& height, UINT& rowPitch
+)
+{
+	pixelData.clear();
+
+	width = 0;
+	height = 0;
+	rowPitch = 0;
+
+	if (embeddedTexture.data.empty() == true)
+	{
+		return false;
+	}
+
 	if (embeddedTexture.data.size() > (std::numeric_limits<DWORD>::max)())
 	{
 		return false;
 	}
 
-	ComPtr<IWICImagingFactory> factory;
 	HRESULT hr;
 
+	//WICファクトリ作成
+	ComPtr<IWICImagingFactory> factory;
+	
 	hr = CoCreateInstance(
 		CLSID_WICImagingFactory,
 		nullptr,
@@ -356,6 +384,7 @@ bool ModelResource::DecodeEmbeddedTexture(
 		return false;
 	}
 
+	//メモリストリーム作成
 	ComPtr<IWICStream> stream;
 
 	hr = factory->CreateStream(stream.GetAddressOf());
@@ -370,11 +399,7 @@ bool ModelResource::DecodeEmbeddedTexture(
 		static_cast<DWORD>(embeddedTexture.data.size())
 	);
 
-	if (FAILED(hr))
-	{
-		return false;
-	}
-
+	//デコーダ作成
 	ComPtr<IWICBitmapDecoder> decoder;
 
 	hr = factory->CreateDecoderFromStream(
@@ -389,6 +414,7 @@ bool ModelResource::DecodeEmbeddedTexture(
 		return false;
 	}
 
+	//フレーム取得
 	ComPtr<IWICBitmapFrameDecode> frame;
 
 	hr = decoder->GetFrame(0, frame.GetAddressOf());
@@ -408,17 +434,17 @@ bool ModelResource::DecodeEmbeddedTexture(
 		return false;
 	}
 
-
-	//RGBAに変換
-	ComPtr<IWICFormatConverter> converter;
-	hr = factory->CreateFormatConverter(converter.GetAddressOf());
-
-	if (FAILED(hr))
+	if (sourceWidth == 0 || sourceHeight == 0)
 	{
 		return false;
 	}
 
-	if (sourceWidth == 0 || sourceHeight == 0)
+	//RGBAに変換
+	ComPtr<IWICFormatConverter> converter;
+
+	hr = factory->CreateFormatConverter(converter.GetAddressOf());
+
+	if (FAILED(hr))
 	{
 		return false;
 	}
@@ -431,11 +457,6 @@ bool ModelResource::DecodeEmbeddedTexture(
 		0.0,
 		WICBitmapPaletteTypeCustom
 	);
-
-	if (FAILED(hr))
-	{
-		return false;
-	}
 
 	//画像サイズ計算
 	const uint64_t calculateRowPitch = sourceWidth * 4;
@@ -453,6 +474,7 @@ bool ModelResource::DecodeEmbeddedTexture(
 
 	pixelData.resize(calculateImageSize);
 
+	//RGBAピクセルデータをコピー
 	hr = converter->CopyPixels(
 		nullptr,
 		rowPitch,
@@ -464,6 +486,7 @@ bool ModelResource::DecodeEmbeddedTexture(
 	{
 
 		pixelData.clear();
+
 		width = 0;
 		height = 0;
 		rowPitch = 0;
