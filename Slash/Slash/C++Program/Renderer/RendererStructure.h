@@ -65,7 +65,7 @@ struct MaterialData
 struct BoneData
 {
 
-	static constexpr uint32_t MaxSkinningBones = 128;
+	static constexpr uint32_t MaxSkinningBones = 512;
 
 	std::array<DirectX::XMFLOAT4X4, MaxSkinningBones> boneMatrices;
 
