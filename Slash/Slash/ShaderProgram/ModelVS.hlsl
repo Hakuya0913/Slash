@@ -8,8 +8,8 @@ struct VSInput
     float2 texCoord : TEXCOORD;
     float3 tangent : TANGENT;
     
-    uint4 boneIndices : BONEINDICES;
-    uint4 boneWeights : BONEWEIGHTS;
+    uint4  boneIndices : BONEINDICES;
+    float4 boneWeights : BONEWEIGHTS;
     
 };
 
@@ -33,7 +33,7 @@ VSOutput main(VSInput input)
         input.boneWeights.x +
         input.boneWeights.y +
         input.boneWeights.z +
-        input.boneIndices.w;
+        input.boneWeights.w;
     
     if(totalWeight > 0.0f)
     {
