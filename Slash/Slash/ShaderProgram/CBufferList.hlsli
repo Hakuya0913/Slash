@@ -27,5 +27,4 @@ static const uint MaxSkinningBones = 256;
 cbuffer BoneBuffer : register(b2)
 {
     matrix boneMatrices[MaxSkinningBones];
-    
 }
