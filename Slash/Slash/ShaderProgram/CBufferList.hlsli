@@ -22,7 +22,7 @@ cbuffer MaterialBuffer : register(b1)
     
 }
 
-static const uint MaxSkinningBones = 512;
+static const uint MaxSkinningBones = 256;
 
 cbuffer BoneBuffer : register(b2)
 {
