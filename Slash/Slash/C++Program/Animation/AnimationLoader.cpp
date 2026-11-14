@@ -194,7 +194,7 @@ namespace
 
 		std::vector<AnimationClip> animationClips;
 
-		if (!LoadAnimationClips(scene, animationClips) == false)
+		if (LoadAnimationClips(scene, animationClips) == false)
 		{
 			return false;
 		}

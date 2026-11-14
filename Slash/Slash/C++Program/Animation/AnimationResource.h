@@ -21,7 +21,7 @@ public:
 	void Create(const std::vector<AnimationClip>& animationClip);
 	void Release();
 	
-	bool IsValid() { return animationClips.empty() != false; }
+	bool IsValid() { return animationClips.empty() == false; }
 
 	const AnimationClip& GetAnimationClip(const size_t index) const { return animationClips.at(index); }
 	const AnimationClip* GetAnimationClip(const std::string name) const;

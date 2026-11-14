@@ -13,7 +13,7 @@ void AnimationPlayer::Init(const AnimationResource* resource, const Skeleton* sk
 
 	pose.boneTransforms.clear();
 
-	if (resource == nullptr)
+	if (resource == nullptr || skeleton == nullptr)
 	{
 		return;
 	}
@@ -110,7 +110,7 @@ void AnimationPlayer::Reset()
 
 	pose.boneTransforms.clear();
 
-	if (resource == nullptr)
+	if (resource == nullptr || skeleton == nullptr)
 	{
 		return;
 	}

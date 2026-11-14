@@ -114,7 +114,13 @@ struct AnimationBlendState
 struct BoneTransform
 {
 
-	DirectX::XMFLOAT4X4 transform;
+	DirectX::XMFLOAT4X4 transform =
+	{
+		1.0f,0.0f,0.0f,0.0f,
+		0.0f,1.0f,0.0f,0.0f,
+		0.0f,0.0f,1.0f,0.0f,
+		0.0f,0.0f,0.0f,1.0f
+	};
 
 };
 

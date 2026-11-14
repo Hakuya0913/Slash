@@ -1,5 +1,11 @@
 #pragma once
 
+/*
+
+Model‚ª‚Âî•ñ\‘¢‘Ì‚ğ‚±‚±‚É’è‹`‚·‚é
+
+*/
+
 #include<DirectXMath.h>
 #include<string>
 #include<vector>

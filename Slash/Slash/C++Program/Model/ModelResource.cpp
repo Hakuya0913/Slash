@@ -11,12 +11,12 @@
 bool ModelResource::Create(ID3D11Device* device, const ModelComponent& model)
 {
 
+	Release();
+
 	if (device == nullptr)
 	{
 		return false;
 	}
-
-	Release();
 
 	if (CreateMeshResources(device, model) == false)
 	{
@@ -458,6 +458,11 @@ bool ModelResource::DecodeCompressedTexture(
 		WICBitmapPaletteTypeCustom
 	);
 
+	if (FAILED(hr))
+	{
+		return false;
+	}
+
 	//画像サイズ計算
 	const uint64_t calculateRowPitch = sourceWidth * 4;
 	const uint64_t calculateImageSize = calculateRowPitch * sourceHeight;
@@ -541,7 +546,7 @@ bool ModelResource::DecodeUnCompressedTexture(
 
 	pixelData.resize(imageSize);
 
-	const size_t pixelCount = width * height;
+	const size_t pixelCount = static_cast<size_t>(width) * static_cast<size_t>(height);
 
 	for (size_t i = 0; i < pixelCount; ++i)
 	{
