@@ -1,26 +1,25 @@
 #include"SkeletonComponent.h"
 
-void SkeletonComponent::Release()
+void SkeletonComponent::Init(const Skeleton& skeleton)
 {
 
-	resource = nullptr;
+	this->skeleton = skeleton;
 
 	pose.boneTransforms.clear();
+
+	pose.boneTransforms.resize(skeleton.bones.size());
+
+	ResetPose();
 
 }
 
-void SkeletonComponent::SetResource(const AnimationResource* resource, const Skeleton& skeleton)
+void SkeletonComponent::ResetPose()
 {
-
-	this->resource = resource;
-
-	pose.boneTransforms.clear();
-
-	if (resource == nullptr)
+	
+	//全ボーンのTransformを単位行列に初期化
+	for (auto& bone : pose.boneTransforms)
 	{
-		return;
+		bone.transform = DirectX::SimpleMath::Matrix::Identity;
 	}
-
-	pose.boneTransforms.resize(skeleton.bones.size());
 
 }
