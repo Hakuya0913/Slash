@@ -5,11 +5,11 @@
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
 
-void AnimationPlayer::Init(const AnimationResource* resource, const Skeleton* skeleton)
+void AnimationPlayer::Init(const AnimationResource* resource, SkeletonComponent* skeletonComponent)
 {
 
 	this->resource = resource;
-	this->skeleton = skeleton;
+	this->skeletonComponent = skeletonComponent;
 
 	pose.boneTransforms.clear();
 

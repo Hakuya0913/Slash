@@ -22,7 +22,7 @@ public:
 	AnimationPlayer() = default;
 	~AnimationPlayer() = default;
 
-	void Init(const AnimationResource* resource, const Skeleton* skeleton);
+	void Init(const AnimationResource* resource, SkeletonComponent* skeletonComponent);
 
 	void Update(float deltaTime);
 	
@@ -33,7 +33,6 @@ public:
 
 	bool IsPlaying() const { return state.isPlaying; }
 	int32_t GetCurrentAnimationIndex() const { return state.currentAnimationIndex; }
-	const SkeletonPose& GetPose() const { return pose; }
 
 private:
 

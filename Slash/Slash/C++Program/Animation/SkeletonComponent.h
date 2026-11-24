@@ -35,6 +35,6 @@ public:
 private:
 
 	Skeleton skeleton;	//ボーン本体
-	SkeletonPose pose;	//Skeletonの現在の姿勢
+	SkeletonPose pose;	//ボーンの現在の姿勢
 
 };
