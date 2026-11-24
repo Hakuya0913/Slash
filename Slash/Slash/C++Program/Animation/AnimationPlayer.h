@@ -13,6 +13,7 @@
 #include<directxtk/SimpleMath.h>
 #include"AnimationStructure.h"
 #include"AnimationResource.h"
+#include"SkeletonComponent.h"
 
 class AnimationPlayer
 {
@@ -42,9 +43,9 @@ private:
 	void UpdatePose();
 
 	const AnimationResource* resource = nullptr;
-	const Skeleton* skeleton = nullptr;
 
 	AnimationState state;
-	SkeletonPose pose;
+
+	SkeletonComponent* skeletonComponent;
 
 };
