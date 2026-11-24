@@ -43,8 +43,8 @@ private:
 
 	const AnimationResource* resource = nullptr;
 
-	AnimationState state;
+	SkeletonComponent* skeletonComponent;	//‘€ì‚·‚é‘ÎÛƒ{[ƒ“
 
-	SkeletonComponent* skeletonComponent;
+	AnimationState state;
 
 };

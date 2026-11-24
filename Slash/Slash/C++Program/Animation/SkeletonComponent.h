@@ -26,9 +26,9 @@ public:
 	void ResetPose();
 
 	//Getter
-	const Skeleton& GetSkeleton() const { return skeleton; }
-	const SkeletonPose& GetPose() const { return pose; }
-	const BoneTransform& GetBoneTransform(size_t boneIndex) const { return pose.boneTransforms.at(boneIndex); }
+	Skeleton& GetSkeleton() { return skeleton; }
+	SkeletonPose& GetPose() { return pose; }
+	BoneTransform& GetBoneTransform(size_t boneIndex) { return pose.boneTransforms.at(boneIndex); }
 	size_t GetBoneCount() const { return pose.boneTransforms.size(); }
 	bool HasPose() const { return pose.boneTransforms.empty() == false; }	//PoseÇ™ê›íËÇ≥ÇÍÇƒÇ¢ÇÈÇ©
 

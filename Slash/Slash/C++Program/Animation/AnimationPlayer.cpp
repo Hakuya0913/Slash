@@ -11,14 +11,22 @@ void AnimationPlayer::Init(const AnimationResource* resource, SkeletonComponent*
 	this->resource = resource;
 	this->skeletonComponent = skeletonComponent;
 
-	pose.boneTransforms.clear();
-
-	if (resource == nullptr || skeleton == nullptr)
+	if (this->skeletonComponent == nullptr)
 	{
 		return;
 	}
 
-	pose.boneTransforms.resize(skeleton->bones.size());
+	auto& pose = this->skeletonComponent->GetPose();
+	auto& skeleton = this->skeletonComponent->GetSkeleton();
+
+	pose.boneTransforms.clear();
+
+	if (resource == nullptr)
+	{
+		return;
+	}
+
+	pose.boneTransforms.resize(skeleton.bones.size());
 
 	for (BoneTransform& transform : pose.boneTransforms)
 	{
@@ -32,7 +40,7 @@ void AnimationPlayer::Init(const AnimationResource* resource, SkeletonComponent*
 void AnimationPlayer::Update(float deltaTime)
 {
 
-	if (resource == nullptr || skeleton == nullptr)
+	if (resource == nullptr)
 	{
 		return;
 	}
@@ -80,7 +88,7 @@ void AnimationPlayer::Update(float deltaTime)
 void AnimationPlayer::Play(int32_t animationIndex, bool isLooping, float playbackSpeed)
 {
 
-	if (resource == nullptr || skeleton == nullptr)
+	if (resource == nullptr)
 	{
 		return;
 	}
@@ -108,14 +116,22 @@ void AnimationPlayer::Reset()
 
 	state = AnimationState{};
 
-	pose.boneTransforms.clear();
-
-	if (resource == nullptr || skeleton == nullptr)
+	if (skeletonComponent == nullptr)
 	{
 		return;
 	}
 
-	pose.boneTransforms.resize(skeleton->bones.size());
+	auto& pose = skeletonComponent->GetPose();
+	auto& skeleton = skeletonComponent->GetSkeleton();
+	
+	pose.boneTransforms.clear();
+
+	if (resource == nullptr)
+	{
+		return;
+	}
+
+	pose.boneTransforms.resize(skeleton.bones.size());
 
 	for (BoneTransform& transform : pose.boneTransforms)
 	{
@@ -164,18 +180,21 @@ const AnimationClip* AnimationPlayer::GetCurrentAnimationClip() const
 void AnimationPlayer::UpdatePose()
 {
 
-	if (resource == nullptr || skeleton == nullptr)
+	if (resource == nullptr)
 	{
 		return;
 	}
 
 	const AnimationClip* clip = GetCurrentAnimationClip();
 
-	if (clip == nullptr)
+	if (clip == nullptr || skeletonComponent == nullptr)
 	{
 		return;
 	}
 
-	pose = AnimationEvaluation::Evaluate(*clip, *skeleton, state.currentTime);
+	auto& pose = skeletonComponent->GetPose();
+	auto& skeleton = skeletonComponent->GetSkeleton();
+
+	pose = AnimationEvaluation::Evaluate(*clip, skeleton, state.currentTime);
 
 }
