@@ -1,6 +1,6 @@
 #include"AnimationComponent.h"
 
-void AnimationComponent::Init(const AnimationResource* resource, const Skeleton* skeleton)
+void AnimationComponent::Init(const AnimationResource* resource, const SkeletonComponent* skeleton)
 {
 
 	this->resource = resource;
