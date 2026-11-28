@@ -180,14 +180,14 @@ const AnimationClip* AnimationPlayer::GetCurrentAnimationClip() const
 void AnimationPlayer::UpdatePose()
 {
 
-	if (resource == nullptr)
+	if (skeletonComponent == nullptr || resource == nullptr)
 	{
 		return;
 	}
 
 	const AnimationClip* clip = GetCurrentAnimationClip();
 
-	if (clip == nullptr || skeletonComponent == nullptr)
+	if (clip == nullptr)
 	{
 		return;
 	}

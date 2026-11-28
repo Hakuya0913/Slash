@@ -45,6 +45,7 @@ private:
 
 	SkeletonComponent* skeletonComponent;	//‘€ì‚·‚é‘ÎÛƒ{[ƒ“
 
+	//Ä¶ó‘Ô
 	AnimationState state;
 
 };

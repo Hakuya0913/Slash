@@ -11,7 +11,6 @@
 #include<cstdint>
 #include"AnimationStructure.h"
 #include"AnimationResource.h"
-#include"SkeletonResource.h"
 
 class SkeletonComponent
 {

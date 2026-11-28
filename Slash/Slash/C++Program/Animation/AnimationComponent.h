@@ -19,7 +19,7 @@ public:
 	AnimationComponent() = default;
 	~AnimationComponent() = default;
 
-	void Init(const AnimationResource* resource, const SkeletonComponent* skeleton);
+	void Init(const AnimationResource* resource, SkeletonComponent* skeleton);
 
 	void Update(float deltaTime);
 
@@ -35,7 +35,7 @@ public:
 	const AnimationResource* GetResource() const { return resource; }
 	const AnimationPlayer& GetPlayer() const { return player; }
 	const AnimationController& GetController() const { return controller; }
-	const SkeletonComponent& GetSkeleton() const { return skeleton; }
+	const SkeletonComponent* GetSkeleton() const { return skeletonComponent; }
 	
 	bool IsPlaying() const { return controller.IsPlaying(); }
 	int32_t GetCurrentAnimationIndex() const { return controller.GetCurrentAnimationIndex(); }
@@ -47,6 +47,6 @@ private:
 	AnimationPlayer player;
 	AnimationController controller;
 
-	SkeletonComponent skeleton;
+	SkeletonComponent* skeletonComponent;
 
 };

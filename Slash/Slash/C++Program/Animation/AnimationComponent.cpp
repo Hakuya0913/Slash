@@ -1,6 +1,6 @@
 #include"AnimationComponent.h"
 
-void AnimationComponent::Init(const AnimationResource* resource, const SkeletonComponent* skeleton)
+void AnimationComponent::Init(const AnimationResource* resource, SkeletonComponent* skeleton)
 {
 
 	this->resource = resource;
@@ -9,7 +9,7 @@ void AnimationComponent::Init(const AnimationResource* resource, const SkeletonC
 
 	controller.Init(&player);
 
-	this->skeleton.SetPose(player.GetPose());
+	this->skeletonComponent.SetPose(player.GetPose());
 
 }
 
@@ -23,7 +23,7 @@ void AnimationComponent::Update(float deltaTime)
 
 	controller.Update(deltaTime);
 
-	skeleton.SetPose(player.GetPose());
+	skeletonComponent.SetPose(player.GetPose());
 
 }
 
@@ -31,7 +31,7 @@ void AnimationComponent::Release()
 {
 
 	controller.Reset();
-	skeleton.Release();
+	skeletonComponent.Release();
 	player.Reset();
 
 	resource = nullptr;
